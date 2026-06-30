@@ -1,0 +1,14 @@
+---
+/**
+ * Chipsa Lander — Faq. A stack of disclosure rows aligned to the SectionHeader
+ * title column (same 2-col grid; the list lives in the right column). Compose
+ * <FaqItem> children inside.
+ */
+interface Props {
+  style?: string;
+}
+const { style } = Astro.props;
+---
+<div class="cl-faq" style={style}>
+  <div class="cl-faq__list"><slot /></div>
+</div>

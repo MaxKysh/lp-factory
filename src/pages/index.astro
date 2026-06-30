@@ -1,0 +1,404 @@
+---
+import Base from '../layouts/Base.astro';
+import SiteNav from '../components/ds/SiteNav.astro';
+import Hero from '../components/ds/Hero.astro';
+import Eyebrow from '../components/ds/Eyebrow.astro';
+import Button from '../components/ds/Button.astro';
+import Section from '../components/ds/Section.astro';
+import SectionHeader from '../components/ds/SectionHeader.astro';
+import FeatureCard from '../components/ds/FeatureCard.astro';
+import MediaFrame from '../components/ds/MediaFrame.astro';
+import ArrowLink from '../components/ds/ArrowLink.astro';
+import ProcessStep from '../components/ds/ProcessStep.astro';
+import StatGrid from '../components/ds/StatGrid.astro';
+import TeamDock from '../components/ds/TeamDock.astro';
+import LogoWall from '../components/ds/LogoWall.astro';
+import PointerGlow from '../components/ds/PointerGlow.astro';
+import Faq from '../components/ds/Faq.astro';
+import FaqItem from '../components/ds/FaqItem.astro';
+import SiteFooter from '../components/ds/SiteFooter.astro';
+
+const handle = 'maxkysh';
+const tgHref = 'https://t.me/' + handle;
+
+const navLinks = [
+  { href: '#problem', label: 'Проблема' },
+  { href: '#solution', label: 'Решение' },
+  { href: '#cases', label: 'Кейсы' },
+  { href: '#process', label: 'Процесс' },
+  { href: '#pricing', label: 'Условия' },
+  { href: '#faq', label: 'FAQ' },
+];
+const navCta = { label: 'Telegram @maxkysh', href: tgHref };
+const navContact = { label: 'Telegram', value: '@maxkysh', href: tgHref };
+
+const aboutStats = [
+  { value: '16', suffix: '+', label: 'Лет в дизайне', grad: true },
+  { value: '500', suffix: '+', label: 'Проектов' },
+  { value: '120', suffix: '+', label: 'Награды: awwwards, CSSDA, Behance' },
+  { value: '15', suffix: '+', label: 'Человек в команде' },
+];
+
+// Ordered so neighbours share a colour family: warm → green/red → teal/cool.
+const team = [
+  { name: 'Паша Н.', src: '/images/team/pashan.jpg' },
+  { name: 'Паша', src: '/images/team/pasha.jpg' },
+  { name: 'Андрей', src: '/images/team/andrey.jpg' },
+  { name: 'Дмитрий', src: '/images/team/dmitry.jpg' },
+  { name: 'Антон', src: '/images/team/anton.jpg' },
+  { name: 'Артём', src: '/images/team/artem.jpg' },
+  { name: 'Саша', src: '/images/team/sashap.jpg' },
+  { name: 'Наташа', src: '/images/team/natasha.jpg' },
+  { name: 'Таня', src: '/images/team/tanya.jpg' },
+  { name: 'Никита', src: '/images/team/nikita.jpg' },
+  { name: 'Мария', src: '/images/team/maria.jpg' },
+  { name: 'Сергей', src: '/images/team/sergey.jpg' },
+];
+
+const clientLogos = ['Самокат', 'Альфа-Банк', "McDonald's", 'РУСАЛ', 'ТехноНИКОЛЬ', 'LG', 'Dark Side', 'Vileda'];
+const stackLogos = ['Astro', 'Claude Design', 'Claude Code', 'Tailwind', 'TypeScript', 'GitHub', 'Vercel', 'Three.js'];
+
+const footerCols = [
+  {
+    title: 'Chipsa',
+    links: [
+      { href: 'https://chipsa.design', label: 'chipsa.design' },
+      { href: 'https://igaming.chipsa.design', label: 'iGaming portfolio' },
+    ],
+  },
+  { title: 'Контакт', links: [{ href: tgHref, label: 'Telegram @maxkysh' }] },
+];
+---
+
+<Base>
+  <!-- NAV -->
+  <SiteNav brand="Chipsa" brandMark="Завод" links={navLinks} cta={navCta} contact={navContact} />
+
+  <!-- 01 — HERO -->
+  <Hero mediaLabel="видео · штампование лендингов · 5–7 с" scrollHint="Листайте">
+    <div slot="media" aria-hidden="true" style="position:absolute;inset:0;background:#0A1113;overflow:hidden">
+      <div style="position:absolute;inset:-30%;background:repeating-linear-gradient(115deg, #0C1518 0 64px, rgba(31,163,154,0.06) 64px 128px);animation:cl-conveyor 9s linear infinite"></div>
+    </div>
+    <div class="focus-in" style="--reveal-d: 120ms; margin-bottom: var(--s-5);">
+      <Eyebrow>Chipsa · Тестовый продукт · Набор первых клиентов</Eyebrow>
+    </div>
+    <h1 style="margin:0;font-family:var(--font-display);font-weight:700;font-size:var(--t-mega);line-height:var(--lh-tight);letter-spacing:var(--ls-mega);color:var(--text-strong);text-wrap:balance">
+      <span class="focus-in" style="--reveal-d: 280ms;">Лендинг-<span class="ink-grad ink-grad--shimmer">Завод</span></span>
+    </h1>
+    <p class="focus-in" style="--reveal-d: 560ms; margin: var(--s-6) 0 0; max-width: 30ch; font-size: var(--t-lead); line-height: 1.4; color: var(--text-body);">Настроим под ваш бренд систему производства лендингов. Дальше ваша команда делает их сама.</p>
+    <div class="focus-in" style="--reveal-d: 740ms; margin-top: var(--s-7); display: flex; flex-wrap: wrap; gap: var(--s-4);">
+      <Button variant="primary" size="lg" href={tgHref} icon={true}>Узнать условия</Button>
+      <Button variant="invert" size="lg" href="#cases" icon={true}>Смотреть кейсы</Button>
+    </div>
+  </Hero>
+
+  <!-- 02 — ПРОБЛЕМА -->
+  <Section id="problem" label="Контекст">
+    <div data-reveal style="margin-bottom: var(--s-8);">
+      <SectionHeader index={1} label="Контекст" title="Лендинги делаются потоком. И каждый путь имеет свою цену." />
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));gap:var(--s-5)">
+      <div data-reveal data-delay="0" style="display:flex">
+        <FeatureCard style="flex:1" index="Путь 1 / Руками" title="Человеческий фактор и время">
+          <svg slot="icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="9"></circle>
+            <path d="M12 7.5V12l3.25 1.9"></path>
+          </svg>
+          Каждый лендинг — отдельный проект. Бриф, дизайн, вёрстка, правки. На каждом шаге зависит от того, кто свободен и в каком состоянии.
+        </FeatureCard>
+      </div>
+      <div data-reveal data-delay="100" style="display:flex">
+        <FeatureCard style="flex:1" index="Путь 2 / AI-генератор" title="Не хватает деталей и эмоции">
+          <svg slot="icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 3c.4 4.3 1.4 5.3 5.7 5.7C13.4 9.1 12.4 10.1 12 14.4c-.4-4.3-1.4-5.3-5.7-5.7C10.6 8.3 11.6 7.3 12 3Z"></path>
+          </svg>
+          Базовые AI-инструменты выдают результат, который технически работает, но без слоя индивидуальности — деталей, акцентов, эмоциональной точности.
+        </FeatureCard>
+      </div>
+      <div data-reveal data-delay="200" style="display:flex">
+        <FeatureCard style="flex:1" index="Путь 3 / Inhouse" title="Команда всегда занята">
+          <svg slot="icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="9" cy="8" r="3.1"></circle>
+            <path d="M3.6 19.5c0-3.1 2.4-5.2 5.4-5.2s5.4 2.1 5.4 5.2"></path>
+            <path d="M16 5.3a3.1 3.1 0 0 1 0 5.4"></path>
+            <path d="M17.6 14.5c2 .7 3.4 2.6 3.4 5"></path>
+          </svg>
+          Дизайнеры в потоке других задач. Если есть выделенный специалист — снова упираемся в человеческий фактор и его загрузку.
+        </FeatureCard>
+      </div>
+    </div>
+    <div data-reveal class="callout" style="margin-top:var(--s-8);padding:clamp(1.5rem, 2.4vw, 2.25rem);display:flex;flex-direction:column;gap:var(--s-3)">
+      <span style="font-family:var(--font-mono);font-size:var(--t-mono-sm);letter-spacing:var(--ls-mono);text-transform:uppercase;color:var(--accent-text)">Итог</span>
+      <p style="margin:0;font-size:var(--t-lead);line-height:1.35;color:var(--text-strong)">В любом случае — это стоит денег и времени inhouse-команды или подрядчика.</p>
+    </div>
+  </Section>
+
+  <!-- 03 — РЕШЕНИЕ -->
+  <Section id="solution" tone="invert" label="Решение">
+    <div data-reveal style="margin-bottom: var(--s-8);">
+      <SectionHeader index={2} label="Что это" title="Не сайт. Не конструктор. Завод.">Один раз настроим под ваш бренд связку Claude Design + Claude Code + шаблоны, промпты и инструкции. Дальше ваша команда производит лендинги в едином стиле — без обращения к нам и без агентства.</SectionHeader>
+    </div>
+    <div data-reveal data-delay="120" class="conveyor" style="display:flex;flex-wrap:wrap;align-items:stretch;gap:var(--s-4)">
+      <div class="conveyor-card" style="flex:1 1 240px;border-radius:var(--r-3);padding:clamp(1.5rem, 2.2vw, 2.25rem);display:flex;flex-direction:column;gap:var(--s-3)">
+        <span style="font-family:var(--font-mono);font-size:var(--t-mono-sm);letter-spacing:var(--ls-mono);text-transform:uppercase;color:var(--text-muted)">Вход</span>
+        <span style="font-family:var(--font-display);font-weight:600;font-size:var(--t-h3);color:var(--text-strong)">Ваш бренд</span>
+        <span style="font-size:var(--t-body);line-height:var(--lh-body);color:var(--text-body)">Айдентика, тон, аудитория, продукт.</span>
+      </div>
+      <div class="flow-arrow" style="flex:0 0 auto;align-self:center;font-size:1.75rem;color:var(--accent-text);line-height:1">→</div>
+      <div class="conveyor-card--brand brand-flow" style="flex:1.2 1 260px;border-radius:var(--r-3);padding:clamp(1.5rem, 2.2vw, 2.25rem);display:flex;flex-direction:column;gap:var(--s-3);color:#fff">
+        <span style="font-family:var(--font-mono);font-size:var(--t-mono-sm);letter-spacing:var(--ls-mono);text-transform:uppercase;opacity:.85">Процесс</span>
+        <span style="font-family:var(--font-display);font-weight:600;font-size:var(--t-h3)">Настроенная система</span>
+        <span style="font-size:var(--t-body);line-height:var(--lh-body);opacity:.9">Claude Design + Claude Code, токены, компоненты, шаблоны, промпты, инструкции.</span>
+      </div>
+      <div class="flow-arrow" style="flex:0 0 auto;align-self:center;font-size:1.75rem;color:var(--accent-text);line-height:1">→</div>
+      <div class="conveyor-card" style="flex:1 1 240px;border-radius:var(--r-3);padding:clamp(1.5rem, 2.2vw, 2.25rem);display:flex;flex-direction:column;gap:var(--s-3)">
+        <span style="font-family:var(--font-mono);font-size:var(--t-mono-sm);letter-spacing:var(--ls-mono);text-transform:uppercase;color:var(--text-muted)">Выход</span>
+        <span style="font-family:var(--font-display);font-weight:600;font-size:var(--t-h3);color:var(--text-strong)">Лендинги команды</span>
+        <span style="font-size:var(--t-body);line-height:var(--lh-body);color:var(--text-body)">Новые страницы в едином стиле — силами вашей команды.</span>
+      </div>
+    </div>
+  </Section>
+
+  <!-- 04 — КЕЙСЫ -->
+  <Section id="cases" label="Кейсы">
+    <div data-reveal style="margin-bottom: var(--s-8);">
+      <SectionHeader index={3} label="Уже сделано" title="Два кейса" />
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(380px, 1fr));gap:var(--s-7)">
+      <div data-reveal data-delay="0" style="display:flex;flex-direction:column;gap:var(--s-5)">
+        <MediaFrame ratio="16 / 10">
+          <div style="position:absolute;inset:0;background:linear-gradient(135deg, #0E2A2E 0%, #13212599 60%, #0A1113 100%)"></div>
+        </MediaFrame>
+        <div style="display:flex;flex-direction:column;gap:var(--s-3)">
+          <h3 style="margin:0;font-family:var(--font-display);font-weight:600;font-size:var(--t-h3);line-height:var(--lh-head);color:var(--text-strong)">BWiGA — конференция iGaming</h3>
+          <p style="margin:0;font-size:var(--t-body-lg);line-height:var(--lh-body);color:var(--text-body)">Пример настроенной дизайн-системы. Сайт конференции — пока одна страница в системе.</p>
+          <ArrowLink href="#">Открыть</ArrowLink>
+        </div>
+      </div>
+      <div data-reveal data-delay="120" style="display:flex;flex-direction:column;gap:var(--s-5)">
+        <MediaFrame ratio="16 / 10">
+          <div style="position:absolute;inset:0;background:linear-gradient(135deg, #0A2330 0%, #13212599 55%, #0A1113 100%)"></div>
+        </MediaFrame>
+        <div style="display:flex;flex-direction:column;gap:var(--s-3)">
+          <h3 style="margin:0;font-family:var(--font-display);font-weight:600;font-size:var(--t-h3);line-height:var(--lh-head);color:var(--text-strong)">Chipsa — 3D-карта и эта посадочная</h3>
+          <p style="margin:0;font-size:var(--t-body-lg);line-height:var(--lh-body);color:var(--text-body)">Пример работающего дизайн-завода. Две разные страницы в едином стиле, собранные через одну систему.</p>
+          <div style="display:flex;flex-wrap:wrap;gap:var(--s-5)">
+            <ArrowLink href="https://3dmap.chipsa.dev/en">Открыть 3D-карту</ArrowLink>
+            <ArrowLink href="#top" glyph="↓" tone="strong">Эта страница</ArrowLink>
+          </div>
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  <!-- 05 — КАК РАБОТАЕТ -->
+  <Section id="process" tone="alt" label="Процесс">
+    <div data-reveal style="margin-bottom: var(--s-7);">
+      <SectionHeader index={4} label="Процесс настройки" title="4 шага. Около недели." />
+    </div>
+    <div style="display:flex;flex-direction:column">
+      <div data-reveal data-delay="0"><ProcessStep index={1} title="Анализ бренда, конкурентов, контекста">Смотрим, что есть, оцениваем сильные стороны, учитываем специфику аудитории и продукта. Понимаем, как выделиться среди конкурентов и что нужно улучшить.</ProcessStep></div>
+      <div data-reveal data-delay="80"><ProcessStep index={2} title="Дизайн-система">Собираем токены, типографику, компоненты в Claude Design под ваш бренд. Дополняем шаблонами документов, промптами и инструкциями для Claude Code.</ProcessStep></div>
+      <div data-reveal data-delay="160"><ProcessStep index={3} title="Первый лендинг">Собираем один полноценный лендинг в системе. Он становится proof-точкой и базой для дальнейшей работы.</ProcessStep></div>
+      <div data-reveal data-delay="240"><ProcessStep index={4} title="Передача и обучение">Видео-обучение для команды на русском и английском. Документация и рабочие промпты. Подстраиваем стек под ваш набор инструментов.</ProcessStep></div>
+    </div>
+    <div data-reveal data-delay="120" style="margin-top: var(--s-8);">
+      <MediaFrame label="Claude Design" caption="Настроенная дизайн-система под бренд" ratio="16 / 9">
+        <div style="position:absolute;inset:0;background:linear-gradient(120deg, #0C1A1E 0%, #131E22 50%, #0A1416 100%)"></div>
+      </MediaFrame>
+    </div>
+  </Section>
+
+  <!-- 06 — ЧТО НАС ОТЛИЧАЕТ -->
+  <Section id="about" label="О студии">
+    <div data-reveal style="margin-bottom: var(--s-8);">
+      <SectionHeader index={5} label="Почему именно мы" title="16 лет работы с дизайном." />
+    </div>
+    <div data-reveal class="stat-wrap" style="margin-bottom: var(--s-6);">
+      <StatGrid stats={aboutStats} columns={4} />
+    </div>
+    <div data-reveal style="margin-bottom: var(--s-9);">
+      <TeamDock members={team} boost={0.3} />
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(320px, 1fr));gap:var(--s-5)">
+      <div data-reveal data-delay="0" style="display:flex"><FeatureCard style="flex:1" index={1} icon="spark" title="Имиджевый и информационный дизайн">Понимание, как страница выстраивает доверие, эмоцию и статус — не только закрывает целевое действие.</FeatureCard></div>
+      <div data-reveal data-delay="90" style="display:flex"><FeatureCard style="flex:1" index={2} icon="target" title="Психология внимания и удержания">Интерактив, микро-анимация, порционная подача информации, mobile-first подход.</FeatureCard></div>
+      <div data-reveal data-delay="180" style="display:flex"><FeatureCard style="flex:1" index={3} icon="layers" title="Опыт работы с дизайн-системами">Не настроим один раз и забудем — выстраиваем систему, которую можно развивать годами.</FeatureCard></div>
+      <div data-reveal data-delay="270" style="display:flex"><FeatureCard style="flex:1" index={4} icon="grid" title="Графический контент и эмоция">Цветовая работа, композиция, чувство меры — детали, которые отличают работающий лендинг от шаблона.</FeatureCard></div>
+    </div>
+    <div data-reveal style="margin-top: var(--s-9);">
+      <LogoWall label="Среди клиентов" logos={clientLogos} />
+    </div>
+  </Section>
+
+  <!-- 07 — ЧТО ВХОДИТ -->
+  <Section id="included" tone="invert" label="Что входит">
+    <div data-reveal style="margin-bottom: var(--s-8);">
+      <SectionHeader index={6} label="В пакет настройки" title="Что вы получаете" />
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));gap:var(--s-7) var(--s-8)">
+      <div data-reveal data-delay="0" style="display:flex;flex-direction:column;gap:var(--s-4)">
+        <span class="ink-grad" style="font-family:var(--font-display);font-weight:700;font-size:var(--t-h1);line-height:0.85;margin-bottom:var(--s-2)">01</span>
+        <h3 style="margin:0;font-family:var(--font-display);font-weight:600;font-size:var(--t-h3);line-height:var(--lh-head);color:var(--text-strong)">Дизайн-система под ваш бренд</h3>
+        <p style="margin:0;font-size:var(--t-body-lg);line-height:var(--lh-body);color:var(--text-body)">Настроенная связка Claude Design + Claude Code с токенами, типографикой и компонентами.</p>
+      </div>
+      <div data-reveal data-delay="90" style="display:flex;flex-direction:column;gap:var(--s-4)">
+        <span class="ink-grad" style="font-family:var(--font-display);font-weight:700;font-size:var(--t-h1);line-height:0.85;margin-bottom:var(--s-2)">02</span>
+        <h3 style="margin:0;font-family:var(--font-display);font-weight:600;font-size:var(--t-h3);line-height:var(--lh-head);color:var(--text-strong)">Шаблоны, промпты, инструкции</h3>
+        <p style="margin:0;font-size:var(--t-body-lg);line-height:var(--lh-body);color:var(--text-body)">Рабочие документы, которые ваша команда использует ежедневно при создании новых лендингов.</p>
+      </div>
+      <div data-reveal data-delay="180" style="display:flex;flex-direction:column;gap:var(--s-4)">
+        <span class="ink-grad" style="font-family:var(--font-display);font-weight:700;font-size:var(--t-h1);line-height:0.85;margin-bottom:var(--s-2)">03</span>
+        <h3 style="margin:0;font-family:var(--font-display);font-weight:600;font-size:var(--t-h3);line-height:var(--lh-head);color:var(--text-strong)">Один готовый лендинг</h3>
+        <p style="margin:0;font-size:var(--t-body-lg);line-height:var(--lh-body);color:var(--text-body)">Полноценный, не demo. Сразу используется в продакшне.</p>
+      </div>
+      <div data-reveal data-delay="270" style="display:flex;flex-direction:column;gap:var(--s-4)">
+        <span class="ink-grad" style="font-family:var(--font-display);font-weight:700;font-size:var(--t-h1);line-height:0.85;margin-bottom:var(--s-2)">04</span>
+        <h3 style="margin:0;font-family:var(--font-display);font-weight:600;font-size:var(--t-h3);line-height:var(--lh-head);color:var(--text-strong)">Обучение команды</h3>
+        <p style="margin:0;font-size:var(--t-body-lg);line-height:var(--lh-body);color:var(--text-body)">Видео на русском и английском, документация, индивидуальные созвоны при необходимости.</p>
+      </div>
+    </div>
+    <div data-reveal class="callout" style="margin-top:var(--s-7);padding:clamp(1.5rem, 2.4vw, 2.25rem);display:flex;flex-direction:column;gap:var(--s-3)">
+      <span style="font-family:var(--font-mono);font-size:var(--t-mono-sm);letter-spacing:var(--ls-mono);text-transform:uppercase;color:var(--accent-text)">Для российских клиентов</span>
+      <p style="margin:0;font-size:var(--t-body-lg);line-height:var(--lh-body);color:var(--text-strong)">Подписку Claude Design можем взять на себя — включаем в абонентскую плату.</p>
+    </div>
+  </Section>
+
+  <!-- 08 — ПОДКАСТ -->
+  <Section id="podcast" label="Подкаст">
+    <div data-reveal style="margin-bottom: var(--s-8);">
+      <SectionHeader index={7} label="В подкасте AffPapa" title="Зачем дизайн в эпоху AI-генерации" />
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));gap:var(--s-8);align-items:center">
+      <div data-reveal style="width:100%">
+        <MediaFrame ratio="16 / 9">
+          <div style="position:absolute;inset:0;background:linear-gradient(140deg, #0E2A2E 0%, #102A38 100%);display:flex;align-items:center;justify-content:center">
+            <span style="font-family:var(--font-display);font-weight:700;font-size:var(--t-h1);color:#ffffff;opacity:.9">AffPapa</span>
+          </div>
+        </MediaFrame>
+      </div>
+      <div data-reveal data-delay="120" style="display:flex;flex-direction:column;align-items:flex-start;gap:var(--s-5);text-align:left">
+        <p style="margin:0;font-size:var(--t-lead);line-height:1.4;color:var(--text-body);max-width:64ch">Разговор со Стефаном Мюльбауэром о том, как меняется работа дизайн-студии, когда AI делает механическую часть. Что остаётся ценного: насмотренность, понимание брендов, психология деталей.</p>
+        <ArrowLink href="#" tone="strong">Слушать выпуск</ArrowLink>
+      </div>
+    </div>
+  </Section>
+
+  <!-- 09 — СТЕК -->
+  <Section id="stack" tone="alt" tight={true}>
+    <div data-reveal style="margin-bottom: var(--s-7);">
+      <SectionHeader index={8} label="Технологии" title="Стек" />
+    </div>
+    <LogoWall label="" logos={stackLogos} />
+    <div data-reveal class="callout" style="margin-top:var(--s-6);padding:clamp(1.5rem, 2.4vw, 2.25rem);display:flex;flex-direction:column;gap:var(--s-3)">
+      <span style="font-family:var(--font-mono);font-size:var(--t-mono-sm);letter-spacing:var(--ls-mono);text-transform:uppercase;color:var(--accent-text)">Гибко</span>
+      <p style="margin:0;font-size:var(--t-lead);line-height:1.35;color:var(--text-strong)">Подстраиваемся под ваш стек, если он другой.</p>
+    </div>
+  </Section>
+
+  <!-- 10 — УСЛОВИЯ -->
+  <Section id="pricing" label="Условия">
+    <div data-reveal style="margin-bottom: var(--s-8);">
+      <SectionHeader index={9} label="Условия" title="Ищем первых трёх клиентов">Это тестовый продукт. Для первых трёх клиентов — специальные условия и работа со мной как с основателем студии напрямую.</SectionHeader>
+    </div>
+    <div data-reveal style="display:grid;grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));gap:var(--s-5)">
+      <div class="price-card" style="position:relative;overflow:hidden;isolation:isolate;border-radius:var(--r-3);padding:clamp(1.75rem, 3vw, 3rem)">
+        <PointerGlow variant="teal" />
+        <div style="position:relative;z-index:1;display:flex;flex-direction:column;gap:var(--s-4)">
+          <span style="font-family:var(--font-mono);font-size:var(--t-mono-sm);letter-spacing:var(--ls-mono);text-transform:uppercase;color:var(--text-muted)">Базовая ставка</span>
+          <span class="price-val" style="font-family:var(--font-display);font-weight:700;font-size:clamp(2.25rem, 4.2vw, 3.5rem);line-height:1;color:var(--text-strong)">€60–80<span style="font-size:0.34em;font-weight:600;color:var(--text-muted)"> / час</span></span>
+          <span style="font-size:var(--t-body-lg);line-height:var(--lh-body);color:var(--text-body)">В зависимости от типа задачи.</span>
+        </div>
+      </div>
+      <div class="price-card--brand brand-flow" style="position:relative;overflow:hidden;isolation:isolate;border-radius:var(--r-3);padding:clamp(1.75rem, 3vw, 3rem);color:#fff">
+        <PointerGlow variant="light" />
+        <div style="position:relative;z-index:1;display:flex;flex-direction:column;gap:var(--s-4)">
+          <span style="font-family:var(--font-mono);font-size:var(--t-mono-sm);letter-spacing:var(--ls-mono);text-transform:uppercase;opacity:.85">Финальная стоимость</span>
+          <span class="price-val" style="font-family:var(--font-display);font-weight:700;font-size:clamp(2.25rem, 4.2vw, 3.5rem);line-height:1">Индивидуально</span>
+          <span style="font-size:var(--t-body-lg);line-height:var(--lh-body);opacity:.92">Зависит от объёма работы под ваш бренд и состава пакета.</span>
+        </div>
+      </div>
+    </div>
+    <div data-reveal style="margin-top: var(--s-7);">
+      <Button variant="primary" size="lg" href={tgHref} icon={true}>Узнать условия</Button>
+    </div>
+  </Section>
+
+  <!-- 11 — FAQ -->
+  <Section id="faq" tone="alt" label="FAQ">
+    <div data-reveal style="margin-bottom: var(--s-7);">
+      <SectionHeader index={10} label="Часто спрашивают" title="FAQ" />
+    </div>
+    <Faq>
+      <FaqItem q="Сколько времени занимает настройка?">Около одной недели. Включает анализ, дизайн-систему, первый лендинг и передачу команде.</FaqItem>
+      <FaqItem q="Что, если мы захотим уйти?">Дизайн-система остаётся у вас — в вашем аккаунте Claude и GitHub. Вы полностью независимы.</FaqItem>
+      <FaqItem q="Можем ли мы сами развивать систему?">Да. Обучаем команду через видео и инструкции. Можете дорабатывать сами или подключать нас на конкретные задачи.</FaqItem>
+      <FaqItem q="Чем это отличается от конструктора (Tilda, Webflow)?">Это не конструктор с готовым набором шаблонов, а система, настроенная под ваш бренд, на современном стеке (Astro), с полной кастомизацией.</FaqItem>
+      <FaqItem q="Работаете под NDA?">Да, готовы подписать.</FaqItem>
+    </Faq>
+  </Section>
+
+  <!-- 12 — ФИНАЛЬНЫЙ CTA -->
+  <Section tone="alt" flush={true} style="padding: var(--section-y) var(--gutter)">
+    <div class="brand-flow cta-split" data-reveal style="position:relative;overflow:hidden;border-radius:var(--r-4);display:grid;grid-template-columns:1fr minmax(280px, 440px);align-items:center">
+      <div class="cta-text" style="padding:clamp(2.5rem, 6vw, 6rem);display:flex;flex-direction:column;align-items:flex-start;gap:var(--s-6);color:#fff">
+        <h2 style="margin:0;max-width:18ch;font-family:var(--font-display);font-weight:700;font-size:var(--t-h1);line-height:var(--lh-snug);letter-spacing:var(--ls-head);text-wrap:balance">Готовы попробовать?</h2>
+        <p style="margin:0;max-width:44ch;font-size:var(--t-lead);line-height:1.35;color:rgba(255,255,255,0.85)">Напишите в Telegram. Я как основатель свяжусь, договоримся о созвоне, покажу, как работает вживую, обсудим условия под вашу задачу.</p>
+        <Button variant="invert" size="lg" href={tgHref} icon={true}>Telegram @maxkysh</Button>
+      </div>
+      <div class="cta-photo" style="position:relative;display:flex;align-items:center;justify-content:flex-end;padding:clamp(2.5rem, 6vw, 6rem);padding-left:0">
+        <div style="aspect-ratio:1 / 1;width:100%;max-width:240px;border-radius:50%;overflow:hidden">
+          <img src="/images/founder.jpg" alt="Макс — основатель Chipsa" style="width:100%;height:100%;object-fit:cover;object-position:center top" />
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  <!-- FOOTER -->
+  <SiteFooter brand="Chipsa" tagline="Дизайн-студия · Нови-Сад, Сербия / Красноярск (продакшн)" columns={footerCols} legal="© 2026 Chipsa · Лендинг-Завод" />
+</Base>
+
+<style>
+  /* Callout / note plate — tinted accent surface with a mono kicker. Reads on
+     dark and (via tone=invert token remap) on light bands. */
+  .callout {
+    background: color-mix(in srgb, var(--accent) 13%, var(--surface-1));
+    border-radius: var(--r-3);
+  }
+
+  /* Conveyor (вход → процесс → выход) cards: tone-step + lift on hover. */
+  .conveyor-card {
+    background: var(--surface-1);
+    transition:
+      background var(--dur-base) var(--ease-out),
+      transform var(--dur-base) var(--ease-out);
+  }
+  .conveyor-card:hover {
+    background: var(--surface-2);
+    transform: translateY(-4px);
+  }
+  .conveyor-card--brand {
+    transition: transform var(--dur-base) var(--ease-out);
+  }
+  .conveyor-card--brand:hover {
+    transform: translateY(-4px);
+  }
+
+  /* Pricing plates: pointer-glow hover + lift (split, intentional). */
+  .price-card {
+    background: var(--surface-1);
+    transition:
+      background var(--dur-base) var(--ease-out),
+      transform var(--dur-base) var(--ease-out);
+  }
+  .price-card:hover {
+    background: var(--surface-2);
+    transform: translateY(-6px);
+  }
+  .price-card--brand {
+    transition: transform var(--dur-base) var(--ease-out);
+  }
+  .price-card--brand:hover {
+    transform: translateY(-6px);
+  }
+</style>

@@ -1,0 +1,13 @@
+---
+/**
+ * Chipsa Lander — PointerGlow. Drop-in cursor-tracking glow. Render as the FIRST
+ * child of any `position:relative; overflow:hidden` container; scripts/
+ * interactions.ts attaches pointer listeners to the parent. 'teal' for toned
+ * surfaces, 'light' for the brand-gradient featured surfaces.
+ */
+interface Props {
+  variant?: 'teal' | 'light';
+}
+const { variant = 'teal' } = Astro.props;
+---
+<span class={`cl-pglow cl-pglow--${variant}`} aria-hidden="true"></span>

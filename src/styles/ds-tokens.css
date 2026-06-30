@@ -1,0 +1,180 @@
+/* ============================================================
+   CHIPSA LANDER — DESIGN TOKENS
+   Ported verbatim from the Chipsa Lander design system
+   (tokens/colors.css, typography.css, spacing.css). Style everything
+   through these custom properties — never hard-code hex in product code.
+   ============================================================ */
+:root {
+  /* --- Raw ink scale (dark base, slightly teal-cooled neutrals) --- */
+  --ink-900: #05080a; /* deepest — page base */
+  --ink-850: #0a1113; /* default page background */
+  --ink-800: #131e22; /* base alt */
+  --ink-700: #1e2c33; /* elevated surface 1 */
+  --ink-600: #2a3c44; /* elevated surface 2 */
+  --ink-500: #374e58; /* elevated surface 3 / hairline fills */
+  --ink-400: #466069; /* borders on dark */
+  --ink-300: #5c7882; /* muted strokes */
+
+  /* --- Paper scale (for the rare inverted / light section) --- */
+  --paper-000: #ffffff;
+  --paper-050: #f3f5f4;
+  --paper-100: #e6eae9;
+  --paper-200: #d2d9d8;
+
+  /* --- Foreground (text) on dark --- */
+  --fg-1: #f4f7f6;
+  --fg-2: #b9c5c7;
+  --fg-3: #7e8e92;
+  --fg-4: #56656a;
+
+  /* --- Foreground on light surfaces --- */
+  --fg-on-paper-1: #0a0e0f;
+  --fg-on-paper-2: #3a474b;
+  --fg-on-paper-3: #6a7679;
+
+  /* --- Brand accents (from the mark) --- */
+  --lime-400: #b6c24e;
+  --green-500: #5fb85c;
+  --teal-500: #1fa39a;
+  --teal-600: #15838c;
+  --deepteal-700: #076281;
+  --deepteal-800: #054c66;
+
+  /* signature brand gradient — green -> teal -> deep blue */
+  --grad-brand: linear-gradient(115deg, #6fbe56 0%, #1fa39a 48%, #0a6e8c 100%);
+  --grad-brand-soft: linear-gradient(115deg, #6fbe56 0%, #1fa39a 55%, #0a6e8c 100%);
+  --grad-brand-deep: linear-gradient(115deg, #4e853c 0%, #16726c 48%, #074d62 100%);
+  --grad-atmos: radial-gradient(120% 90% at 78% 8%, rgba(31, 163, 154, 0.2) 0%, rgba(10, 110, 140, 0.1) 35%, rgba(10, 14, 15, 0) 68%);
+
+  /* --- Semantic status --- */
+  --positive: #5fb85c;
+  --warning: #e0a53c;
+  --critical: #e5604d;
+  --info: #1fa39a;
+
+  /* --- Semantic aliases --- */
+  --bg-page: var(--ink-850);
+  --bg-page-alt: var(--ink-800);
+  --surface-1: var(--ink-700);
+  --surface-2: var(--ink-600);
+  --surface-3: var(--ink-500);
+  --surface-invert: var(--paper-050);
+
+  --text-strong: var(--fg-1);
+  --text-body: var(--fg-2);
+  --text-muted: var(--fg-3);
+  --text-faint: var(--fg-4);
+  --text-on-invert: var(--fg-on-paper-1);
+  --text-on-invert-muted: var(--fg-on-paper-2);
+
+  --accent: var(--teal-500);
+  --accent-strong: var(--green-500);
+  --accent-deep: var(--deepteal-700);
+  --accent-text: #57d6c8;
+  --accent-text-hover: #7fe6da;
+
+  --border-subtle: var(--ink-400);
+  --border-faint: var(--ink-500);
+  --border-strong: var(--ink-300);
+  --border-on-invert: var(--paper-200);
+
+  --focus-ring: #57d6c8;
+
+  /* ---- Type families ---- */
+  --font-display: 'Unbounded', 'Unbounded Fallback', system-ui, sans-serif;
+  --font-sans: 'Helvetica Neue', 'Helvetica', 'Arimo', Arial, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', monospace;
+
+  /* weights */
+  --w-regular: 400;
+  --w-medium: 500;
+  --w-semibold: 600;
+  --w-bold: 700;
+  --w-black: 900;
+
+  /* display / headline scale (fluid) */
+  --t-mega: clamp(3.15rem, 8.1vw, 8.5rem);
+  --t-display: clamp(2.5rem, 5.4vw, 5.4rem);
+  --t-h1: clamp(2rem, 3.8vw, 3.6rem);
+  --t-h2: clamp(1.55rem, 2.5vw, 2.5rem);
+  --t-h3: clamp(1.25rem, 1.6vw, 1.7rem);
+
+  /* body scale */
+  --t-lead: clamp(1.25rem, 1.7vw, 1.7rem);
+  --t-body-lg: 1.25rem;
+  --t-body: 1.0625rem;
+  --t-body-sm: 0.9375rem;
+
+  /* eyebrow / mono */
+  --t-eyebrow: 0.8125rem;
+  --t-mono-sm: 0.75rem;
+
+  /* line heights */
+  --lh-tight: 0.98;
+  --lh-snug: 1.06;
+  --lh-head: 1.12;
+  --lh-body: 1.55;
+  --lh-loose: 1.7;
+
+  /* tracking */
+  --ls-mega: -0.03em;
+  --ls-display: -0.02em;
+  --ls-head: -0.015em;
+  --ls-body: 0em;
+  --ls-eyebrow: 0.22em;
+  --ls-mono: 0.04em;
+
+  /* ---- Spacing scale ---- */
+  --s-1: 0.25rem;
+  --s-2: 0.5rem;
+  --s-3: 0.75rem;
+  --s-4: 1rem;
+  --s-5: 1.5rem;
+  --s-6: 2rem;
+  --s-7: 3rem;
+  --s-8: 4rem;
+  --s-9: 6rem;
+  --s-10: 8rem;
+  --s-11: 11rem;
+  --s-12: 14rem;
+
+  /* section rhythm */
+  --section-y: clamp(5rem, 10vw, 11rem);
+  --section-y-tight: clamp(3.5rem, 6vw, 6rem);
+
+  /* gutters / bleed */
+  --gutter: clamp(1.25rem, 5vw, 6rem);
+  --gutter-tight: clamp(1rem, 3vw, 2.5rem);
+  --content-max: 1680px;
+  --measure-max: 68ch;
+
+  /* radii — small only */
+  --r-0: 0px;
+  --r-1: 4px;
+  --r-2: 8px;
+  --r-3: 10px;
+  --r-4: 12px;
+  --r-pill: 0px;
+
+  /* borders */
+  --bw: 1px;
+  --bw-strong: 1.5px;
+
+  /* motion */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-inout: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-snap: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --dur-fast: 140ms;
+  --dur-base: 240ms;
+  --dur-slow: 420ms;
+  --dur-reveal: 720ms;
+
+  /* z-index */
+  --z-base: 1;
+  --z-sticky: 100;
+  --z-nav: 200;
+  --z-overlay: 800;
+  --z-modal: 900;
+  --z-toast: 1000;
+}

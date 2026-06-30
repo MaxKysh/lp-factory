@@ -1,0 +1,38 @@
+---
+/** Chipsa Lander — Stat. Big metric in the display face over a mono label. */
+interface Props {
+  value?: string | number;
+  label?: string;
+  suffix?: string;
+  grad?: boolean;
+  size?: 'md' | 'lg';
+  align?: 'start' | 'center';
+  style?: string;
+}
+const { value, label, suffix = '', grad = false, size = 'md', align = 'start', style } = Astro.props;
+const SIZES: Record<string, string> = { md: 'clamp(2.5rem, 5vw, 4.25rem)', lg: 'clamp(3.25rem, 6.5vw, 5.75rem)' };
+const numStyle = [
+  'font-family:var(--font-display)',
+  'font-weight:var(--w-bold)',
+  `font-size:${SIZES[size] || SIZES.md}`,
+  'line-height:0.9',
+  'letter-spacing:-0.03em',
+  grad ? 'color:transparent' : 'color:var(--text-strong)',
+  grad ? 'background:var(--grad-brand)' : 'background:none',
+  grad ? '-webkit-background-clip:text;background-clip:text' : 'background-clip:border-box',
+].join(';');
+const wrapStyle = [
+  'display:flex',
+  'flex-direction:column',
+  'gap:var(--s-3)',
+  `text-align:${align}`,
+  `align-items:${align === 'center' ? 'center' : 'flex-start'}`,
+  style || '',
+]
+  .filter(Boolean)
+  .join(';');
+---
+<div style={wrapStyle}>
+  <span style={numStyle}>{value}<span style="font-size:0.62em;vertical-align:baseline">{suffix}</span></span>
+  <span style="font-family:var(--font-mono);font-size:var(--t-mono-sm);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--text-muted)">{label}</span>
+</div>

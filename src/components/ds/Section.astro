@@ -1,0 +1,48 @@
+---
+/**
+ * Chipsa Lander — Section. Centred content column with gutter padding and the
+ * vertical rhythm tokens. `tone` paints a full-bleed background band behind the
+ * column ('alt' / 'panel' dark bands, 'invert' light/paper band that re-themes
+ * descendants to dark text). `tight`/`flush`/`divided` adjust padding/rule.
+ */
+interface Props {
+  id?: string;
+  label?: string;
+  tight?: boolean;
+  flush?: boolean;
+  divided?: boolean;
+  tone?: 'page' | 'alt' | 'panel' | 'invert';
+  style?: string;
+  class?: string;
+  [key: string]: unknown;
+}
+const { id, label, tight = false, flush = false, divided = false, tone = 'page', style = '', class: className, ...rest } = Astro.props;
+
+const TONES: Record<string, { bg: string; cls?: string }> = {
+  page: { bg: 'transparent' },
+  alt: { bg: 'var(--bg-page-alt)' },
+  panel: { bg: 'var(--ink-900)' },
+  invert: { bg: 'var(--surface-invert)', cls: 'cl-tone-invert' },
+};
+const t = TONES[tone] || TONES.page;
+const banded = tone && tone !== 'page';
+const padY = flush ? '0' : tight ? 'var(--section-y-tight)' : 'var(--section-y)';
+const innerStyle = [
+  'max-width:var(--content-max)',
+  'margin:0 auto',
+  `padding:${padY} var(--gutter)`,
+  divided ? 'border-top:1px solid var(--border-subtle)' : '',
+  style,
+]
+  .filter(Boolean)
+  .join(';');
+---
+{banded ? (
+  <section id={id} data-screen-label={label} class={`${t.cls || ''}${className ? ' ' + className : ''}`.trim() || undefined} style={`width:100%;background:${t.bg}`} {...rest}>
+    <div style={innerStyle}><slot /></div>
+  </section>
+) : (
+  <section id={id} data-screen-label={label} class={className} style={innerStyle} {...rest}>
+    <slot />
+  </section>
+)}

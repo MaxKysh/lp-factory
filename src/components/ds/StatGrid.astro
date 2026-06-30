@@ -1,0 +1,26 @@
+---
+/**
+ * Chipsa Lander — StatGrid. A grid of monument-scale stats laid out in `columns`
+ * columns. `data-cols` lets the page-level CSS collapse a 4-up grid to 2×2 on
+ * narrow screens.
+ */
+import Stat from './Stat.astro';
+
+interface StatItem {
+  value?: string | number;
+  suffix?: string;
+  label?: string;
+  grad?: boolean;
+}
+interface Props {
+  stats?: StatItem[];
+  columns?: number;
+  size?: 'md' | 'lg';
+  style?: string;
+}
+const { stats = [], columns = 2, size = 'lg', style } = Astro.props;
+const gridStyle = ['display:grid', `grid-template-columns:repeat(${columns}, minmax(0, 1fr))`, 'gap:var(--s-9) var(--s-8)', style || ''].filter(Boolean).join(';');
+---
+<div data-cols={columns} style={gridStyle}>
+  {stats.map((s) => <Stat value={s.value} suffix={s.suffix} label={s.label} grad={s.grad} size={size} />)}
+</div>

@@ -1,0 +1,38 @@
+---
+/**
+ * Chipsa Lander — SiteFooter. Wordmark + tagline on the left, link columns on
+ * the right, a hairline divider on top and a fine-print line at the bottom.
+ */
+interface FooterLink {
+  href: string;
+  label: string;
+}
+interface FooterCol {
+  title: string;
+  links: FooterLink[];
+}
+interface Props {
+  brand?: string;
+  tagline?: string;
+  columns?: FooterCol[];
+  legal?: string;
+}
+const { brand = 'chipsa', tagline, columns = [], legal } = Astro.props;
+---
+<footer style="max-width:var(--content-max);margin:0 auto;padding:var(--section-y-tight) var(--gutter) var(--s-8)">
+  <div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:var(--s-7);padding-top:var(--s-6);border-top:1px solid var(--border-subtle)">
+    <div style="display:flex;flex-direction:column;gap:var(--s-3);max-width:32ch">
+      <span style="font-family:var(--font-display);font-weight:var(--w-bold);font-size:1.25rem;letter-spacing:-0.02em;color:var(--text-strong)">{brand}</span>
+      {tagline && <span style="font-family:var(--font-mono);font-size:var(--t-mono-sm);letter-spacing:var(--ls-mono);color:var(--text-muted)">{tagline}</span>}
+    </div>
+    <div style="display:flex;gap:var(--s-8);flex-wrap:wrap">
+      {columns.map((col) => (
+        <div style="display:flex;flex-direction:column;gap:var(--s-3)">
+          <span style="font-family:var(--font-mono);font-size:var(--t-mono-sm);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--text-faint)">{col.title}</span>
+          {(col.links || []).map((l) => <a href={l.href} class="link" style="font-size:var(--t-body-sm)">{l.label}</a>)}
+        </div>
+      ))}
+    </div>
+  </div>
+  {legal && <div style="margin-top:var(--s-7);font-family:var(--font-mono);font-size:var(--t-mono-sm);letter-spacing:var(--ls-mono);color:var(--text-faint)">{legal}</div>}
+</footer>

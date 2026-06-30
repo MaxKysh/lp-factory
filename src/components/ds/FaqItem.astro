@@ -1,0 +1,19 @@
+---
+/**
+ * Chipsa Lander — FaqItem. A disclosure row with a hairline separator and smooth
+ * open/close (the `.disclosure` utility). The marker rotates from + to × on open
+ * and aligns to the first line of the question.
+ */
+interface Props {
+  q?: string;
+  delay?: number;
+}
+const { q, delay } = Astro.props;
+---
+<details class="cl-faq__row disclosure" data-reveal data-delay={delay}>
+  <summary>
+    <span class="cl-faq__q">{q}</span>
+    <span class="cl-faq__mark" aria-hidden="true">+</span>
+  </summary>
+  <p class="cl-faq__a"><slot /></p>
+</details>

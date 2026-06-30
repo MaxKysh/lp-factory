@@ -1,25 +1,79 @@
-# CODING AGENTS: READ THIS FIRST
+# Лендинг-Завод — Chipsa
 
-This is a **handoff bundle** from Claude Design (claude.ai/design).
+B2B landing page for Chipsa's **Landing Factory** product, implemented from the
+Claude Design handoff bundle. Built with **Astro + Tailwind CSS v4 + TypeScript**
+on a faithful port of the Chipsa Lander design system.
 
-A user mocked up designs in HTML/CSS/JS using an AI design tool, then exported this bundle so a coding agent can implement the designs for real.
+The original design export (prototype, design-system source, chat transcripts)
+lives in [`project/`](./project) and [`chats/`](./chats); see
+[`HANDOFF.md`](./HANDOFF.md) for the handoff notes.
 
-## What you should do — IMPORTANT
+## Run
 
-**Read the chat transcripts first.** There are 2 chat transcript(s) in `chats/`. The transcripts show the full back-and-forth between the user and the design assistant — they tell you **what the user actually wants** and **where they landed** after iterating. Don't skip them. The final HTML files are the output, but the chat is where the intent lives.
+```bash
+npm install
+npm run dev      # dev server at http://localhost:4321
+npm run build    # static build → dist/
+npm run preview  # serve the production build
+```
 
-**Read `project/ProductLanding.dc.html` in full.** The user had this file open when they triggered the handoff, so it's almost certainly the primary design they want built. Read it top to bottom — don't skim. Then **follow its imports**: open every file it pulls in (shared components, CSS, scripts) so you understand how the pieces fit together before you start implementing.
+Static output — deploys to any static host (Vercel, Netlify, GitHub Pages, …).
 
-**If anything is ambiguous, ask the user to confirm before you start implementing.** It's much cheaper to clarify scope up front than to build the wrong thing.
+## Structure
 
-## About the design files
+```
+src/
+  layouts/Base.astro          # html shell, fonts, boots the client runtimes
+  pages/index.astro           # the full 12-section landing
+  components/ds/              # design-system components (ported 1:1 from the bundle)
+    SiteNav · Hero · Section · SectionHeader · Eyebrow · Button · ArrowLink
+    FeatureCard · ProcessStep · Stat · StatGrid · LogoWall · MediaFrame
+    Faq · FaqItem · PointerGlow · TeamDock · SiteFooter
+  scripts/
+    reveal.ts                 # scroll-triggered fade-rise runtime
+    interactions.ts           # button spotlight, pointer-glow, mobile-nav toggle
+  styles/
+    ds-tokens.css             # colour / type / spacing tokens (source of truth)
+    ds-base.css               # base layer + brand utilities (.ink-grad, .brand-flow, …)
+    ds-components.css         # per-component CSS (ported from the bundle)
+    global.css                # entry: tokens → base → components → Tailwind
+public/images/                # team photos, founder photo, logo
+```
 
-The design medium is **HTML/CSS/JS** — these are prototypes, not production code. Your job is to **recreate them pixel-perfectly** in whatever technology makes sense for the target codebase (React, Vue, native, whatever fits). Match the visual output; don't copy the prototype's internal structure unless it happens to fit.
+All styling flows through the design-system CSS custom properties (e.g.
+`var(--accent)`, `var(--t-h2)`, `var(--s-6)`) — never hard-coded hex. Tailwind is
+wired in and its theme is mapped to the same tokens for incidental utilities.
 
-**Don't render these files in a browser or take screenshots unless the user asks you to.** Everything you need — dimensions, colors, layout rules — is spelled out in the source. Read the HTML and CSS directly; a screenshot won't tell you anything they don't.
+## Sections
 
-## Bundle contents
+1. Hero · 2. Проблема · 3. Решение (light) · 4. Кейсы · 5. Процесс ·
+6. О студии (stats + team dock) · 7. Что входит (light) · 8. Подкаст ·
+9. Стек · 10. Условия · 11. FAQ · 12. Финальный CTA + footer.
 
-- `README.md` — this file
-- `chats/` — conversation transcripts (read these!)
-- `project/` — the `Лендинг-Завод Chipsa` project files (HTML prototypes, assets, components)
+Light "paper" bands (3 / 7) use the design system's `tone="invert"` for page
+rhythm. The team row (section 6) is a macOS-dock-style avatar magnifier.
+
+## Placeholder media — swap-in points
+
+Real assets are pending (you'll send them later). These render as styled
+placeholders today, at the correct aspect ratios:
+
+| Where | Placeholder | Drop-in |
+|---|---|---|
+| Hero background | animated "stamping" gradient | `<div slot="media">` in `index.astro` → `<video>` (e.g. `/video/hero-stamping-loop.mp4`) |
+| Cases 01/02 (§4) | gradient fills in `MediaFrame` | add `src=` to the two `MediaFrame`s |
+| Claude Design shot (§5) | gradient fill | add `src=` to the `MediaFrame` |
+| Podcast cover (§8) | "AffPapa" gradient tile | add `src=` to the `MediaFrame` |
+| Client logos (§6) | text plates | pass logo `<img>`/SVG markup to `LogoWall` |
+| Stack logos (§9) | text plates | pass logo `<img>`/SVG markup to `LogoWall` |
+
+Already wired with real assets: the 12 team photos and the founder photo
+(`public/images/`). Pending external links: the BWiGA case URL and the podcast
+episode URL are `#` until provided. CTAs point to `https://t.me/maxkysh`.
+
+## Notes
+
+- Fonts are Google-Fonts stand-ins per the design-system readme (Unbounded /
+  Arimo / JetBrains Mono); swap for licensed brand faces in `Base.astro` +
+  `ds-tokens.css` when available.
+- Reduced-motion is honoured throughout (shimmer, brand-flow, reveals, dock).

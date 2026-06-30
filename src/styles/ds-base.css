@@ -1,0 +1,389 @@
+/* ============================================================
+   CHIPSA LANDER — BASE LAYER + BRAND UTILITIES
+   Ported from the design system's tokens/base.css + fonts.css.
+   ============================================================ */
+
+/* Webfonts (Google Fonts stand-ins per the DS readme) are loaded via <link>
+   in the document head — see layouts/Base.astro. */
+
+/* CLS guard: metric-matched fallback for Unbounded */
+@font-face {
+  font-family: 'Unbounded Fallback';
+  src: local('Arial');
+  size-adjust: 122%;
+  ascent-override: 78%;
+  descent-override: 20%;
+  line-gap-override: 0%;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+* {
+  margin: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  interpolate-size: allow-keywords;
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--bg-page);
+  color: var(--text-body);
+  font-family: var(--font-sans);
+  font-size: var(--t-body);
+  line-height: var(--lh-body);
+  font-weight: var(--w-regular);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: 'ss01', 'cv01';
+}
+
+::selection {
+  background: var(--green-500);
+  color: #07090a;
+}
+
+/* ---- Headlines use the display face ---- */
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  color: var(--text-strong);
+  font-weight: var(--w-semibold);
+  line-height: var(--lh-head);
+  letter-spacing: var(--ls-head);
+  text-wrap: balance;
+}
+h1 {
+  font-size: var(--t-h1);
+  line-height: var(--lh-snug);
+  letter-spacing: var(--ls-display);
+}
+h2 {
+  font-size: var(--t-h2);
+}
+h3 {
+  font-size: var(--t-h3);
+}
+
+p {
+  text-wrap: pretty;
+}
+
+/* ============================================================
+   TYPE UTILITIES
+   ============================================================ */
+.t-mega {
+  font-family: var(--font-display);
+  font-weight: var(--w-semibold);
+  font-size: var(--t-mega);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--ls-mega);
+  color: var(--text-strong);
+  text-wrap: balance;
+}
+.t-display {
+  font-family: var(--font-display);
+  font-weight: var(--w-semibold);
+  font-size: var(--t-display);
+  line-height: var(--lh-snug);
+  letter-spacing: var(--ls-display);
+  color: var(--text-strong);
+  text-wrap: balance;
+}
+.t-lead {
+  font-size: var(--t-lead);
+  line-height: var(--lh-body);
+  color: var(--text-body);
+  font-weight: var(--w-regular);
+}
+.t-mono {
+  font-family: var(--font-mono);
+  font-size: var(--t-mono-sm);
+  letter-spacing: var(--ls-mono);
+}
+
+/* Eyebrow / kicker */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--t-eyebrow);
+  font-weight: var(--w-medium);
+  letter-spacing: var(--ls-eyebrow);
+  text-transform: uppercase;
+  color: var(--accent-text);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-3);
+}
+.eyebrow::before {
+  content: '';
+  width: 1.75rem;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.6;
+}
+
+/* Gradient ink — one emphasized word in a headline */
+.ink-grad {
+  background: var(--grad-brand);
+  background-size: 100% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .ink-grad--shimmer {
+    background-size: 260% 100%;
+    background-position: 0% 0%;
+    animation: ink-shimmer 3.2s var(--ease-inout, ease-in-out) infinite alternate;
+  }
+}
+@keyframes ink-shimmer {
+  from {
+    background-position: 0% 0%;
+  }
+  to {
+    background-position: 100% 0%;
+  }
+}
+
+/* Disclosure — smooth open/close for a native <details> */
+.disclosure::details-content {
+  overflow: hidden;
+  block-size: 0;
+  opacity: 0;
+  transition:
+    block-size var(--dur-slow, 380ms) var(--ease-out),
+    opacity var(--dur-base, 220ms) var(--ease-out),
+    content-visibility var(--dur-slow, 380ms) allow-discrete;
+}
+.disclosure[open]::details-content {
+  block-size: auto;
+  opacity: 1;
+}
+@media (prefers-reduced-motion: reduce) {
+  .disclosure::details-content {
+    transition: none;
+  }
+}
+
+/* Brand-flow surface — deep brand gradient drifts and loops seamlessly */
+.brand-flow {
+  background: var(--grad-brand-deep);
+  background-size: 220% 220%;
+  background-position: 0% 50%;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .brand-flow {
+    animation: brand-flow 16s var(--ease-inout, ease-in-out) infinite;
+  }
+}
+@keyframes brand-flow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* ============================================================
+   LINKS
+   ============================================================ */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.link {
+  position: relative;
+  width: fit-content;
+  color: var(--text-strong);
+  font-weight: var(--w-medium);
+  cursor: pointer;
+  padding-bottom: 2px;
+  transition: color var(--dur-base) var(--ease-out);
+}
+.link:hover {
+  color: var(--accent-text);
+}
+.link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1.5px;
+  background: var(--accent-text);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--dur-base) var(--ease-out);
+}
+.link:hover::after {
+  transform: scaleX(1);
+}
+
+.link-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  color: var(--accent-text);
+  font-weight: var(--w-medium);
+  cursor: pointer;
+  transition: color var(--dur-base) var(--ease-out);
+}
+.link-arrow .arw {
+  transition: transform var(--dur-base) var(--ease-expo);
+}
+.link-arrow:hover {
+  color: #ffffff;
+}
+.link-arrow:hover .arw {
+  transform: translate(4px, -4px);
+}
+
+/* ============================================================
+   LAYOUT HELPERS
+   ============================================================ */
+.bleed {
+  width: 100%;
+}
+.shell {
+  max-width: var(--content-max);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+.measure {
+  max-width: var(--measure-max);
+}
+.section {
+  padding-block: var(--section-y);
+}
+.section-tight {
+  padding-block: var(--section-y-tight);
+}
+
+.surface-1 {
+  background: var(--surface-1);
+}
+.surface-2 {
+  background: var(--surface-2);
+}
+.surface-invert {
+  background: var(--surface-invert);
+  color: var(--text-on-invert);
+}
+.surface-invert h1,
+.surface-invert h2,
+.surface-invert h3 {
+  color: var(--text-on-invert);
+}
+
+/* ============================================================
+   SCROLL-TRIGGERED REVEAL
+   ============================================================ */
+@media (prefers-reduced-motion: no-preference) {
+  html.js-reveal :is(.reveal, [data-reveal]) {
+    opacity: 0;
+    transform: translateY(28px);
+    transition:
+      opacity var(--dur-reveal) var(--ease-out),
+      transform var(--dur-reveal) var(--ease-out);
+    will-change: opacity, transform;
+  }
+  html.js-reveal :is(.reveal, [data-reveal])[data-inview] {
+    opacity: 1;
+    transform: none;
+  }
+  .reveal.delay-1 {
+    transition-delay: 90ms;
+  }
+  .reveal.delay-2 {
+    transition-delay: 180ms;
+  }
+  .reveal.delay-3 {
+    transition-delay: 270ms;
+  }
+}
+@media print {
+  :is(.reveal, [data-reveal]) {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* ============================================================
+   FOCUS-IN REVEAL — blur-to-sharp entrance
+   ============================================================ */
+@keyframes focus-in {
+  from {
+    opacity: 0;
+    filter: blur(14px);
+    transform: translateY(0.14em);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: none;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .focus-in {
+    animation: focus-in var(--dur-reveal, 780ms) var(--ease-out) both;
+    animation-delay: var(--reveal-d, 0ms);
+    will-change: opacity, filter, transform;
+  }
+  .focus-in.delay-1 {
+    --reveal-d: 150ms;
+  }
+  .focus-in.delay-2 {
+    --reveal-d: 300ms;
+  }
+  .focus-in.delay-3 {
+    --reveal-d: 450ms;
+  }
+  .focus-in.delay-4 {
+    --reveal-d: 600ms;
+  }
+}
+html.reveal-settled .focus-in {
+  opacity: 1 !important;
+  filter: none !important;
+  transform: none !important;
+}
+
+/* ---- Hero scroll-hint bounce ---- */
+@keyframes cl-hero-bounce {
+  0%,
+  100% {
+    transform: translateX(-50%) translateY(0);
+  }
+  50% {
+    transform: translateX(-50%) translateY(8px);
+  }
+}
+
+/* ============================================================
+   FOCUS
+   ============================================================ */
+:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+[role='button'],
+button,
+.link,
+.link-arrow,
+[data-interactive] {
+  cursor: pointer;
+}

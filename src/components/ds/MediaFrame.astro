@@ -1,0 +1,43 @@
+---
+/**
+ * Chipsa Lander — MediaFrame. Full-bleed-friendly container for image/video.
+ * Small radius, no border, no shadow. Optional mono `label` chip and a `caption`
+ * overlay with a legibility wash. Pass a placeholder/background node as the
+ * default slot; swap `src` in when the real asset arrives.
+ */
+interface Props {
+  src?: string;
+  alt?: string;
+  caption?: string;
+  label?: string;
+  ratio?: string;
+  fill?: boolean;
+  style?: string;
+}
+const { src, alt = '', caption, label, ratio = '16 / 9', fill = false, style } = Astro.props;
+const figStyle = [
+  'position:relative',
+  'margin:0',
+  fill ? 'height:100%' : `aspect-ratio:${ratio}`,
+  'width:100%',
+  'overflow:hidden',
+  'border-radius:var(--r-2)',
+  'background:var(--surface-1)',
+  style || '',
+]
+  .filter(Boolean)
+  .join(';');
+---
+<figure style={figStyle}>
+  {src && <img src={src} alt={alt} style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block" />}
+  <slot />
+  {label && (
+    <span style="position:absolute;top:var(--s-4);left:var(--s-4);font-family:var(--font-mono);font-size:var(--t-mono-sm);letter-spacing:var(--ls-mono);text-transform:uppercase;color:var(--fg-1);background:rgba(7,9,10,0.55);backdrop-filter:blur(6px);padding:6px 10px;border-radius:var(--r-1)">{label}</span>
+  )}
+  {caption && (
+    <>
+      <div aria-hidden="true" style="position:absolute;inset:0;background:linear-gradient(to top, rgba(7,9,10,0.78) 0%, rgba(7,9,10,0) 46%)"></div>
+      <figcaption style="position:absolute;left:var(--s-5);right:var(--s-5);bottom:var(--s-5);color:var(--fg-1);font-family:var(--font-display);font-weight:var(--w-semibold);font-size:var(--t-h3);letter-spacing:-0.02em;line-height:1.1">{caption}</figcaption>
+    </>
+  )}
+</figure>

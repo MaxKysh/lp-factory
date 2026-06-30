@@ -1,0 +1,64 @@
+---
+/**
+ * Chipsa Lander — SiteNav. Desktop (>900px): fixed top bar — logo lockup left,
+ * centred link menu, primary CTA right. Mobile (≤900px): a floating action
+ * button opens a bottom-right panel (logo, links, contact, CTA). Toggle logic is
+ * wired by scripts/interactions.ts.
+ */
+import Button from './Button.astro';
+
+interface LinkItem {
+  href: string;
+  label: string;
+}
+interface Props {
+  logo?: string;
+  brand?: string;
+  brandMark?: string;
+  links?: LinkItem[];
+  cta?: { label: string; href: string };
+  contact?: { label: string; value: string; href: string };
+}
+const { logo = '/images/logo-chipsa.png', brand = 'Chipsa', brandMark = 'DEV', links = [], cta, contact } = Astro.props;
+---
+<nav class="cl-nav" data-reveal>
+  <a href="#top" style="justify-self:start;display:inline-flex;align-items:center;gap:10px;text-decoration:none">
+    <img src={logo} alt={brand} style="height:28px;width:auto;display:block" />
+    {brandMark && <span style="font-family:var(--font-mono);font-size:0.625rem;letter-spacing:0.12em;color:var(--accent-deep);align-self:flex-end;padding-bottom:4px">{brandMark}</span>}
+  </a>
+  <div class="cl-nav__menu">
+    {links.map((l) => <a href={l.href} class="link" style="font-family:var(--font-sans);font-size:1.0625rem">{l.label}</a>)}
+  </div>
+  <div class="cl-nav__cta">
+    {cta && <Button variant="primary" size="sm" href={cta.href} icon={true}>{cta.label}</Button>}
+  </div>
+</nav>
+
+<div class="cl-mnav" data-open="false">
+  <div class="cl-mnav__scrim" aria-hidden="true"></div>
+  <div class="cl-mnav__panel" role="dialog" aria-modal="true" aria-label={brand}>
+    <a href="#top" class="cl-mnav__logo">
+      <img src={logo} alt={brand} style="height:28px;width:auto;display:block" />
+      {brandMark && <span style="font-family:var(--font-mono);font-size:0.625rem;letter-spacing:0.12em;color:var(--accent-deep);align-self:flex-end;padding-bottom:4px">{brandMark}</span>}
+    </a>
+    <hr class="cl-mnav__rule" />
+    <nav class="cl-mnav__links">
+      {links.map((l) => <a href={l.href} class="cl-mnav__link">{l.label}</a>)}
+    </nav>
+    <hr class="cl-mnav__rule" />
+    {contact && (
+      <div class="cl-mnav__contact">
+        <span class="cl-mnav__contact-k">{contact.label}</span>
+        <a class="cl-mnav__contact-v" href={contact.href}>{contact.value} ↗</a>
+      </div>
+    )}
+    {cta && (
+      <div style="align-self:flex-start">
+        <Button variant="primary" size="md" href={cta.href} icon={true}>{cta.label}</Button>
+      </div>
+    )}
+  </div>
+  <button class="cl-mnav__fab" aria-label="Открыть меню" aria-expanded="false">
+    <span class="cl-mnav__bars" aria-hidden="true"><span></span><span></span><span></span></span>
+  </button>
+</div>

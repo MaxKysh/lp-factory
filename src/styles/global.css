@@ -1,0 +1,25 @@
+/* Лендинг-Завод — global stylesheet.
+   Order matters: tokens define the custom properties, the base layer and
+   component styles consume them, then Tailwind utilities layer on top for
+   any incidental spacing/layout. */
+@import './ds-tokens.css';
+@import './ds-base.css';
+@import './ds-components.css';
+
+@import 'tailwindcss';
+
+/* Expose the core DS scale to Tailwind's theme so utilities (e.g. text-strong,
+   font-display) resolve to the same tokens used by the components. */
+@theme {
+  --color-page: var(--ink-850);
+  --color-surface-1: var(--ink-700);
+  --color-surface-2: var(--ink-600);
+  --color-strong: var(--fg-1);
+  --color-body: var(--fg-2);
+  --color-muted: var(--fg-3);
+  --color-accent: var(--teal-500);
+  --color-accent-text: #57d6c8;
+  --font-display: 'Unbounded', 'Unbounded Fallback', system-ui, sans-serif;
+  --font-sans: 'Helvetica Neue', 'Helvetica', 'Arimo', Arial, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', monospace;
+}

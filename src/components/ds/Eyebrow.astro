@@ -1,0 +1,18 @@
+---
+/** Chipsa Lander — Eyebrow / kicker. Mono, uppercase, wide tracking, leading hairline. */
+interface Props {
+  tone?: 'accent' | 'muted';
+  class?: string;
+  [key: string]: unknown;
+}
+const { tone = 'accent', class: className, ...rest } = Astro.props;
+const color = tone === 'muted' ? 'var(--text-muted)' : 'var(--accent-text)';
+---
+<span
+  class={className}
+  style={`display:inline-flex;align-items:center;gap:var(--s-3);font-family:var(--font-mono);font-size:var(--t-eyebrow);font-weight:var(--w-medium);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:${color}`}
+  {...rest}
+>
+  <span aria-hidden="true" style="width:1.75rem;height:1px;background:currentColor;opacity:0.6"></span>
+  <slot />
+</span>

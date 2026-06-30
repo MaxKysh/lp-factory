@@ -1,0 +1,92 @@
+---
+/**
+ * Chipsa Lander — Button. Signature staged hover: a circular mask opens from the
+ * cursor (CSS), the label flips colour (flip mode) or the fill washes (wash
+ * mode), a spotlight tracks the pointer, and the corner-mark glyph advances.
+ * Pointer position is wired by scripts/interactions.ts.
+ */
+type Variant = 'primary' | 'secondary' | 'invert' | 'ghost';
+type Size = 'sm' | 'md' | 'lg';
+
+interface Props {
+  variant?: Variant;
+  size?: Size;
+  href?: string;
+  icon?: boolean;
+  iconGlyph?: string;
+  disabled?: boolean;
+  type?: 'button' | 'submit' | 'reset';
+  class?: string;
+  [key: string]: unknown;
+}
+
+const {
+  variant = 'primary',
+  size = 'md',
+  href,
+  icon = false,
+  iconGlyph = '↗',
+  disabled = false,
+  type = 'button',
+  class: className,
+  ...rest
+} = Astro.props;
+
+const PADS: Record<Size, string> = { sm: '10px 16px', md: '14px 24px', lg: '18px 32px' };
+const FONTS: Record<Size, string> = { sm: '0.9375rem', md: '1.0625rem', lg: '1.1875rem' };
+
+interface Palette {
+  bg: string;
+  base: string;
+  invBg: string | null;
+  invText: string | null;
+  spot: string | null;
+  blend: string | null;
+  mode: 'flip' | 'wash' | 'none';
+  ghost: boolean;
+}
+
+const palettes: Record<Variant, Palette> = {
+  primary: { bg: 'var(--teal-500)', base: '#FFFFFF', invBg: '#FFFFFF', invText: 'var(--ink-900)', spot: 'rgba(31,163,154,0.30)', blend: 'normal', mode: 'flip', ghost: false },
+  secondary: { bg: 'var(--ink-600)', base: '#FFFFFF', invBg: 'var(--ink-400)', invText: '#FFFFFF', spot: 'rgba(244,247,246,0.20)', blend: 'normal', mode: 'wash', ghost: false },
+  invert: { bg: 'var(--paper-050)', base: 'var(--fg-on-paper-1)', invBg: 'var(--ink-800)', invText: '#FFFFFF', spot: 'rgba(255,255,255,0.30)', blend: 'screen', mode: 'flip', ghost: false },
+  ghost: { bg: 'transparent', base: 'var(--accent-text)', invBg: null, invText: null, spot: null, blend: null, mode: 'none', ghost: true },
+};
+
+const pal = palettes[variant] || palettes.primary;
+const pad = PADS[size] || PADS.md;
+const fs = FONTS[size] || FONTS.md;
+const facePad = pal.ghost ? `${pad.split(' ')[0]} 0` : pad;
+
+const rootStyle = [
+  `font-size:${fs}`,
+  `background:${pal.bg}`,
+  `color:${pal.base}`,
+  `opacity:${disabled ? 0.4 : 1}`,
+  `cursor:${disabled ? 'not-allowed' : 'pointer'}`,
+  `--cl-inv-bg:${pal.invBg || 'transparent'}`,
+  `--cl-inv-text:${pal.invText || 'inherit'}`,
+  `--cl-spot:${pal.spot || 'transparent'}`,
+  `--cl-blend:${pal.blend || 'normal'}`,
+].join(';');
+
+const Tag = href && !disabled ? 'a' : 'button';
+const cls = `clbtn${pal.ghost ? ' clbtn--ghost' : ''}${className ? ' ' + className : ''}`;
+const tagAttrs: Record<string, unknown> = href && !disabled ? { href } : { type, disabled };
+if (disabled) tagAttrs['data-disabled'] = '';
+---
+
+<Tag class={cls} style={rootStyle} {...tagAttrs} {...rest}>
+  {pal.mode === 'wash' && !disabled && <span class="clbtn__reveal clbtn__reveal--wash" aria-hidden="true"></span>}
+  <span class="clbtn__base" style={`padding:${facePad}`}>
+    <span><slot /></span>
+    {icon && <span class="clbtn__arw">{iconGlyph}</span>}
+  </span>
+  {pal.mode === 'flip' && !disabled && (
+    <span class="clbtn__reveal clbtn__reveal--flip" style={`padding:${facePad}`} aria-hidden="true">
+      <span><slot /></span>
+      {icon && <span class="clbtn__arw">{iconGlyph}</span>}
+    </span>
+  )}
+  {pal.mode !== 'none' && !disabled && <span class="clbtn__spot" aria-hidden="true"></span>}
+</Tag>

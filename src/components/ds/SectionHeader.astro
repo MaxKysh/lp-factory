@@ -1,0 +1,31 @@
+---
+/**
+ * Chipsa Lander — SectionHeader. Mono index + hairline rule + label on the
+ * left, display title + optional lead (default slot) on the right. Token-driven,
+ * so it reads correctly on a light or dark section.
+ */
+interface Props {
+  index?: number | string;
+  label?: string;
+  title?: string;
+  size?: 'sm' | 'md' | 'lg' | 'xl';
+  class?: string;
+  [key: string]: unknown;
+}
+const { index, label, title, size = 'md', class: className, ...rest } = Astro.props;
+const idx = index == null ? null : typeof index === 'number' ? String(index).padStart(2, '0') : index;
+const SIZE: Record<string, string> = { sm: ' cl-shead--sm', lg: ' cl-shead--lg', xl: ' cl-shead--xl' };
+const sizeClass = SIZE[size] || '';
+const hasLead = Astro.slots.has('default');
+---
+<div class={`cl-shead${sizeClass}${className ? ' ' + className : ''}`} {...rest}>
+  <div class="cl-shead__meta">
+    {idx != null && <span class="cl-shead__index">{idx}</span>}
+    <span class="cl-shead__rule" aria-hidden="true"></span>
+    {label && <span class="cl-shead__label">{label}</span>}
+  </div>
+  <div class="cl-shead__body">
+    <h2 class="cl-shead__title">{title}</h2>
+    {hasLead && <p class="cl-shead__lead"><slot /></p>}
+  </div>
+</div>

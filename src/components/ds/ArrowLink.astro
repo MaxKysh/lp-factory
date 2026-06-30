@@ -1,0 +1,25 @@
+---
+/**
+ * Chipsa Lander — ArrowLink. Inline text link: the label sits, the corner-mark
+ * advances on hover and the link goes white. Uses the `.link-arrow` base
+ * utility for the hover (pure CSS).
+ */
+interface Props {
+  href?: string;
+  glyph?: string;
+  tone?: 'accent' | 'strong';
+  class?: string;
+  [key: string]: unknown;
+}
+const { href = '#', glyph = '↗', tone = 'accent', class: className, ...rest } = Astro.props;
+const color = tone === 'strong' ? 'var(--text-strong)' : 'var(--accent-text)';
+---
+<a
+  href={href}
+  class={`link-arrow${className ? ' ' + className : ''}`}
+  style={`color:${color};font-family:var(--font-sans);font-size:1.0625rem`}
+  {...rest}
+>
+  <span><slot /></span>
+  <span class="arw" style="display:inline-block">{glyph}</span>
+</a>

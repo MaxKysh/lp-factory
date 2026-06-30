@@ -1,0 +1,54 @@
+---
+/**
+ * Chipsa Lander — FeatureCard. Toned, borderless surface that lifts through tone
+ * on hover, with a cursor-tracking teal PointerGlow. A line pictogram + index
+ * head the card; title + body follow. Pass `icon` as a built-in key, or supply a
+ * custom pictogram via the `icon` slot.
+ */
+import PointerGlow from './PointerGlow.astro';
+
+interface Props {
+  index?: number | string;
+  title?: string;
+  href?: string;
+  icon?: 'trend' | 'spark' | 'layers' | 'target' | 'grid' | 'bolt';
+  style?: string;
+  class?: string;
+  [key: string]: unknown;
+}
+const { index, title, href, icon = 'trend', style, class: className, ...rest } = Astro.props;
+
+const ICONS: Record<string, string> = {
+  trend: '<polyline points="3 17 9 11 13 15 21 7"/><polyline points="15 7 21 7 21 13"/>',
+  spark: '<path d="M12 3c.4 4.3 1.4 5.3 5.7 5.7C13.4 9.1 12.4 10.1 12 14.4c-.4-4.3-1.4-5.3-5.7-5.7C10.6 8.3 11.6 7.3 12 3Z"/>',
+  layers: '<path d="M12 3 3 7.5 12 12l9-4.5L12 3Z"/><polyline points="3 12 12 16.5 21 12"/><polyline points="3 16.5 12 21 21 16.5"/>',
+  target: '<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/>',
+  grid: '<rect x="3.5" y="3.5" width="7" height="7" rx="1"/><rect x="13.5" y="3.5" width="7" height="7" rx="1"/><rect x="3.5" y="13.5" width="7" height="7" rx="1"/><rect x="13.5" y="13.5" width="7" height="7" rx="1"/>',
+  bolt: '<path d="M13 3 5 13h6l-1 8 8-10h-6l1-8Z"/>',
+};
+const idx = index == null ? null : typeof index === 'number' ? String(index).padStart(2, '0') : index;
+const hasCustomIcon = Astro.slots.has('icon');
+const paths = ICONS[icon] || ICONS.trend;
+---
+<div class={`fcard${href ? ' fcard--link' : ''}${className ? ' ' + className : ''}`} style={style} {...rest}>
+  <PointerGlow variant="teal" />
+  <div class="fcard__content">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:var(--s-7)">
+      <span style="color:var(--accent-text);display:inline-flex">
+        {hasCustomIcon ? (
+          <slot name="icon" />
+        ) : (
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={paths} />
+        )}
+      </span>
+      {idx != null && (
+        <span style="font-family:var(--font-mono);font-size:var(--t-mono-sm);letter-spacing:var(--ls-mono);color:var(--accent-text)">{idx}</span>
+      )}
+    </div>
+    <h3 style="font-family:var(--font-display);font-weight:var(--w-semibold);font-size:var(--t-h3);letter-spacing:-0.015em;line-height:var(--lh-head);color:var(--text-strong);margin:0">{title}</h3>
+    <p style="margin-top:var(--s-5);color:var(--text-body);font-size:var(--t-body);line-height:var(--lh-body);margin-bottom:0"><slot /></p>
+    {href && (
+      <a href={href} style="margin-top:var(--s-5);display:inline-flex;align-items:center;gap:0.5em;color:var(--accent-text);font-weight:var(--w-medium);text-decoration:none">Подробнее <span class="fcard__arw">↗</span></a>
+    )}
+  </div>
+</div>

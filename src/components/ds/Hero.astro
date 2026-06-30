@@ -1,0 +1,42 @@
+---
+/**
+ * Chipsa Lander — Hero. Full-height opener: a background `media` slot, layered
+ * brand wash + legibility scrim, a centred content column, and a scroll hint.
+ * Author the eyebrow / headline / lead / actions as the default slot using the
+ * `.focus-in` classes for the staggered entrance.
+ */
+interface Props {
+  id?: string;
+  mediaLabel?: string;
+  scrim?: boolean;
+  scrollHint?: string;
+  style?: string;
+  [key: string]: unknown;
+}
+const { id = 'top', mediaLabel = '▦ hero video / 3D scene', scrim = true, scrollHint = 'Листайте', style, ...rest } = Astro.props;
+const hasMedia = Astro.slots.has('media');
+const sectionStyle = ['position:relative', 'min-height:100dvh', 'display:flex', 'align-items:center', 'overflow:hidden', style || ''].filter(Boolean).join(';');
+---
+<section id={id} data-screen-label="Hero" style={sectionStyle} {...rest}>
+  {hasMedia ? (
+    <slot name="media" />
+  ) : (
+    <div aria-hidden="true" style="position:absolute;inset:0;background:repeating-linear-gradient(45deg, #0A1113 0 14px, #131E22 14px 28px)"></div>
+  )}
+  <div aria-hidden="true" style="position:absolute;inset:0;background:radial-gradient(120% 90% at 78% 8%, rgba(31,163,154,0.20) 0%, rgba(10,110,140,0.10) 35%, rgba(10,14,15,0) 68%)"></div>
+  {scrim && (
+    <div aria-hidden="true" style="position:absolute;inset:0;background:linear-gradient(90deg, rgba(5,8,10,0.86) 0%, rgba(5,8,10,0.55) 44%, rgba(5,8,10,0.12) 100%)"></div>
+  )}
+  {mediaLabel && (
+    <span style="position:absolute;right:var(--gutter);bottom:28px;font-family:var(--font-mono);font-size:0.75rem;letter-spacing:0.08em;color:var(--text-muted);text-transform:uppercase">{mediaLabel}</span>
+  )}
+  <div style="position:relative;width:100%;max-width:var(--content-max);margin:0 auto;padding:0 var(--gutter)">
+    <div style="max-width:min(92vw, 800px)"><slot /></div>
+  </div>
+  {scrollHint && (
+    <div data-anim style="position:absolute;left:50%;bottom:28px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;animation:cl-hero-bounce 1.8s var(--ease-inout) infinite">
+      <span style="font-family:var(--font-mono);font-size:0.6875rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--text-muted)">{scrollHint}</span>
+      <span style="font-family:var(--font-sans);font-size:1.25rem;color:var(--accent-text);line-height:1">↓</span>
+    </div>
+  )}
+</section>

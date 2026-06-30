@@ -1,0 +1,27 @@
+---
+/**
+ * Chipsa Lander — ProcessStep. One numbered timeline row: a large teal index +
+ * optional mono meta in the left rail, title + body in the right column, a
+ * hairline rule along the top so a stack reads as a list.
+ */
+interface Props {
+  index?: number | string;
+  meta?: string;
+  title?: string;
+  class?: string;
+  [key: string]: unknown;
+}
+const { index, meta, title, class: className, ...rest } = Astro.props;
+const idx = index == null ? null : typeof index === 'number' ? String(index).padStart(2, '0') : index;
+const hasBody = Astro.slots.has('default');
+---
+<div class={`cl-pstep${className ? ' ' + className : ''}`} {...rest}>
+  <div class="cl-pstep__rail">
+    {idx != null && <span class="cl-pstep__index">{idx}</span>}
+    {meta && <span class="cl-pstep__meta">{meta}</span>}
+  </div>
+  <div class="cl-pstep__body">
+    <h3 class="cl-pstep__title">{title}</h3>
+    {hasBody && <p class="cl-pstep__text"><slot /></p>}
+  </div>
+</div>
