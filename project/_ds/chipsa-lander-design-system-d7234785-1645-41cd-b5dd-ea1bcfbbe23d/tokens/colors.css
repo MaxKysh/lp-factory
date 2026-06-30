@@ -1,0 +1,88 @@
+/* ============================================================
+   CHIPSA LANDER — COLOR TOKENS
+   Dark base. Elevated surfaces lift through tone, never shadow.
+   High contrast between adjacent surfaces — match exactly, or
+   differ unmistakably. Accent system derived from the logo's
+   infinity mark: lime-green -> teal -> deep blue-teal.
+   ============================================================ */
+:root {
+  /* --- Raw ink scale (dark base, slightly teal-cooled neutrals) ---
+     Steps are wide on purpose: adjacent surfaces must read as
+     UNMISTAKABLY different — never near-identical greys. */
+  --ink-900: #05080A;   /* deepest — page base */
+  --ink-850: #0A1113;   /* default page background */
+  --ink-800: #131E22;   /* base alt */
+  --ink-700: #1E2C33;   /* elevated surface 1 */
+  --ink-600: #2A3C44;   /* elevated surface 2 */
+  --ink-500: #374E58;   /* elevated surface 3 / hairline fills */
+  --ink-400: #466069;   /* borders on dark */
+  --ink-300: #5C7882;   /* muted strokes */
+
+  /* --- Paper scale (for the rare inverted / light section) --- */
+  --paper-000: #FFFFFF;
+  --paper-050: #F3F5F4;  /* light surface */
+  --paper-100: #E6EAE9;
+  --paper-200: #D2D9D8;
+
+  /* --- Foreground (text) on dark --- */
+  --fg-1: #F4F7F6;   /* primary text / headlines */
+  --fg-2: #B9C5C7;   /* secondary text */
+  --fg-3: #7E8E92;   /* muted / meta */
+  --fg-4: #56656A;   /* faint / disabled */
+
+  /* --- Foreground on light surfaces --- */
+  --fg-on-paper-1: #0A0E0F;
+  --fg-on-paper-2: #3A474B;
+  --fg-on-paper-3: #6A7679;
+
+  /* --- Brand accents (from the mark) --- */
+  --lime-400: #B6C24E;   /* brightest top of the mark */
+  --green-500: #5FB85C;  /* signature green */
+  --teal-500: #1FA39A;   /* primary teal */
+  --teal-600: #15838C;   /* mid teal */
+  --deepteal-700: #076281; /* wordmark deep blue-teal */
+  --deepteal-800: #054C66;
+
+  /* signature brand gradient — green -> teal -> deep blue */
+  --grad-brand: linear-gradient(115deg, #6FBE56 0%, #1FA39A 48%, #0A6E8C 100%); /* @kind other */
+  --grad-brand-soft: linear-gradient(115deg, #6FBE56 0%, #1FA39A 55%, #0A6E8C 100%); /* @kind other */
+  --grad-brand-deep: linear-gradient(115deg, #4E853C 0%, #16726C 48%, #074D62 100%); /* @kind other */ /* brand gradient ~30% darker, for filled cards where white text must hold */
+  /* full-bleed atmospheric wash for hero backdrops */
+  --grad-atmos: radial-gradient(120% 90% at 78% 8%, rgba(31,163,154,0.20) 0%, rgba(10,110,140,0.10) 35%, rgba(10,14,15,0) 68%); /* @kind other */
+
+  /* --- Semantic status --- */
+  --positive: #5FB85C;
+  --warning: #E0A53C;
+  --critical: #E5604D;
+  --info: #1FA39A;
+
+  /* ============================================================
+     SEMANTIC ALIASES — reference these in product CSS
+     ============================================================ */
+  --bg-page: var(--ink-850);
+  --bg-page-alt: var(--ink-800);
+  --surface-1: var(--ink-700);
+  --surface-2: var(--ink-600);
+  --surface-3: var(--ink-500);
+  --surface-invert: var(--paper-050);
+
+  --text-strong: var(--fg-1);
+  --text-body: var(--fg-2);
+  --text-muted: var(--fg-3);
+  --text-faint: var(--fg-4);
+  --text-on-invert: var(--fg-on-paper-1);
+  --text-on-invert-muted: var(--fg-on-paper-2);
+
+  --accent: var(--teal-500);
+  --accent-strong: var(--green-500);
+  --accent-deep: var(--deepteal-700);
+  --accent-text: #57D6C8;       /* legible teal on dark */
+  --accent-text-hover: #7FE6DA;
+
+  --border-subtle: var(--ink-400);
+  --border-faint: var(--ink-500);   /* dimmer hairline — list dividers that must recede behind --border-subtle rules */
+  --border-strong: var(--ink-300);
+  --border-on-invert: var(--paper-200);
+
+  --focus-ring: #57D6C8;
+}

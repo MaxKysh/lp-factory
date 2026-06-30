@@ -1,0 +1,60 @@
+/* ============================================================
+   CHIPSA LANDER — SPACING, RADII, LAYOUT, MOTION
+   Small radii only (a few px). No shadows, no glows. Depth comes
+   from layout and contrast. Full-bleed is the default.
+   ============================================================ */
+:root {
+  /* ---- Spacing scale (generous; big sections) ---- */
+  --s-1: 0.25rem;
+  --s-2: 0.5rem;
+  --s-3: 0.75rem;
+  --s-4: 1rem;
+  --s-5: 1.5rem;
+  --s-6: 2rem;
+  --s-7: 3rem;
+  --s-8: 4rem;
+  --s-9: 6rem;
+  --s-10: 8rem;
+  --s-11: 11rem;   /* between-section breathing room */
+  --s-12: 14rem;
+
+  /* section rhythm */
+  --section-y: clamp(5rem, 10vw, 11rem); /* @kind spacing */
+  --section-y-tight: clamp(3.5rem, 6vw, 6rem); /* @kind spacing */
+
+  /* ---- Gutters / full-bleed safe area ---- */
+  --gutter: clamp(1.25rem, 5vw, 6rem);    /* @kind spacing */ /* page edge inset */
+  --gutter-tight: clamp(1rem, 3vw, 2.5rem); /* @kind spacing */
+  --content-max: 1680px;                   /* outer bleed cap @kind spacing */
+  --measure-max: 68ch;                     /* readable text column @kind spacing */
+
+  /* ---- Radii — SMALL ONLY (8px is the default element radius) ---- */
+  --r-0: 0px;
+  --r-1: 4px;
+  --r-2: 8px;     /* default element radius */
+  --r-3: 10px;
+  --r-4: 12px;    /* max — large surfaces only */
+  --r-pill: 0px;  /* intentionally NOT pill — no pill shapes */
+
+  /* ---- Borders ---- */
+  --bw: 1px; /* @kind spacing */
+  --bw-strong: 1.5px; /* @kind spacing */
+
+  /* ---- Motion — present, considered, never theatrical ---- */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);    /* @kind other */ /* default reveal/hover */
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);    /* @kind other */ /* fast start, long slow finish */
+  --ease-inout: cubic-bezier(0.65, 0, 0.35, 1); /* @kind other */
+  --ease-snap: cubic-bezier(0.34, 1.56, 0.64, 1); /* @kind other */ /* slight overshoot */
+  --dur-fast: 140ms; /* @kind other */
+  --dur-base: 240ms; /* @kind other */
+  --dur-slow: 420ms; /* @kind other */
+  --dur-reveal: 720ms;   /* @kind other */ /* scroll-triggered block reveals */
+
+  /* z-index */
+  --z-base: 1; /* @kind other */
+  --z-sticky: 100; /* @kind other */
+  --z-nav: 200; /* @kind other */
+  --z-overlay: 800; /* @kind other */
+  --z-modal: 900; /* @kind other */
+  --z-toast: 1000; /* @kind other */
+}

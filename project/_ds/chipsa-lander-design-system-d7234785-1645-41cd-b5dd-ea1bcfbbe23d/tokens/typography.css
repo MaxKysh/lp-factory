@@ -1,0 +1,54 @@
+/* ============================================================
+   CHIPSA LANDER — TYPOGRAPHY TOKENS
+   Bold scale. Type runs large, with strong scale contrast: a monumental
+   Unbounded display sitting next to a tiny mono label. The display face
+   carries the page; body supports. Avoid small captions and compact text.
+
+   Unbounded ships only 600/700, and only large — never set it below ~h3
+   and never use it for running text (its width + contrast hurt small sizes).
+   ============================================================ */
+:root {
+  /* families */
+  --font-display: 'Unbounded', 'Unbounded Fallback', system-ui, sans-serif;
+  --font-sans: 'Helvetica Neue', 'Helvetica', 'Arimo', Arial, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', monospace;
+
+  /* weights — display is 600 (default) / 700 (peak). Mid weights are body-only. */
+  --w-regular: 400; /* @kind font */
+  --w-medium: 500; /* @kind font */
+  --w-semibold: 600; /* @kind font */ /* display default */
+  --w-bold: 700; /* @kind font */ /* display peak */
+  --w-black: 900; /* @kind font */
+
+  /* ---- Display / headline scale (fluid, full-bleed friendly) ---- */
+  --t-mega: clamp(3.15rem, 8.1vw, 8.5rem);      /* @kind font */ /* hero monumental */
+  --t-display: clamp(2.5rem, 5.4vw, 5.4rem);    /* @kind font */ /* section monuments */
+  --t-h1: clamp(2rem, 3.8vw, 3.6rem); /* @kind font */
+  --t-h2: clamp(1.55rem, 2.5vw, 2.5rem); /* @kind font */
+  --t-h3: clamp(1.25rem, 1.6vw, 1.7rem); /* @kind font */
+
+  /* ---- Body scale (large by default — sized up for easy reading) ---- */
+  --t-lead: clamp(1.25rem, 1.7vw, 1.7rem); /* @kind font */ /* intros / standfirst */
+  --t-body-lg: 1.25rem; /* @kind font */
+  --t-body: 1.0625rem; /* @kind font */
+  --t-body-sm: 0.9375rem; /* @kind font */
+
+  /* ---- Eyebrow / kicker / mono label ---- */
+  --t-eyebrow: 0.8125rem; /* @kind font */
+  --t-mono-sm: 0.75rem; /* @kind font */
+
+  /* line heights */
+  --lh-tight: 0.98;     /* @kind font */ /* monumental display */
+  --lh-snug: 1.06; /* @kind font */
+  --lh-head: 1.12; /* @kind font */
+  --lh-body: 1.55; /* @kind font */
+  --lh-loose: 1.7; /* @kind font */
+
+  /* tracking */
+  --ls-mega: -0.03em; /* @kind font */
+  --ls-display: -0.02em; /* @kind font */
+  --ls-head: -0.015em; /* @kind font */
+  --ls-body: 0em; /* @kind font */
+  --ls-eyebrow: 0.22em;   /* wide, uppercase mono kickers @kind font */
+  --ls-mono: 0.04em; /* @kind font */
+}

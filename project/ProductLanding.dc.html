@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<script src="./ds-base.js"></script>
+<style>
+  html { scroll-behavior: smooth; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg-page); color: var(--text-body); font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
+  @keyframes cl-conveyor { from { transform: translateX(0); } to { transform: translateX(-128px); } }
+  /* FAQ: align the +/× marker to the first line of the question */
+  .cl-faq__row > summary { align-items: flex-start !important; }
+  .cl-faq__row > summary .cl-faq__mark { margin-top: 0.15em; }
+  .price-val { overflow-wrap: anywhere; }
+  @media (max-width: 680px) {
+    .cta-split { grid-template-columns: 1fr !important; }
+    .cta-split .cta-text { padding-bottom: 0 !important; align-items: center !important; text-align: center !important; }
+    .cta-split .cta-text h2, .cta-split .cta-text p { max-width: none !important; }
+    .cta-split .cta-photo { justify-content: center !important; padding: clamp(2rem, 7vw, 2.75rem) clamp(2rem, 9vw, 3rem) clamp(2.5rem, 9vw, 3.25rem) !important; }
+    .cta-split .cta-photo > div { max-width: 200px !important; }
+    .stat-wrap [style*="repeat(4"] { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: var(--s-7) var(--s-6) !important; }
+    .price-val { font-size: clamp(1.5rem, 7vw, 2.2rem) !important; white-space: nowrap; }
+    .flow-arrow { align-self: center !important; transform: rotate(90deg); }
+    .conveyor { flex-direction: column !important; align-items: stretch !important; }
+    .conveyor > div:not(.flow-arrow) { flex: 1 1 auto !important; width: 100% !important; }
+    .conveyor > .flow-arrow { align-self: center !important; transform: rotate(90deg); }
+  }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+</style>
+</helmet>
+
+<!-- NAV -->
+<x-import component-from-global-scope="ChipsaLanderDesignSystem_d72347.SiteNav" brand="Chipsa" brand-mark="Завод" links="{{ navLinks }}" cta="{{ navCta }}" contact="{{ navContact }}" hint-size="100%,72px"></x-import>
+
+<!-- 01 — HERO -->
+<x-import component-from-global-scope="ChipsaLanderDesignSystem_d72347.Hero" media="{{ heroMedia }}" media-label="видео · штампование лендингов · 5–7 с" scroll-hint="{{ scrollHint }}" hint-size="100%,720px">
+  <div class="focus-in" style="--reveal-d: 120ms; margin-bottom: var(--s-5);">
+    <x-import component-from-global-scope="ChipsaLanderDesignSystem_d72347.Eyebrow" hint-size="auto,20px">Chipsa · Тестовый продукт · Набор первых клиентов</x-import>
+  </div>
+  <h1 style="margin: 0; font-family: var(--font-display); font-weight: 700; font-size: var(--t-mega); line-height: var(--lh-tight); letter-spacing: var(--ls-mega); color: var(--text-strong); text-wrap: balance;"><span class="focus-in" style="--reveal-d: 280ms;">Лендинг-<span class="ink-grad ink-grad--shimmer">Завод</span></span></h1>
+  <p class="focus-in" style="--reveal-d: 560ms; margin: var(--s-6) 0 0; max-width: 30ch; font-size: var(--t-lead); line-height: 1.4; color: var(--text-body);">Настроим под ваш бренд систему производства лендингов. Дальше ваша команда делает их сама.</p>
+  <div class="focus-in" style="--reveal-d: 740ms; margin-top: var(--s-7); display: flex; flex-wrap: wrap; gap: var(--s-4);">
+    <x-import component-from-global-scope="ChipsaLanderDesignSystem_d72347.Button" variant="primary" size="lg" href="{{ tgHref }}" icon="{{ true }}" hint-size="240px,60px">Узнать условия</x-import>
+    <x-import component-from-global-scope="ChipsaLanderDesignSystem_d72347.Button" variant="invert" size="lg" href="#cases" icon="{{ true }}" hint-size="170px,60px">Смотреть кейсы</x-import>
+  </div>
+</x-import>
+
+<!-- 02 — ПРОБЛЕМА -->
+<x-import component-from-global-scope="ChipsaLanderDesignSystem_d72347.Section" id="problem" label="Контекст" hint-size="100%,520px">
+  <div data-reveal style="margin-bottom: var(--s-8);"><x-import component-from-global-scope="ChipsaLanderDesignSystem_d72347.SectionHeader" index="{{ 1 }}" label="Контекст" title="Лендинги делаются потоком. И каждый путь имеет свою цену." hint-size="100%,160px"></x-import></div>
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--s-5);">
+    <div data-reveal data-delay="0" style="display: flex;"><x-import component-from-global-scope="ChipsaLanderDesignSystem_d72347.FeatureCard" style="flex: 1" icon="{{ iconManual }}" index="Путь 1 / Руками" title="Человеческий фактор и время" hint-size="100%,260px">Каждый лендинг — отдельный проект. Бриф, дизайн, вёрстка, правки. На каждом шаге зависит от того, кто свободен и в каком состоянии.</x-import></div>
+    <div data-reveal data-delay="100" style="display: flex;"><x-import component-from-global-scope="ChipsaLanderDesignSystem_d72347.FeatureCard" style="flex: 1" icon="{{ iconAI }}" index="Путь 2 / AI-генератор" title="Не хватает деталей и эмоции" hint-size="100%,260px">Базовые AI-инструменты выдают результат, который технически работает, но без слоя индивидуальности — деталей, акцентов, эмоциональной точности.</x-import></div>
+    <div data-reveal data-delay="200" style="display: flex;"><x-import component-from-global-scope="ChipsaLanderDesignSystem_d72347.FeatureCard" style="flex: 1" icon="{{ iconTeam }}" index="Путь 3 / Inhouse" title="Команда всегда занята" hint-size="100%,260px">Дизайнеры в потоке других задач. Если есть выделенный специалист — снова упираемся в человеческий фактор и его загрузку.</x-import></div>
+  </div>
+  <div data-reveal style="margin-top: var(--s-8); background: color-mix(in srgb, var(--accent) 13%, var(--surface-1)); border-radius: var(--r-3); padding: clamp(1.5rem, 2.4vw, 2.25rem); display: flex; flex-direction: column; gap: var(--s-3);">
+    <span style="font-family: var(--font-mono); font-size: var(--t-mono-sm); letter-spacing: var(--ls-mono); text-transform: uppercase; color: var(--accent-text);">Итог</span>
+    <p style="margin: 0; font-size: var(--t-lead); line-height: 1.35; color: var(--text-strong);">В любом случае — это стоит денег и времени inhouse-команды или подрядчика.</p>
+  </div>
+</x-import>
+
+<!-- 03 — РЕШЕНИЕ -->
+<x-import component-from-global-scope="ChipsaLanderDesignSystem_d72347.Section" id="solution" tone="invert" label="Решение" hint-size="100%,520px">
+  <div data-reveal style="margin-bottom: var(--s-8);"><x-import component-from-global-scope="ChipsaLanderDesignSystem_d72347.SectionHeader" index="{{ 2 }}" label="Что это" title="Не сайт. Не конструктор. Завод." hint-size="100%,200px">Один раз настроим под ваш бренд связку Claude Design + Claude Code + шаблоны, промпты и инструкции. Дальше ваша команда производит лендинги в едином стиле — без обращения к нам и без агентства.</x-import></div>
+  <div data-reveal data-delay="120" class="conveyor" style="display: flex; flex-wrap: wrap; align-items: stretch; gap: var(--s-4);">
+    <div style="flex: 1 1 240px; background: var(--surface-1); border-radius: var(--r-3); padding: clamp(1.5rem, 2.2vw, 2.25rem); display: flex; flex-direction: column; gap: var(--s-3); transition: background var(--dur-base) var(--ease-out), transform var(--dur-base) var(--ease-out);" style-hover="background: var(--surface-2); transform: translateY(-4px);">
+      <span style="font-family: var(--font-mono); font-size: var(--t-mono-sm); letter-spacing: var(--ls-mono); text-transform: uppercase; color: var(--text-muted);">Вход</span>
+      <span style="font-family: var(--font-display); font-weight: 600; font-size: var(--t-h3); color: var(--text-strong);">Ваш бренд</span>
+      <span style="font-size: var(--t-body); line-height: var(--lh-body); color: var(--text-body);">Айдентика, тон, аудитория, продукт.</span>
+    </div>
+    <div class="flow-arrow" style="flex: 0 0 auto; align-self: center; font-size: 1.75rem; color: var(--accent-text); line-height: 1;">→</div>
+    <div class="brand-flow" style="flex: 1.2 1 260px; border-radius: var(--r-3); padding: clamp(1.5rem, 2.2vw, 2.25rem); display: flex; flex-direction: column; gap: var(--s-3); color: #fff; transition: transform var(--dur-base) var(--ease-out);" style-hover="transform: translateY(-4px);">
+      <span style="font-family: var(--font-mono); font-size: var(--t-mono-sm); letter-spacing: var(--ls-mono); text-transform: uppercase; opacity: .85;">Процесс</span>
+      <span style="font-family: var(--font-display); font-weight: 600; font-size: var(--t-h3);">Настроенная система</span>
+      <span style="font-size: var(--t-body); line-height: var(--lh-body); opacity: .9;">Claude Design + Claude Code, токены, компоненты, шаблоны, промпты, инструкции.</span>
+    </div>
+    <div class="flow-arrow" style="flex: 0 0 auto; align-self: center; font-size: 1.75rem; color: var(--accent-text); line-height: 1;">→</div>
+    <div style="flex: 1 1 240px; background: var(--surface-1); border-radius: var(--r-3); padding: clamp(1.5rem, 2.2vw, 2.25rem); display: flex; flex-direction: column; gap: var(--s-3); transition: background var(--dur-base) var(--ease-out), transform var(--dur-base) var(--ease-out);" style-hover="background: var(--surface-2); transform: translateY(-4px);">
+      <span style="font-family: var(--font-mono); font-size: var(--t-mono-sm); letter-spacing: var(--ls-mono); text-transform: uppercase; color: var(--text-muted);">Выход</span>
+      <span style="font-family: var(--font-display); font-weight: 600; font-size: var(--t-h3); color: var(--text-strong);">Лендинги команды</span>
+      <span style="font-size: var(--t-body); line-height: var(--lh-body); color: var(--text-body);">Новые страницы в едином стиле — силами вашей команды.</span>
+    </div>
+  </div>
+</x-import>
+
+<!-- 04 — КЕЙСЫ -->
+<x-import component-from-global-scope="ChipsaLanderDesignSystem_d72347.Section" id="cases" label="Кейсы" hint-size="100%,620px">
+  <div data-reveal style="margin-bottom: var(--s-8);"><x-import component-from-global-scope="ChipsaLanderDesignSystem_d72347.SectionHeader" index="{{ 3 }}" label="Уже сделано" title="Два кейса" hint-size="100%,140px"></x-import></div>
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: var(--s-7);">
+    <div data-reveal data-delay="0" style="display: flex; flex-direction: column; gap: var(--s-5);">
+      <x-import component-from-global-scope="ChipsaLanderDesignSystem_d72347.MediaFrame" ratio="16 / 10" hint-size="100%,300px"><div style="position: absolute; inset: 0; background: linear-gradient(135deg, #0E2A2E 0%, #13212599 60%, #0A1113 100%);"></div></x-import>
+      <div style="display: flex; flex-direction: column; gap: var(--s-3);">
+        <h3 style="margin: 0; font-family: var(--font-display); font-weight: 600; font-size: var(--t-h3); line-height: var(--lh-head); color: var(--text-strong);">BWiGA — конференция iGaming</h3>
+        <p style="margin: 0; font-size: var(--t-body-lg); line-height: var(--lh-body); color: var(--text-body);">Пример настроенной дизайн-системы. Сайт конференции — пока одна страница в системе.</p>
+        <x-import component-from-global-scope="ChipsaLanderDesignSystem_d72347.ArrowLink" href="#" hint-size="auto,24px">Открыть</x-import>
+      </div>
+    </div>
+    <div data-reveal data-delay="120" style="display: flex; flex-direction: column; gap: var(--s-5);">
+      <x-import component-from-global-scope="ChipsaLanderDesignSystem_d72347.MediaFrame" ratio="16 / 10" hint-size="100%,300px"><div style="position: absolute; inset: 0; background: linear-gradient(135deg, #0A2330 0%, #13212599 55%, #0A1113 100%);"></div></x-import>
+      <div style="display: flex; flex-direction: column; gap: var(--s-3);">
+        <h3 style="margin: 0; font-family: var(--font-display); font-weight: 600; font-size: var(--t-h3); line-height: var(--lh-head); color: var(--text-strong);">Chipsa — 3D-карта и эта посадочная</h3>
+        <p style="margin: 0; font-size: var(--t-body-lg); line-height: var(--lh-body); color: var(--text-body);">Пример работающего дизайн-завода. Две разные страницы в едином стиле, собранные через одну систему.</p>
+        <div style="display: flex; flex-wrap: wrap; gap: var(--s-5);">
+          <x-import component-from-global-scope="ChipsaLanderDesignSystem_d72347.ArrowLink" href="https://3dmap.chipsa.dev/en" hint-size="auto,24px">Открыть 3D-карту</x-import>
+          <x-import component-from-global-scope="ChipsaLanderDesignSystem_d72347.ArrowLink" href="#top" glyph="↓" tone="strong" hint-size="auto,24px">Эта страница</x-import>
+        </div>
+      </div>
+    </div>
+  </div>
+</x-import>
+
+<!-- 05 — КАК РАБОТАЕТ -->
+<x-import component-from-global-scope="ChipsaLanderDesignSystem_d72347.Section" id="process" tone="alt" label="Процесс" hint-size="100%,640px">
+  <div data-reveal style="margin-bottom: var(--s-7);"><x-import component-from-global-scope="ChipsaLanderDesignSystem_d72347.SectionHeader" index="{{ 4 }}" label="Процесс настройки" title="4 шага. Около недели." hint-size="100%,140px"></x-import></div>
+  <div style="display: flex; flex-direction: column;">
+    <div data-reveal data-delay="0"><x-import component-from-global-scope="ChipsaLanderDesignSystem_d72347.ProcessStep" index="{{ 1 }}" title="Анализ бренда, конкурентов, контекста" hint-size="100%,120px">Смотрим, что есть, оцениваем сильные стороны, учитываем специфику аудитории и продукта. Понимаем, как выделиться среди конкурентов и что нужно улучшить.</x-import></div>
+    <div data-reveal data-delay="80"><x-import component-from-global-scope="ChipsaLanderDesignSystem_d72347.ProcessStep" index="{{ 2 }}" title="Дизайн-система" hint-size="100%,120px">Собираем токены, типографику, компоненты в Claude Design под ваш бренд. Дополняем шаблонами документов, промптами и инструкциями для Claude Code.</x-import></div>
+    <div data-reveal data-delay="160"><x-import component-from-global-scope="ChipsaLanderDesignSystem_d72347.ProcessStep" index="{{ 3 }}" title="Первый лендинг" hint-size="100%,120px">Собираем один полноценный лендинг в системе. Он становится proof-точкой и базой для дальнейшей работы.</x-import></div>
+    <div data-reveal data-delay="240"><x-import component-from-global-scope="ChipsaLanderDesignSystem_d72347.ProcessStep" index="{{ 4 }}" title="Передача и обучение" hint-size="100%,120px">Видео-обучение для команды на русском и английском. Документация и рабочие промпты. Подстраиваем стек под ваш набор инструментов.</x-import></div>
+  </div>
+  <div data-reveal data-delay="120" style="margin-top: var(--s-8);">
+    <x-import component-from-global-scope="ChipsaLanderDesignSystem_d72347.MediaFrame" label="Claude Design" caption="Настроенная дизайн-система под бренд" ratio="16 / 9" hint-size="100%,420px"><div style="position: absolute; inset: 0; background: linear-gradient(120deg, #0C1A1E 0%, #131E22 50%, #0A1416 100%);"></div></x-import>
+  </div>
+</x-import>
+
+<!-- 06 — ЧТО НАС ОТЛИЧАЕТ -->
+<x-import component-from-global-scope="ChipsaLanderDesignSystem_d72347.Section" id="about" label="О студии" hint-size="100%,640px">
+  <div data-reveal style="margin-bottom: var(--s-8);"><x-import component-from-global-scope="ChipsaLanderDesignSystem_d72347.SectionHeader" index="{{ 5 }}" label="Почему именно мы" title="16 лет работы с дизайном." hint-size="100%,140px"></x-import></div>
+  <div data-reveal class="stat-wrap" style="margin-bottom: var(--s-6);"><x-import component-from-global-scope="ChipsaLanderDesignSystem_d72347.StatGrid" stats="{{ aboutStats }}" columns="{{ 4 }}" hint-size="100%,200px"></x-import></div>
+  <div data-reveal style="margin-bottom: var(--s-9);">
+    <x-import component="TeamDock" from="./TeamDock.jsx" members="{{ team }}" boost="{{ 0.3 }}" hint-size="100%,120px"></x-import>
+  </div>
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: var(--s-5);">
+    <div data-reveal data-delay="0" style="display: flex;"><x-import component-from-global-scope="ChipsaLanderDesignSystem_d72347.FeatureCard" style="flex: 1" index="{{ 1 }}" icon="spark" title="Имиджевый и информационный дизайн" hint-size="100%,240px">Понимание, как страница выстраивает доверие, эмоцию и статус — не только закрывает целевое действие.</x-import></div>
+    <div data-reveal data-delay="90" style="display: flex;"><x-import component-from-global-scope="ChipsaLanderDesignSystem_d72347.FeatureCard" style="flex: 1" index="{{ 2 }}" icon="target" title="Психология внимания и удержания" hint-size="100%,240px">Интерактив, микро-анимация, порционная подача информации, mobile-first подход.</x-import></div>
+    <div data-reveal data-delay="180" style="display: flex;"><x-import component-from-global-scope="ChipsaLanderDesignSystem_d72347.FeatureCard" style="flex: 1" index="{{ 3 }}" icon="layers" title="Опыт работы с дизайн-системами" hint-size="100%,240px">Не настроим один раз и забудем — выстраиваем систему, которую можно развивать годами.</x-import></div>
+    <div data-reveal data-delay="270" style="display: flex;"><x-import component-from-global-scope="ChipsaLanderDesignSystem_d72347.FeatureCard" style="flex: 1" index="{{ 4 }}" icon="grid" title="Графический контент и эмоция" hint-size="100%,240px">Цветовая работа, композиция, чувство меры — детали, которые отличают работающий лендинг от шаблона.</x-import></div>
+  </div>
+  <div data-reveal style="margin-top: var(--s-9);"><x-import component-from-global-scope="ChipsaLanderDesignSystem_d72347.LogoWall" label="Среди клиентов" logos="{{ clientLogos }}" hint-size="100%,140px"></x-import></div>
+</x-import>
+
+<!-- 07 — ЧТО ВХОДИТ -->
+<x-import component-from-global-scope="ChipsaLanderDesignSystem_d72347.Section" id="included" tone="invert" label="Что входит" hint-size="100%,560px">
+  <div data-reveal style="margin-bottom: var(--s-8);"><x-import component-from-global-scope="ChipsaLanderDesignSystem_d72347.SectionHeader" index="{{ 6 }}" label="В пакет настройки" title="Что вы получаете" hint-size="100%,140px"></x-import></div>
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--s-7) var(--s-8);">
+    <div data-reveal data-delay="0" style="display: flex; flex-direction: column; gap: var(--s-4);">
+      <span class="ink-grad" style="font-family: var(--font-display); font-weight: 700; font-size: var(--t-h1); line-height: 0.85; margin-bottom: var(--s-2);">01</span>
+      <h3 style="margin: 0; font-family: var(--font-display); font-weight: 600; font-size: var(--t-h3); line-height: var(--lh-head); color: var(--text-strong);">Дизайн-система под ваш бренд</h3>
+      <p style="margin: 0; font-size: var(--t-body-lg); line-height: var(--lh-body); color: var(--text-body);">Настроенная связка Claude Design + Claude Code с токенами, типографикой и компонентами.</p>
+    </div>
+    <div data-reveal data-delay="90" style="display: flex; flex-direction: column; gap: var(--s-4);">
+      <span class="ink-grad" style="font-family: var(--font-display); font-weight: 700; font-size: var(--t-h1); line-height: 0.85; margin-bottom: var(--s-2);">02</span>
+      <h3 style="margin: 0; font-family: var(--font-display); font-weight: 600; font-size: var(--t-h3); line-height: var(--lh-head); color: var(--text-strong);">Шаблоны, промпты, инструкции</h3>
+      <p style="margin: 0; font-size: var(--t-body-lg); line-height: var(--lh-body); color: var(--text-body);">Рабочие документы, которые ваша команда использует ежедневно при создании новых лендингов.</p>
+    </div>
+    <div data-reveal data-delay="180" style="display: flex; flex-direction: column; gap: var(--s-4);">
+      <span class="ink-grad" style="font-family: var(--font-display); font-weight: 700; font-size: var(--t-h1); line-height: 0.85; margin-bottom: var(--s-2);">03</span>
+      <h3 style="margin: 0; font-family: var(--font-display); font-weight: 600; font-size: var(--t-h3); line-height: var(--lh-head); color: var(--text-strong);">Один готовый лендинг</h3>
+      <p style="margin: 0; font-size: var(--t-body-lg); line-height: var(--lh-body); color: var(--text-body);">Полноценный, не demo. Сразу используется в продакшне.</p>
+    </div>
+    <div data-reveal data-delay="270" style="display: flex; flex-direction: column; gap: var(--s-4);">
+      <span class="ink-grad" style="font-family: var(--font-display); font-weight: 700; font-size: var(--t-h1); line-height: 0.85; margin-bottom: var(--s-2);">04</span>
+      <h3 style="margin: 0; font-family: var(--font-display); font-weight: 600; font-size: var(--t-h3); line-height: var(--lh-head); color: var(--text-strong);">Обучение команды</h3>
+      <p style="margin: 0; font-size: var(--t-body-lg); line-height: var(--lh-body); color: var(--text-body);">Видео на русском и английском, документация, индивидуальные созвоны при необходимости.</p>
+    </div>
+  </div>
+  <div data-reveal style="margin-top: var(--s-7); background: color-mix(in srgb, var(--accent) 13%, var(--surface-1)); border-radius: var(--r-3); padding: clamp(1.5rem, 2.4vw, 2.25rem); display: flex; flex-direction: column; gap: var(--s-3);">
+    <span style="font-family: var(--font-mono); font-size: var(--t-mono-sm); letter-spacing: var(--ls-mono); text-transform: uppercase; color: var(--accent-text);">Для российских клиентов</span>
+    <p style="margin: 0; font-size: var(--t-body-lg); line-height: var(--lh-body); color: var(--text-strong);">Подписку Claude Design можем взять на себя — включаем в абонентскую плату.</p>
+  </div>
+</x-import>
+
+<!-- 08 — ПОДКАСТ -->
+<x-import component-from-global-scope="ChipsaLanderDesignSystem_d72347.Section" id="podcast" label="Подкаст" hint-size="100%,460px">
+  <div data-reveal style="margin-bottom: var(--s-8);"><x-import component-from-global-scope="ChipsaLanderDesignSystem_d72347.SectionHeader" index="{{ 7 }}" label="В подкасте AffPapa" title="Зачем дизайн в эпоху AI-генерации" hint-size="100%,160px"></x-import></div>
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--s-8); align-items: center;">
+    <div data-reveal style="width: 100%;">
+      <x-import component-from-global-scope="ChipsaLanderDesignSystem_d72347.MediaFrame" ratio="16 / 9" hint-size="100%,300px"><div style="position: absolute; inset: 0; background: linear-gradient(140deg, #0E2A2E 0%, #102A38 100%); display: flex; align-items: center; justify-content: center;"><span style="font-family: var(--font-display); font-weight: 700; font-size: var(--t-h1); color: #ffffff; opacity: .9;">AffPapa</span></div></x-import>
+    </div>
+    <div data-reveal data-delay="120" style="display: flex; flex-direction: column; align-items: flex-start; gap: var(--s-5); text-align: left;">
+      <p style="margin: 0; font-size: var(--t-lead); line-height: 1.4; color: var(--text-body); max-width: 64ch;">Разговор со Стефаном Мюльбауэром о том, как меняется работа дизайн-студии, когда AI делает механическую часть. Что остаётся ценного: насмотренность, понимание брендов, психология деталей.</p>
+      <x-import component-from-global-scope="ChipsaLanderDesignSystem_d72347.ArrowLink" href="#" tone="strong" hint-size="auto,24px">Слушать выпуск</x-import>
+    </div>
+  </div>
+</x-import>
+
+<!-- 09 — СТЕК -->
+<x-import component-from-global-scope="ChipsaLanderDesignSystem_d72347.Section" id="stack" tone="alt" tight="{{ true }}" hint-size="100%,360px">
+  <div data-reveal style="margin-bottom: var(--s-7);"><x-import component-from-global-scope="ChipsaLanderDesignSystem_d72347.SectionHeader" index="{{ 8 }}" label="Технологии" title="Стек" hint-size="100%,120px"></x-import></div>
+  <x-import component-from-global-scope="ChipsaLanderDesignSystem_d72347.LogoWall" label="" logos="{{ stackLogos }}" hint-size="100%,140px"></x-import>
+  <div data-reveal style="margin-top: var(--s-6); background: color-mix(in srgb, var(--accent) 13%, var(--surface-1)); border-radius: var(--r-3); padding: clamp(1.5rem, 2.4vw, 2.25rem); display: flex; flex-direction: column; gap: var(--s-3);">
+    <span style="font-family: var(--font-mono); font-size: var(--t-mono-sm); letter-spacing: var(--ls-mono); text-transform: uppercase; color: var(--accent-text);">Гибко</span>
+    <p style="margin: 0; font-size: var(--t-lead); line-height: 1.35; color: var(--text-strong);">Подстраиваемся под ваш стек, если он другой.</p>
+  </div>
+</x-import>
+
+<!-- 10 — УСЛОВИЯ -->
+<x-import component-from-global-scope="ChipsaLanderDesignSystem_d72347.Section" id="pricing" label="Условия" hint-size="100%,560px">
+  <div data-reveal style="margin-bottom: var(--s-8);"><x-import component-from-global-scope="ChipsaLanderDesignSystem_d72347.SectionHeader" index="{{ 9 }}" label="Условия" title="Ищем первых трёх клиентов" hint-size="100%,180px">Это тестовый продукт. Для первых трёх клиентов — специальные условия и работа со мной как с основателем студии напрямую.</x-import></div>
+  <div data-reveal style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--s-5);">
+    <div style="position: relative; overflow: hidden; isolation: isolate; background: var(--surface-1); border-radius: var(--r-3); padding: clamp(1.75rem, 3vw, 3rem); transition: background var(--dur-base) var(--ease-out), transform var(--dur-base) var(--ease-out);" style-hover="background: var(--surface-2); transform: translateY(-6px);">
+      <x-import component-from-global-scope="ChipsaLanderDesignSystem_d72347.PointerGlow" variant="teal" hint-size="100%,100%"></x-import>
+      <div style="position: relative; z-index: 1; display: flex; flex-direction: column; gap: var(--s-4);">
+        <span style="font-family: var(--font-mono); font-size: var(--t-mono-sm); letter-spacing: var(--ls-mono); text-transform: uppercase; color: var(--text-muted);">Базовая ставка</span>
+        <span class="price-val" style="font-family: var(--font-display); font-weight: 700; font-size: clamp(2.25rem, 4.2vw, 3.5rem); line-height: 1; color: var(--text-strong);">€60–80<span style="font-size: 0.34em; font-weight: 600; color: var(--text-muted);"> / час</span></span>
+        <span style="font-size: var(--t-body-lg); line-height: var(--lh-body); color: var(--text-body);">В зависимости от типа задачи.</span>
+      </div>
+    </div>
+    <div class="brand-flow" style="position: relative; overflow: hidden; isolation: isolate; border-radius: var(--r-3); padding: clamp(1.75rem, 3vw, 3rem); color: #fff; transition: transform var(--dur-base) var(--ease-out);" style-hover="transform: translateY(-6px);">
+      <x-import component-from-global-scope="ChipsaLanderDesignSystem_d72347.PointerGlow" variant="light" hint-size="100%,100%"></x-import>
+      <div style="position: relative; z-index: 1; display: flex; flex-direction: column; gap: var(--s-4);">
+        <span style="font-family: var(--font-mono); font-size: var(--t-mono-sm); letter-spacing: var(--ls-mono); text-transform: uppercase; opacity: .85;">Финальная стоимость</span>
+        <span class="price-val" style="font-family: var(--font-display); font-weight: 700; font-size: clamp(2.25rem, 4.2vw, 3.5rem); line-height: 1;">Индивидуально</span>
+        <span style="font-size: var(--t-body-lg); line-height: var(--lh-body); opacity: .92;">Зависит от объёма работы под ваш бренд и состава пакета.</span>
+      </div>
+    </div>
+  </div>
+  <div data-reveal style="margin-top: var(--s-7);">
+    <x-import component-from-global-scope="ChipsaLanderDesignSystem_d72347.Button" variant="primary" size="lg" href="{{ tgHref }}" icon="{{ true }}" hint-size="240px,60px">Узнать условия</x-import>
+  </div>
+</x-import>
+
+<!-- 11 — FAQ -->
+<x-import component-from-global-scope="ChipsaLanderDesignSystem_d72347.Section" id="faq" tone="alt" label="FAQ" hint-size="100%,520px">
+  <div data-reveal style="margin-bottom: var(--s-7);"><x-import component-from-global-scope="ChipsaLanderDesignSystem_d72347.SectionHeader" index="{{ 10 }}" label="Часто спрашивают" title="FAQ" hint-size="100%,140px"></x-import></div>
+  <x-import component-from-global-scope="ChipsaLanderDesignSystem_d72347.Faq" hint-size="100%,420px">
+    <x-import component-from-global-scope="ChipsaLanderDesignSystem_d72347.FaqItem" q="Сколько времени занимает настройка?" hint-size="100%,90px">Около одной недели. Включает анализ, дизайн-систему, первый лендинг и передачу команде.</x-import>
+    <x-import component-from-global-scope="ChipsaLanderDesignSystem_d72347.FaqItem" q="Что, если мы захотим уйти?" hint-size="100%,90px">Дизайн-система остаётся у вас — в вашем аккаунте Claude и GitHub. Вы полностью независимы.</x-import>
+    <x-import component-from-global-scope="ChipsaLanderDesignSystem_d72347.FaqItem" q="Можем ли мы сами развивать систему?" hint-size="100%,90px">Да. Обучаем команду через видео и инструкции. Можете дорабатывать сами или подключать нас на конкретные задачи.</x-import>
+    <x-import component-from-global-scope="ChipsaLanderDesignSystem_d72347.FaqItem" q="Чем это отличается от конструктора (Tilda, Webflow)?" hint-size="100%,90px">Это не конструктор с готовым набором шаблонов, а система, настроенная под ваш бренд, на современном стеке (Astro), с полной кастомизацией.</x-import>
+    <x-import component-from-global-scope="ChipsaLanderDesignSystem_d72347.FaqItem" q="Работаете под NDA?" hint-size="100%,90px">Да, готовы подписать.</x-import>
+  </x-import>
+</x-import>
+
+<!-- 12 — ФИНАЛЬНЫЙ CTA -->
+<x-import component-from-global-scope="ChipsaLanderDesignSystem_d72347.Section" tone="alt" flush="{{ true }}" style="padding: var(--section-y) var(--gutter)" hint-size="100%,340px">
+  <div class="brand-flow cta-split" data-reveal style="position: relative; overflow: hidden; border-radius: var(--r-4); display: grid; grid-template-columns: 1fr minmax(280px, 440px); align-items: center;">
+    <div class="cta-text" style="padding: clamp(2.5rem, 6vw, 6rem); display: flex; flex-direction: column; align-items: flex-start; gap: var(--s-6); color: #fff;">
+      <h2 style="margin: 0; max-width: 18ch; font-family: var(--font-display); font-weight: 700; font-size: var(--t-h1); line-height: var(--lh-snug); letter-spacing: var(--ls-head); text-wrap: balance;">Готовы попробовать?</h2>
+      <p style="margin: 0; max-width: 44ch; font-size: var(--t-lead); line-height: 1.35; color: rgba(255,255,255,0.85);">Напишите в Telegram. Я как основатель свяжусь, договоримся о созвоне, покажу, как работает вживую, обсудим условия под вашу задачу.</p>
+      <x-import component-from-global-scope="ChipsaLanderDesignSystem_d72347.Button" variant="invert" size="lg" href="{{ tgHref }}" icon="{{ true }}" hint-size="240px,60px">Telegram @maxkysh</x-import>
+    </div>
+    <div class="cta-photo" style="position: relative; display: flex; align-items: center; justify-content: flex-end; padding: clamp(2.5rem, 6vw, 6rem); padding-left: 0;">
+      <div style="aspect-ratio: 1 / 1; width: 100%; max-width: 240px; border-radius: 50%; overflow: hidden;">
+        <img src="images/founder.jpg" alt="Макс — основатель Chipsa" style="width: 100%; height: 100%; object-fit: cover; object-position: center top;">
+      </div>
+    </div>
+  </div>
+</x-import>
+
+<!-- FOOTER -->
+<x-import component-from-global-scope="ChipsaLanderDesignSystem_d72347.SiteFooter" brand="Chipsa" tagline="Дизайн-студия · Нови-Сад, Сербия / Красноярск (продакшн)" columns="{{ footerCols }}" legal="© 2026 Chipsa · Лендинг-Завод" hint-size="100%,240px"></x-import>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;100%&quot;},&quot;telegram&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;maxkysh&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Контакт&quot;},&quot;heroMotion&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Hero&quot;},&quot;showScrollHint&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Hero&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const handle = (this.props.telegram ?? 'maxkysh').replace(/^@/, '');
+    const tgHref = 'https://t.me/' + handle;
+    const heroMotion = this.props.heroMotion ?? true;
+    const showScrollHint = this.props.showScrollHint ?? true;
+
+    const heroMedia = React.createElement(
+      'div',
+      { 'aria-hidden': true, style: { position: 'absolute', inset: 0, background: '#0A1113', overflow: 'hidden' } },
+      React.createElement('div', {
+        style: {
+          position: 'absolute', inset: '-30%',
+          background: 'repeating-linear-gradient(115deg, #0C1518 0 64px, rgba(31,163,154,0.06) 64px 128px)',
+          animation: heroMotion ? 'cl-conveyor 9s linear infinite' : 'none',
+        },
+      }),
+    );
+
+    const mkIcon = (...kids) => React.createElement('svg', { width: 28, height: 28, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 1.5, strokeLinecap: 'round', strokeLinejoin: 'round', 'aria-hidden': true }, ...kids);
+    // Путь 1 / Руками — человеческий фактор и время → часы
+    const iconManual = mkIcon(
+      React.createElement('circle', { cx: 12, cy: 12, r: 9 }),
+      React.createElement('path', { d: 'M12 7.5V12l3.25 1.9' }),
+    );
+    // Путь 2 / AI-генератор → искра
+    const iconAI = mkIcon(React.createElement('path', { d: 'M12 3c.4 4.3 1.4 5.3 5.7 5.7C13.4 9.1 12.4 10.1 12 14.4c-.4-4.3-1.4-5.3-5.7-5.7C10.6 8.3 11.6 7.3 12 3Z' }));
+    // Путь 3 / Inhouse — команда занята → люди
+    const iconTeam = mkIcon(
+      React.createElement('circle', { cx: 9, cy: 8, r: 3.1 }),
+      React.createElement('path', { d: 'M3.6 19.5c0-3.1 2.4-5.2 5.4-5.2s5.4 2.1 5.4 5.2' }),
+      React.createElement('path', { d: 'M16 5.3a3.1 3.1 0 0 1 0 5.4' }),
+      React.createElement('path', { d: 'M17.6 14.5c2 .7 3.4 2.6 3.4 5' }),
+    );
+
+    return {
+      tgHref,
+      heroMedia,
+      iconManual,
+      iconAI,
+      iconTeam,
+      scrollHint: showScrollHint ? 'Листайте' : '',
+
+      navLinks: [
+        { href: '#problem', label: 'Проблема' },
+        { href: '#solution', label: 'Решение' },
+        { href: '#cases', label: 'Кейсы' },
+        { href: '#process', label: 'Процесс' },
+        { href: '#pricing', label: 'Условия' },
+        { href: '#faq', label: 'FAQ' },
+      ],
+      navCta: { label: 'Telegram @maxkysh', href: tgHref },
+      navContact: { label: 'Telegram', value: '@maxkysh', href: tgHref },
+
+      aboutStats: [
+        { value: '16', suffix: '+', label: 'Лет в дизайне', grad: true },
+        { value: '500', suffix: '+', label: 'Проектов' },
+        { value: '120', suffix: '+', label: 'Награды: awwwards, CSSDA, Behance' },
+        { value: '15', suffix: '+', label: 'Человек в команде' },
+      ],
+
+      // Ordered so neighbours share a colour family: warm → green/red → teal/cool
+      team: [
+        { name: 'Паша Н.', src: 'images/team/pashan.jpg' },
+        { name: 'Паша', src: 'images/team/pasha.jpg' },
+        { name: 'Андрей', src: 'images/team/andrey.jpg' },
+        { name: 'Дмитрий', src: 'images/team/dmitry.jpg' },
+        { name: 'Антон', src: 'images/team/anton.jpg' },
+        { name: 'Артём', src: 'images/team/artem.jpg' },
+        { name: 'Саша', src: 'images/team/sashap.jpg' },
+        { name: 'Наташа', src: 'images/team/natasha.jpg' },
+        { name: 'Таня', src: 'images/team/tanya.jpg' },
+        { name: 'Никита', src: 'images/team/nikita.jpg' },
+        { name: 'Мария', src: 'images/team/maria.jpg' },
+        { name: 'Сергей', src: 'images/team/sergey.jpg' },
+      ],
+
+      clientLogos: ['Самокат', 'Альфа-Банк', "McDonald's", 'РУСАЛ', 'ТехноНИКОЛЬ', 'LG', 'Dark Side', 'Vileda'],
+      stackLogos: ['Astro', 'Claude Design', 'Claude Code', 'Tailwind', 'TypeScript', 'GitHub', 'Vercel', 'Three.js'],
+
+      ctaBanner: { label: 'Telegram @maxkysh', href: tgHref, icon: true },
+
+      footerCols: [
+        { title: 'Chipsa', links: [
+          { href: 'https://chipsa.design', label: 'chipsa.design' },
+          { href: 'https://igaming.chipsa.design', label: 'iGaming portfolio' },
+        ] },
+        { title: 'Контакт', links: [
+          { href: tgHref, label: 'Telegram @maxkysh' },
+        ] },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>
