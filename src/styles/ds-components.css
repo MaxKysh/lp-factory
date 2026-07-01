@@ -668,7 +668,6 @@
   transition:
     background var(--dur-base) var(--ease-out),
     transform var(--dur-base) var(--ease-expo);
-  box-shadow: var(--shadow-2, 0 10px 30px rgba(0, 0, 0, 0.35));
 }
 .cl-mnav__fab:active {
   transform: scale(0.94);
