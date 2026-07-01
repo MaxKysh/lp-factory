@@ -878,24 +878,23 @@
     grid-template-columns: 1fr !important;
   }
   .cta-split .cta-text {
-    padding-bottom: 0 !important;
-    align-items: center !important;
-    text-align: center !important;
+    padding: clamp(2rem, 8vw, 3rem) !important;
+    align-items: flex-start !important;
+    text-align: left !important;
   }
   .cta-split .cta-text h2,
   .cta-split .cta-text p {
     max-width: none !important;
   }
   .cta-split .cta-photo {
-    justify-content: center !important;
-    padding: clamp(2rem, 7vw, 2.75rem) clamp(2rem, 9vw, 3rem) clamp(2.5rem, 9vw, 3.25rem) !important;
+    justify-content: flex-start !important;
+    padding: 0 clamp(2rem, 8vw, 3rem) clamp(2.25rem, 8vw, 3rem) !important;
   }
   .cta-split .cta-photo > div {
-    max-width: 200px !important;
+    max-width: 180px !important;
   }
-  .stat-wrap [data-cols='4'] {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    gap: var(--s-7) var(--s-6) !important;
+  .stat-wrap [data-cols] {
+    gap: var(--s-6) var(--s-5) !important;
   }
   .price-val {
     font-size: clamp(1.5rem, 7vw, 2.2rem) !important;

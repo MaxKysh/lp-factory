@@ -95,9 +95,9 @@
   /* display / headline scale (fluid) */
   --t-mega: clamp(3.15rem, 8.1vw, 8.5rem);
   --t-display: clamp(2.5rem, 5.4vw, 5.4rem);
-  --t-h1: clamp(2rem, 3.8vw, 3.6rem);
-  --t-h2: clamp(1.55rem, 2.5vw, 2.5rem);
-  --t-h3: clamp(1.25rem, 1.6vw, 1.7rem);
+  --t-h1: clamp(1.85rem, 3.2vw, 3rem);
+  --t-h2: clamp(1.4rem, 2.05vw, 2rem);
+  --t-h3: clamp(1.2rem, 1.5vw, 1.55rem);
 
   /* body scale */
   --t-lead: clamp(1.25rem, 1.7vw, 1.7rem);

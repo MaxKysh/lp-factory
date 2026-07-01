@@ -212,7 +212,7 @@ p {
 @media (max-width: 880px) {
   .hang {
     grid-template-columns: 1fr;
-    gap: 0;
+    gap: var(--s-9);
   }
   .hang > * {
     grid-column: 1;

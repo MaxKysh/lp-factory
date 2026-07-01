@@ -179,12 +179,14 @@ const problemIcons = [
       <div data-reveal data-delay={i * 80}><ProcessStep index={i + 1} title={s.title}>{s.body}</ProcessStep></div>
     ))}
   </div>
-  <div data-reveal data-delay="120" style="margin-top: var(--s-8);">
+  <div data-reveal data-delay="120" class="process-media" style="margin-top: var(--s-8);">
+    <span class="process-media__label">{t.process.mediaLabel}</span>
     <MediaFrame label={t.process.mediaLabel} caption={t.process.mediaCaption} ratio="16 / 9">
       <video autoplay loop muted playsinline preload="none" poster="/video/design-system-poster.jpg" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block">
         <source src="/video/design-system-example.mp4" type="video/mp4" />
       </video>
     </MediaFrame>
+    <p class="process-media__caption">{t.process.mediaCaption}</p>
   </div>
 </Section>
 
@@ -195,7 +197,7 @@ const problemIcons = [
   </div>
   <div class="hang" style="margin-bottom: var(--s-6);">
     <div data-reveal class="stat-wrap">
-      <StatGrid stats={t.about.stats} columns={2} />
+      <StatGrid stats={t.about.stats} columns={2} size="md" />
     </div>
   </div>
   <div data-reveal style="margin-bottom: var(--s-9);">
@@ -265,7 +267,7 @@ const problemIcons = [
       <PointerGlow variant="teal" />
       <div style="position:relative;z-index:1;display:flex;flex-direction:column;gap:var(--s-4)">
         <span style="font-family:var(--font-mono);font-size:var(--t-mono-sm);letter-spacing:var(--ls-mono);text-transform:uppercase;color:var(--text-muted)">{t.pricing.baseKicker}</span>
-        <span class="price-val" style="font-family:var(--font-display);font-weight:700;font-size:clamp(2.25rem, 4.2vw, 3.5rem);line-height:1;color:var(--text-strong)">{t.pricing.baseValue}<span style="font-size:0.34em;font-weight:600;color:var(--text-muted)">{t.pricing.baseValueSmall}</span></span>
+        <span class="price-val" style="font-family:var(--font-display);font-weight:700;font-size:clamp(1.9rem, 3.4vw, 2.9rem);line-height:1.02;color:var(--text-strong)">{t.pricing.baseValue}<span style="font-size:0.34em;font-weight:600;color:var(--text-muted)">{t.pricing.baseValueSmall}</span></span>
         <span style="font-size:var(--t-body-lg);line-height:var(--lh-body);color:var(--text-body)">{t.pricing.baseNote}</span>
       </div>
     </div>
@@ -273,7 +275,7 @@ const problemIcons = [
       <PointerGlow variant="light" />
       <div style="position:relative;z-index:1;display:flex;flex-direction:column;gap:var(--s-4)">
         <span style="font-family:var(--font-mono);font-size:var(--t-mono-sm);letter-spacing:var(--ls-mono);text-transform:uppercase;opacity:.85">{t.pricing.finalKicker}</span>
-        <span class="price-val" style="font-family:var(--font-display);font-weight:700;font-size:clamp(2.25rem, 4.2vw, 3.5rem);line-height:1">{t.pricing.finalValue}</span>
+        <span class="price-val" style="font-family:var(--font-display);font-weight:700;font-size:clamp(1.9rem, 3.4vw, 2.9rem);line-height:1.02">{t.pricing.finalValue}</span>
         <span style="font-size:var(--t-body-lg);line-height:var(--lh-body);opacity:.92">{t.pricing.finalNote}</span>
       </div>
     </div>
@@ -448,7 +450,47 @@ const problemIcons = [
   /* CTA copy — a wider measure so it wraps into fewer lines and leaves less empty
      space between the text and the photo (applies to both languages). */
   .cta-lead {
-    max-width: 64ch;
+    max-width: 74ch;
+  }
+
+  /* Process video: overlaid label/caption on desktop; on mobile the video goes
+     full-bleed with the label above it and the caption below. */
+  .process-media__label,
+  .process-media__caption {
+    display: none;
+  }
+  @media (max-width: 680px) {
+    .process-media {
+      margin-left: calc(-1 * var(--gutter));
+      margin-right: calc(-1 * var(--gutter));
+    }
+    .process-media :global(.mf-label),
+    .process-media :global(.mf-caption),
+    .process-media :global(.mf-wash) {
+      display: none !important;
+    }
+    .process-media :global(figure) {
+      border-radius: 0;
+    }
+    .process-media__label {
+      display: block;
+      padding: 0 var(--gutter) var(--s-4);
+      font-family: var(--font-mono);
+      font-size: var(--t-mono-sm);
+      letter-spacing: var(--ls-eyebrow);
+      text-transform: uppercase;
+      color: var(--accent-text);
+    }
+    .process-media__caption {
+      display: block;
+      margin: 0;
+      padding: var(--s-5) var(--gutter) 0;
+      font-family: var(--font-display);
+      font-weight: var(--w-semibold);
+      font-size: var(--t-h3);
+      line-height: var(--lh-head);
+      color: var(--text-strong);
+    }
   }
 
   /* ArrowLink override: this link warms to the brand accent on hover. */
