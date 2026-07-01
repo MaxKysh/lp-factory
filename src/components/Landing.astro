@@ -182,7 +182,7 @@ const problemIcons = [
   <div data-reveal data-delay="120" class="process-media" style="margin-top: var(--s-8);">
     <span class="process-media__label">{t.process.mediaLabel}</span>
     <MediaFrame label={t.process.mediaLabel} caption={t.process.mediaCaption} ratio="16 / 9">
-      <video autoplay loop muted playsinline preload="none" poster="/video/design-system-poster.jpg" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block">
+      <video loop muted playsinline preload="none" poster="/video/design-system-poster.jpg" data-lazyplay style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block">
         <source src="/video/design-system-example.mp4" type="video/mp4" />
       </video>
     </MediaFrame>

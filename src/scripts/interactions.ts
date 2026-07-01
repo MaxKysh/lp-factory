@@ -257,6 +257,28 @@ function initAnalyticsGoals(): void {
   );
 }
 
+// Lazy videos: a [data-lazyplay] video (below the fold) has no autoplay, so the
+// browser never downloads it until it scrolls into view — then we start it.
+function initLazyVideo(): void {
+  const vids = document.querySelectorAll<HTMLVideoElement>('video[data-lazyplay]');
+  if (!vids.length) return;
+  if (!('IntersectionObserver' in window)) {
+    vids.forEach((v) => v.play?.().catch(() => {}));
+    return;
+  }
+  const io = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((e) => {
+        const v = e.target as HTMLVideoElement;
+        if (e.isIntersecting) v.play?.().catch(() => {});
+        else v.pause?.();
+      });
+    },
+    { threshold: 0.25 }
+  );
+  vids.forEach((v) => io.observe(v));
+}
+
 export function initInteractions(): void {
   const run = () => {
     initButtons();
@@ -267,6 +289,7 @@ export function initInteractions(): void {
     initNewTabLinks();
     initCookieBanner();
     initAnalyticsGoals();
+    initLazyVideo();
   };
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', run);
