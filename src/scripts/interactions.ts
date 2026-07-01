@@ -207,6 +207,8 @@ function initNewTabLinks(): void {
   document.querySelectorAll<HTMLAnchorElement>('a[href]').forEach((a) => {
     const href = a.getAttribute('href') || '';
     if (!href || href.startsWith('#')) return;
+    // The language switcher navigates within the site — keep it in the same tab.
+    if (a.closest('.cl-lang')) return;
     a.target = '_blank';
     a.rel = 'noopener noreferrer';
   });
