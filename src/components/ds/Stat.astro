@@ -17,10 +17,10 @@ const numStyle = [
   `font-size:${SIZES[size] || SIZES.md}`,
   'line-height:0.9',
   'letter-spacing:-0.03em',
-  grad ? 'color:transparent' : 'color:var(--text-strong)',
-  grad ? 'background:var(--grad-brand)' : 'background:none',
-  grad ? '-webkit-background-clip:text;background-clip:text' : 'background-clip:border-box',
+  'color:var(--text-strong)',
 ].join(';');
+// Digit-only values roll up like a physical counter (see initOdometers).
+const isNumeric = value != null && /^\d+$/.test(String(value));
 const wrapStyle = [
   'display:flex',
   'flex-direction:column',
@@ -33,6 +33,6 @@ const wrapStyle = [
   .join(';');
 ---
 <div style={wrapStyle}>
-  <span style={numStyle}>{value}<span style="font-size:0.62em;vertical-align:baseline">{suffix}</span></span>
+  <span style={numStyle}><span class={`odo${grad ? ' odo--grad' : ''}`} data-odo={isNumeric ? String(value) : undefined}>{value}</span>{suffix && <span class={`stat-plus${grad ? ' odo--grad' : ''}`}>{suffix}</span>}</span>
   <span style="font-family:var(--font-mono);font-size:var(--t-mono-sm);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--text-muted)">{label}</span>
 </div>

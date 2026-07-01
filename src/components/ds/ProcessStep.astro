@@ -2,8 +2,11 @@
 /**
  * Chipsa Lander — ProcessStep. One numbered timeline row: a large teal index +
  * optional mono meta in the left rail, title + body in the right column, a
- * hairline rule along the top so a stack reads as a list.
+ * hairline rule along the top so a stack reads as a list. A cursor-tracking teal
+ * PointerGlow + tone lift on hover bring it in line with the card surfaces.
  */
+import PointerGlow from './PointerGlow.astro';
+
 interface Props {
   index?: number | string;
   meta?: string;
@@ -16,6 +19,7 @@ const idx = index == null ? null : typeof index === 'number' ? String(index).pad
 const hasBody = Astro.slots.has('default');
 ---
 <div class={`cl-pstep${className ? ' ' + className : ''}`} {...rest}>
+  <PointerGlow variant="teal" />
   <div class="cl-pstep__rail">
     {idx != null && <span class="cl-pstep__index">{idx}</span>}
     {meta && <span class="cl-pstep__meta">{meta}</span>}

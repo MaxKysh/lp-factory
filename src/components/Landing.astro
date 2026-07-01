@@ -1,0 +1,487 @@
+---
+import SiteNav from './ds/SiteNav.astro';
+import Hero from './ds/Hero.astro';
+import Eyebrow from './ds/Eyebrow.astro';
+import Button from './ds/Button.astro';
+import Section from './ds/Section.astro';
+import SectionHeader from './ds/SectionHeader.astro';
+import FeatureCard from './ds/FeatureCard.astro';
+import MediaFrame from './ds/MediaFrame.astro';
+import ArrowLink from './ds/ArrowLink.astro';
+import ProcessStep from './ds/ProcessStep.astro';
+import StatGrid from './ds/StatGrid.astro';
+import TeamDock from './ds/TeamDock.astro';
+import IconWall from './ds/IconWall.astro';
+import { STACK_LOGOS } from './ds/logo-paths';
+import PointerGlow from './ds/PointerGlow.astro';
+import Faq from './ds/Faq.astro';
+import FaqItem from './ds/FaqItem.astro';
+import SiteFooter from './ds/SiteFooter.astro';
+import { content, type Lang } from '../i18n/content';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = content[lang];
+const tgHref = 'https://t.me/maxkysh';
+const calendlyHref = 'https://calendly.com/apexy/collaboration';
+
+// FAQ rich-result structured data, built from the localized Q&A.
+const faqLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  inLanguage: lang,
+  mainEntity: t.faq.items.map((it) => ({
+    '@type': 'Question',
+    name: it.q,
+    acceptedAnswer: { '@type': 'Answer', text: it.a },
+  })),
+};
+
+// Ordered so neighbours share a colour family: warm → green/red → teal/cool.
+const team = [
+  { name: 'Паша Н.', src: '/images/team/pashan.jpg' },
+  { name: 'Паша', src: '/images/team/pasha.jpg' },
+  { name: 'Андрей', src: '/images/team/andrey.jpg' },
+  { name: 'Дмитрий', src: '/images/team/dmitry.jpg' },
+  { name: 'Антон', src: '/images/team/anton.jpg' },
+  { name: 'Артём', src: '/images/team/artem.jpg' },
+  { name: 'Саша', src: '/images/team/sashap.jpg' },
+  { name: 'Наташа', src: '/images/team/natasha.jpg' },
+  { name: 'Таня', src: '/images/team/tanya.jpg' },
+  { name: 'Никита', src: '/images/team/nikita.jpg' },
+  { name: 'Мария', src: '/images/team/maria.jpg' },
+  { name: 'Сергей', src: '/images/team/sergey.jpg' },
+];
+
+// Per-card line icons for the problem section (structure, not copy).
+const problemIcons = [
+  '<circle cx="12" cy="12" r="9"></circle><path d="M12 7.5V12l3.25 1.9"></path>',
+  '<circle cx="12" cy="12" r="9"></circle><path d="M8.5 15.6s1.4-1.8 3.5-1.8 3.5 1.8 3.5 1.8"></path><path d="M9 9.5h.01"></path><path d="M15 9.5h.01"></path>',
+  '<circle cx="12" cy="12" r="9"></circle><circle cx="8.8" cy="10.2" r="1.15"></circle><circle cx="15.2" cy="10.2" r="1.15"></circle><ellipse cx="12" cy="15.4" rx="1.7" ry="2.1"></ellipse>',
+];
+---
+
+<!-- NAV -->
+<SiteNav brand="Chipsa" brandMark={t.nav.brandMark} links={t.nav.links} cta={t.nav.cta} contact={t.nav.contact} lang={lang} />
+
+<!-- 01 — HERO -->
+<Hero scrollHint={t.hero.scrollHint}>
+  <div slot="media" aria-hidden="true" style="position:absolute;inset:0;background:#0A1113;overflow:hidden">
+    <video autoplay loop muted playsinline preload="metadata" poster="/video/hero-poster.jpg" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block">
+      <source src="/video/hero-stamping-loop.mp4" type="video/mp4" />
+    </video>
+  </div>
+  <div class="focus-in" style="--reveal-d: 120ms; margin-bottom: var(--s-5);">
+    <Eyebrow>{t.hero.eyebrow}</Eyebrow>
+  </div>
+  <h1 style="margin:0;font-family:var(--font-display);font-weight:700;font-size:var(--t-mega);line-height:var(--lh-tight);letter-spacing:var(--ls-mega);color:var(--text-strong);text-wrap:balance">
+    <span class="focus-in" style="--reveal-d: 280ms;">{t.hero.titlePre}<span class="ink-grad ink-grad--shimmer">{t.hero.titleMark}</span></span>
+  </h1>
+  <p class="focus-in" style="--reveal-d: 560ms; margin: var(--s-6) 0 0; max-width: 30ch; font-size: var(--t-lead); line-height: 1.4; color: var(--text-body);">{t.hero.lead}</p>
+  <div class="focus-in" style="--reveal-d: 740ms; margin-top: var(--s-7); display: flex; flex-wrap: wrap; gap: var(--s-4);">
+    <Button variant="primary" size="lg" href={tgHref} icon={true}>{t.hero.ctaPrimary}</Button>
+    <Button variant="invert" size="lg" href="#cases" icon={true}>{t.hero.ctaSecondary}</Button>
+  </div>
+</Hero>
+
+<!-- 02 — ПРОБЛЕМА -->
+<Section id="problem" label={t.problem.label}>
+  <div data-reveal style="margin-bottom: var(--s-8);">
+    <SectionHeader index={1} label={t.problem.label} title={t.problem.title} />
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));gap:var(--s-5)">
+    {t.problem.cards.map((c, i) => (
+      <div data-reveal data-delay={i * 100} style="display:flex">
+        <FeatureCard style="flex:1" index={c.index} title={c.title}>
+          <svg slot="icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={problemIcons[i]} />
+          {c.body}
+        </FeatureCard>
+      </div>
+    ))}
+  </div>
+  <div data-reveal class="callout" style="margin-top:var(--s-8);padding:clamp(1.5rem, 2.4vw, 2.25rem);display:flex;flex-direction:column;gap:var(--s-3)">
+    <span style="font-family:var(--font-mono);font-size:var(--t-mono-sm);letter-spacing:var(--ls-mono);text-transform:uppercase;color:var(--accent-text)">{t.problem.calloutKicker}</span>
+    <p style="margin:0;font-size:var(--t-lead);line-height:1.35;color:var(--text-strong)">{t.problem.calloutText}</p>
+  </div>
+</Section>
+
+<!-- 03 — РЕШЕНИЕ -->
+<Section id="solution" tone="invert" label={t.solution.label}>
+  <div data-reveal style="margin-bottom: var(--s-8);">
+    <SectionHeader index={2} label={t.solution.label} title={t.solution.title}>{t.solution.lead}</SectionHeader>
+  </div>
+  <div data-reveal data-delay="120" class="conveyor" style="display:flex;flex-wrap:wrap;align-items:stretch;gap:var(--s-4)">
+    <div class="conveyor-card" style="flex:1 1 240px;border-radius:var(--r-3);padding:clamp(1.5rem, 2.2vw, 2.25rem);display:flex;flex-direction:column;gap:var(--s-3)">
+      <span style="font-family:var(--font-mono);font-size:var(--t-mono-sm);letter-spacing:var(--ls-mono);text-transform:uppercase;color:var(--text-muted)">{t.solution.steps[0].kicker}</span>
+      <span style="font-family:var(--font-display);font-weight:600;font-size:var(--t-h3);color:var(--text-strong)">{t.solution.steps[0].title}</span>
+      <span style="font-size:var(--t-body);line-height:var(--lh-body);color:var(--text-body)">{t.solution.steps[0].body}</span>
+    </div>
+    <div class="flow-arrow" style="flex:0 0 auto;align-self:center;font-size:1.75rem;color:var(--accent-text);line-height:1">→</div>
+    <div class="conveyor-card--brand brand-flow" style="flex:1.2 1 260px;border-radius:var(--r-3);padding:clamp(1.5rem, 2.2vw, 2.25rem);display:flex;flex-direction:column;gap:var(--s-3);color:#fff">
+      <span style="font-family:var(--font-mono);font-size:var(--t-mono-sm);letter-spacing:var(--ls-mono);text-transform:uppercase;opacity:.85">{t.solution.steps[1].kicker}</span>
+      <span style="font-family:var(--font-display);font-weight:600;font-size:var(--t-h3)">{t.solution.steps[1].title}</span>
+      <span style="font-size:var(--t-body);line-height:var(--lh-body);opacity:.9">{t.solution.steps[1].body}</span>
+    </div>
+    <div class="flow-arrow" style="flex:0 0 auto;align-self:center;font-size:1.75rem;color:var(--accent-text);line-height:1">→</div>
+    <div class="conveyor-card" style="flex:1 1 240px;border-radius:var(--r-3);padding:clamp(1.5rem, 2.2vw, 2.25rem);display:flex;flex-direction:column;gap:var(--s-3)">
+      <span style="font-family:var(--font-mono);font-size:var(--t-mono-sm);letter-spacing:var(--ls-mono);text-transform:uppercase;color:var(--text-muted)">{t.solution.steps[2].kicker}</span>
+      <span style="font-family:var(--font-display);font-weight:600;font-size:var(--t-h3);color:var(--text-strong)">{t.solution.steps[2].title}</span>
+      <span style="font-size:var(--t-body);line-height:var(--lh-body);color:var(--text-body)">{t.solution.steps[2].body}</span>
+    </div>
+  </div>
+</Section>
+
+<!-- 04 — КЕЙСЫ -->
+<Section id="cases" label={t.cases.label}>
+  <div data-reveal style="margin-bottom: var(--s-8);">
+    <SectionHeader index={3} label={t.cases.label} title={t.cases.title} />
+  </div>
+  <div class="hang">
+    <div data-reveal data-delay="0" style="display:flex;flex-direction:column;gap:var(--s-5)">
+      <a href={t.cases.items[0].href} target="_blank" rel="noopener" class="case-media" aria-label={t.cases.items[0].link}>
+        <MediaFrame ratio="16 / 10" src={t.cases.items[0].img} alt={t.cases.items[0].alt}>
+          <span class="case-glint" aria-hidden="true"></span>
+        </MediaFrame>
+      </a>
+      <div style="display:flex;flex-direction:column;gap:var(--s-3)">
+        <h3 style="margin:0;font-family:var(--font-display);font-weight:600;font-size:var(--t-h3);line-height:var(--lh-head);color:var(--text-strong)">{t.cases.items[0].title}</h3>
+        <p style="margin:0;font-size:var(--t-body-lg);line-height:var(--lh-body);color:var(--text-body)">{t.cases.items[0].body}</p>
+        <ArrowLink href={t.cases.items[0].href} target="_blank" rel="noopener">{t.cases.items[0].link}</ArrowLink>
+      </div>
+    </div>
+    <div data-reveal data-delay="120" style="display:flex;flex-direction:column;gap:var(--s-5)">
+      <a href={t.cases.items[1].href} target="_blank" rel="noopener" class="case-media" aria-label={t.cases.items[1].link}>
+        <MediaFrame ratio="16 / 10" src={t.cases.items[1].img} alt={t.cases.items[1].alt}>
+          <span class="case-glint" aria-hidden="true"></span>
+        </MediaFrame>
+      </a>
+      <div style="display:flex;flex-direction:column;gap:var(--s-3)">
+        <h3 style="margin:0;font-family:var(--font-display);font-weight:600;font-size:var(--t-h3);line-height:var(--lh-head);color:var(--text-strong)">{t.cases.items[1].title}</h3>
+        <p style="margin:0;font-size:var(--t-body-lg);line-height:var(--lh-body);color:var(--text-body)">{t.cases.items[1].body}</p>
+        <div style="display:flex;flex-wrap:wrap;gap:var(--s-5)">
+          <ArrowLink href={t.cases.items[1].href} target="_blank" rel="noopener">{t.cases.items[1].link}</ArrowLink>
+          <ArrowLink href="#top" glyph="↓" tone="strong">{t.cases.thisPage}</ArrowLink>
+        </div>
+      </div>
+    </div>
+  </div>
+</Section>
+
+<!-- 05 — КАК РАБОТАЕТ -->
+<Section id="process" tone="alt" label={t.process.label}>
+  <div data-reveal style="margin-bottom: var(--s-7);">
+    <SectionHeader index={4} label={t.process.label} title={t.process.title} />
+  </div>
+  <div style="display:flex;flex-direction:column">
+    {t.process.steps.map((s, i) => (
+      <div data-reveal data-delay={i * 80}><ProcessStep index={i + 1} title={s.title}>{s.body}</ProcessStep></div>
+    ))}
+  </div>
+  <div data-reveal data-delay="120" style="margin-top: var(--s-8);">
+    <MediaFrame label={t.process.mediaLabel} caption={t.process.mediaCaption} ratio="16 / 9">
+      <video autoplay loop muted playsinline preload="none" poster="/video/design-system-poster.jpg" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block">
+        <source src="/video/design-system-example.mp4" type="video/mp4" />
+      </video>
+    </MediaFrame>
+  </div>
+</Section>
+
+<!-- 06 — ЧТО НАС ОТЛИЧАЕТ -->
+<Section id="about" label={t.about.label}>
+  <div data-reveal style="margin-bottom: var(--s-8);">
+    <SectionHeader index={5} label={t.about.label} title={t.about.title} />
+  </div>
+  <div class="hang" style="margin-bottom: var(--s-6);">
+    <div data-reveal class="stat-wrap">
+      <StatGrid stats={t.about.stats} columns={2} />
+    </div>
+  </div>
+  <div data-reveal style="margin-bottom: var(--s-9);">
+    <TeamDock members={team} boost={0.3} />
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(320px, 1fr));gap:var(--s-5)">
+    {t.about.features.map((f, i) => (
+      <div data-reveal data-delay={i * 90} style="display:flex"><FeatureCard style="flex:1" index={i + 1} icon={f.icon} title={f.title}>{f.body}</FeatureCard></div>
+    ))}
+  </div>
+  <div data-reveal style="margin-top: var(--s-9);">
+    <IconWall label={t.about.clientsLabel} items={t.about.clients} bare={true} />
+  </div>
+</Section>
+
+<!-- 07 — ЧТО ВХОДИТ -->
+<Section id="included" tone="invert" label={t.included.label}>
+  <div data-reveal style="margin-bottom: var(--s-8);">
+    <SectionHeader index={6} label={t.included.label} title={t.included.title} />
+  </div>
+  <div style="display:flex;flex-direction:column">
+    {t.included.steps.map((s, i) => (
+      <div data-reveal data-delay={i * 80}><ProcessStep index={i + 1} title={s.title}>{s.body}</ProcessStep></div>
+    ))}
+  </div>
+  <div data-reveal class="callout" style="margin-top:var(--s-7);padding:clamp(1.5rem, 2.4vw, 2.25rem);display:flex;flex-direction:column;gap:var(--s-3)">
+    <span style="font-family:var(--font-mono);font-size:var(--t-mono-sm);letter-spacing:var(--ls-mono);text-transform:uppercase;color:var(--accent-text)">{t.included.calloutKicker}</span>
+    <p style="margin:0;font-size:var(--t-body-lg);line-height:var(--lh-body);color:var(--text-strong)">{t.included.calloutText}</p>
+  </div>
+</Section>
+
+<!-- 08 — ПОДКАСТ -->
+<Section id="podcast" label={t.podcast.label}>
+  <div data-reveal style="margin-bottom: var(--s-8);">
+    <SectionHeader index={7} label={t.podcast.label} title={t.podcast.title} />
+  </div>
+  <div class="podcast-split">
+    <div data-reveal style="width:100%">
+      <MediaFrame ratio="16 / 9" src={t.podcast.img} alt={t.podcast.alt} />
+    </div>
+    <div data-reveal data-delay="120" style="display:flex;flex-direction:column;align-items:flex-start;gap:var(--s-5);text-align:left">
+      <p style="margin:0;font-size:var(--t-lead);line-height:1.4;color:var(--text-body);max-width:64ch">{t.podcast.body}</p>
+      <span style="font-family:var(--font-mono);font-size:var(--t-mono-sm);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--text-muted)">{t.podcast.comingSoon}</span>
+    </div>
+  </div>
+</Section>
+
+<!-- 09 — СТЕК -->
+<Section id="stack" tone="alt" tight={true}>
+  <div data-reveal style="margin-bottom: var(--s-7);">
+    <SectionHeader index={8} label={t.stack.label} title={t.stack.title} />
+  </div>
+  <IconWall label="" items={STACK_LOGOS} filled={true} />
+  <div data-reveal class="callout" style="margin-top:var(--s-6);padding:clamp(1.5rem, 2.4vw, 2.25rem);display:flex;flex-direction:column;gap:var(--s-3)">
+    <span style="font-family:var(--font-mono);font-size:var(--t-mono-sm);letter-spacing:var(--ls-mono);text-transform:uppercase;color:var(--accent-text)">{t.stack.calloutKicker}</span>
+    <p style="margin:0;font-size:var(--t-lead);line-height:1.35;color:var(--text-strong)">{t.stack.calloutText}</p>
+  </div>
+</Section>
+
+<!-- 10 — УСЛОВИЯ -->
+<Section id="pricing" label={t.pricing.label}>
+  <div data-reveal style="margin-bottom: var(--s-8);">
+    <SectionHeader index={9} label={t.pricing.label} title={t.pricing.title}>{t.pricing.lead}</SectionHeader>
+  </div>
+  <div data-reveal style="display:grid;grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));gap:var(--s-5)">
+    <div class="price-card" style="position:relative;overflow:hidden;isolation:isolate;border-radius:var(--r-3);padding:clamp(1.75rem, 3vw, 3rem)">
+      <PointerGlow variant="teal" />
+      <div style="position:relative;z-index:1;display:flex;flex-direction:column;gap:var(--s-4)">
+        <span style="font-family:var(--font-mono);font-size:var(--t-mono-sm);letter-spacing:var(--ls-mono);text-transform:uppercase;color:var(--text-muted)">{t.pricing.baseKicker}</span>
+        <span class="price-val" style="font-family:var(--font-display);font-weight:700;font-size:clamp(2.25rem, 4.2vw, 3.5rem);line-height:1;color:var(--text-strong)">{t.pricing.baseValue}<span style="font-size:0.34em;font-weight:600;color:var(--text-muted)">{t.pricing.baseValueSmall}</span></span>
+        <span style="font-size:var(--t-body-lg);line-height:var(--lh-body);color:var(--text-body)">{t.pricing.baseNote}</span>
+      </div>
+    </div>
+    <div class="price-card--brand brand-flow" style="position:relative;overflow:hidden;isolation:isolate;border-radius:var(--r-3);padding:clamp(1.75rem, 3vw, 3rem);color:#fff">
+      <PointerGlow variant="light" />
+      <div style="position:relative;z-index:1;display:flex;flex-direction:column;gap:var(--s-4)">
+        <span style="font-family:var(--font-mono);font-size:var(--t-mono-sm);letter-spacing:var(--ls-mono);text-transform:uppercase;opacity:.85">{t.pricing.finalKicker}</span>
+        <span class="price-val" style="font-family:var(--font-display);font-weight:700;font-size:clamp(2.25rem, 4.2vw, 3.5rem);line-height:1">{t.pricing.finalValue}</span>
+        <span style="font-size:var(--t-body-lg);line-height:var(--lh-body);opacity:.92">{t.pricing.finalNote}</span>
+      </div>
+    </div>
+  </div>
+  <div data-reveal style="margin-top: var(--s-7);">
+    <Button variant="primary" size="lg" href={tgHref} icon={true}>{t.pricing.cta}</Button>
+  </div>
+</Section>
+
+<!-- 11 — FAQ -->
+<Section id="faq" tone="alt" label={t.faq.label} style="padding-bottom: var(--section-y-tight)">
+  <div data-reveal style="margin-bottom: var(--s-7);">
+    <SectionHeader index={10} label={t.faq.label} title={t.faq.title} />
+  </div>
+  <Faq>
+    {t.faq.items.map((item) => (
+      <FaqItem q={item.q}>{item.a}</FaqItem>
+    ))}
+  </Faq>
+  <script type="application/ld+json" set:html={JSON.stringify(faqLd)} />
+</Section>
+
+<!-- 12 — ФИНАЛЬНЫЙ CTA -->
+<Section tone="alt" flush={true} style="padding: var(--section-y-tight) var(--gutter) var(--section-y)">
+  <div class="brand-flow cta-split cta-reveal" data-reveal style="position:relative;overflow:hidden;border-radius:var(--r-4);display:grid;grid-template-columns:1fr minmax(280px, 440px);align-items:center">
+    <div class="cta-text" style="padding:clamp(2.5rem, 6vw, 6rem);display:flex;flex-direction:column;align-items:flex-start;gap:var(--s-6);color:#fff">
+      <h2 style="margin:0;max-width:18ch;font-family:var(--font-display);font-weight:700;font-size:var(--t-h1);line-height:var(--lh-snug);letter-spacing:var(--ls-head);text-wrap:balance">{t.cta.title}</h2>
+      <p class="cta-lead" style="margin:0;font-size:var(--t-lead);line-height:1.35;color:rgba(255,255,255,0.85)">{t.cta.body}</p>
+      <div style="display:flex;flex-wrap:wrap;gap:var(--s-4)">
+        <Button variant="primary" size="lg" href={tgHref} icon={true}>{t.cta.button}</Button>
+        <Button variant="invert" size="lg" href={calendlyHref} target="_blank" rel="noopener" icon={true}>{t.cta.book}</Button>
+      </div>
+    </div>
+    <div class="cta-photo" style="position:relative;display:flex;align-items:center;justify-content:flex-end;padding:clamp(2.5rem, 6vw, 6rem);padding-left:0">
+      <div style="aspect-ratio:1 / 1;width:100%;max-width:240px;border-radius:50%;overflow:hidden">
+        <img src="/images/founder.jpg" alt={t.cta.founderAlt} loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;object-position:center top" />
+      </div>
+    </div>
+  </div>
+</Section>
+
+<!-- FOOTER -->
+<SiteFooter brand={t.footer.brand} tagline={t.footer.tagline} columns={t.footer.cols} legal={t.footer.legal} />
+
+<style>
+  /* Callout / note plate — tinted accent surface with a mono kicker. Reads on
+     dark and (via tone=invert token remap) on light bands. */
+  .callout {
+    position: relative;
+    background:
+      linear-gradient(135deg, color-mix(in srgb, var(--accent) 22%, transparent), transparent 62%),
+      color-mix(in srgb, var(--accent) 15%, var(--bg-page));
+    border-left: 3px solid var(--accent);
+    border-radius: var(--r-3);
+  }
+
+  /* Conveyor (вход → процесс → выход) cards: tone-step + lift on hover. */
+  .conveyor-card {
+    background: var(--surface-1);
+    transition:
+      background var(--dur-base) var(--ease-out),
+      transform var(--dur-base) var(--ease-out);
+  }
+  .conveyor-card:hover {
+    background: var(--surface-2);
+    transform: translateY(-4px);
+  }
+  .conveyor-card--brand {
+    transition:
+      transform var(--dur-base) var(--ease-out),
+      filter var(--dur-base) var(--ease-out);
+  }
+  .conveyor-card--brand:hover {
+    transform: translateY(-4px);
+    filter: saturate(1.25) brightness(1.06);
+  }
+
+  /* Pricing plates: pointer-glow hover + lift (split, intentional). */
+  .price-card {
+    background: var(--surface-1);
+    transition:
+      background var(--dur-base) var(--ease-out),
+      transform var(--dur-base) var(--ease-out);
+  }
+  .price-card:hover {
+    background: var(--surface-2);
+    transform: translateY(-6px);
+  }
+  .price-card--brand {
+    transition: transform var(--dur-base) var(--ease-out);
+  }
+  .price-card--brand:hover {
+    transform: translateY(-6px);
+  }
+
+  /* Final CTA plate: a fast, seamless running brand gradient (the symmetric
+     colour stops make the loop wrap without a visible seam). */
+  :global(.cta-split.brand-flow) {
+    background: linear-gradient(90deg, #4e853c 0%, #16726c 33%, #074d62 66%, #4e853c 100%);
+    background-size: 200% 100%;
+    background-repeat: repeat;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    :global(.cta-split.brand-flow) {
+      animation: cta-run 5s linear infinite;
+    }
+  }
+  @keyframes cta-run {
+    from {
+      background-position: 0% 50%;
+    }
+    to {
+      background-position: 200% 50%;
+    }
+  }
+
+  /* Case media links — the image gently zooms and a glint sweeps across on hover. */
+  .case-media {
+    display: block;
+    position: relative;
+    border-radius: var(--r-2);
+    overflow: hidden;
+    cursor: pointer;
+  }
+  .case-media :global(img) {
+    transition: transform 700ms var(--ease-out);
+  }
+  .case-media:hover :global(img) {
+    transform: scale(1.06);
+  }
+  .case-glint {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    overflow: hidden;
+    pointer-events: none;
+    border-radius: inherit;
+  }
+  .case-glint::after {
+    content: '';
+    position: absolute;
+    top: -60%;
+    left: 0;
+    width: 45%;
+    height: 220%;
+    transform: rotate(20deg) translateX(-280%);
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+  }
+  .case-media:hover .case-glint::after {
+    animation: case-shine 0.9s var(--ease-out) forwards;
+  }
+  @keyframes case-shine {
+    to {
+      transform: rotate(20deg) translateX(520%);
+    }
+  }
+
+  /* Podcast media/text split — aligned to the SectionHeader title column so the
+     copy sits level with the heading; collapses on narrow screens. */
+  .podcast-split {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+    gap: var(--s-8);
+    align-items: center;
+  }
+  @media (max-width: 880px) {
+    .podcast-split {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* CTA copy — a wider measure so it wraps into fewer lines and leaves less empty
+     space between the text and the photo (applies to both languages). */
+  .cta-lead {
+    max-width: 64ch;
+  }
+
+  /* ArrowLink override: this link warms to the brand accent on hover. */
+  :global(.link-arrow.hover-accent:hover) {
+    color: var(--accent-text) !important;
+  }
+
+  /* Final CTA plate: a richer entrance — rises + scales up while a curtain
+     wipes it open from the top. Overrides the default reveal for this block. */
+  :global(html.js-reveal .cta-reveal[data-reveal]) {
+    opacity: 0;
+    transform: translateY(52px) scale(0.94);
+    clip-path: inset(0 0 100% 0 round var(--r-4));
+    transition:
+      opacity var(--dur-reveal) var(--ease-out),
+      transform 900ms var(--ease-expo),
+      clip-path 900ms var(--ease-expo);
+  }
+  :global(html.js-reveal .cta-reveal[data-reveal][data-inview]) {
+    opacity: 1;
+    transform: none;
+    clip-path: inset(0 0 0 0 round var(--r-4));
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .case-media:hover :global(img) {
+      transform: none;
+    }
+    .case-media:hover .case-glint::after {
+      animation: none;
+    }
+    :global(html.js-reveal .cta-reveal[data-reveal]) {
+      clip-path: none;
+      transform: none;
+    }
+  }
+</style>

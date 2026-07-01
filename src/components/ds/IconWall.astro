@@ -1,0 +1,178 @@
+---
+/**
+ * Chipsa Lander — IconWall. A unified "trusted by / built with" strip. Each cell
+ * is a bordered plate that lifts and warms to the accent on hover. Items with a
+ * `path` render as a monochrome glyph (currentColor) + mono label; items without
+ * render as a display-face wordmark — either way the whole wall reads in one
+ * consistent style.
+ */
+interface Item {
+  name: string;
+  path?: string;
+  src?: string;
+  big?: boolean;
+}
+interface Props {
+  label?: string;
+  items: Item[];
+  filled?: boolean;
+  bare?: boolean;
+  style?: string;
+}
+const { label, items, filled = false, bare = false, style } = Astro.props;
+const cls = ['iwall', filled ? 'iwall--filled' : '', bare ? 'iwall--bare' : ''].filter(Boolean).join(' ');
+const wrapStyle = ['display:flex', 'flex-direction:column', 'gap:var(--s-6)', style || ''].filter(Boolean).join(';');
+---
+<div data-reveal class={cls} style={wrapStyle}>
+  {label && <span class="iwall__label">{label}</span>}
+  <div class="iwall__grid">
+    {items.map((it) => (
+      <div class="iwall__cell" title={it.name}>
+        {it.src ? (
+          <img class={`iwall__img${it.big ? ' iwall__img--big' : ''}`} src={it.src} alt={it.name} loading="lazy" />
+        ) : it.path ? (
+          <>
+            <svg class="iwall__icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" set:html={`<path d="${it.path}"/>`} />
+            <span class="iwall__name">{it.name}</span>
+          </>
+        ) : (
+          <span class="iwall__word">{it.name}</span>
+        )}
+      </div>
+    ))}
+  </div>
+</div>
+
+<style>
+  .iwall__label {
+    font-family: var(--font-mono);
+    font-size: var(--t-mono-sm);
+    letter-spacing: var(--ls-eyebrow);
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+  .iwall__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--s-5);
+    align-items: stretch;
+  }
+  @media (min-width: 720px) {
+    .iwall__grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+  .iwall__cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--s-3);
+    min-height: 72px;
+    padding: var(--s-4) var(--s-5);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--r-2);
+    color: var(--text-muted);
+    background: transparent;
+    transition:
+      color var(--dur-base) var(--ease-out),
+      border-color var(--dur-base) var(--ease-out),
+      background var(--dur-base) var(--ease-out),
+      transform var(--dur-base) var(--ease-out);
+  }
+  .iwall__cell:hover {
+    color: var(--accent-text);
+    border-color: color-mix(in srgb, var(--accent-text) 45%, var(--border-subtle));
+    background: color-mix(in srgb, var(--accent) 8%, transparent);
+    transform: translateY(-3px);
+  }
+
+  /* Filled variant (tech stack): borderless plates on a tinted surface, a touch
+     more side padding so glyphs breathe. Glyphs sit bright so they read vividly,
+     warming to the accent on hover. */
+  .iwall--filled .iwall__cell {
+    border-color: transparent;
+    background: var(--surface-1);
+    color: var(--text-strong);
+    padding-left: var(--s-6);
+    padding-right: var(--s-6);
+  }
+  .iwall--filled .iwall__cell:hover {
+    border-color: transparent;
+    background: color-mix(in srgb, var(--accent) 12%, var(--surface-1));
+    color: var(--accent-text);
+  }
+
+  /* Bare variant (client logos): real logo art, no container. Black-and-white by
+     default (rendered as a light monochrome so dark-marked logos stay legible on
+     the dark band); hovering one logo brings it to full colour and grows it a
+     touch. */
+  .iwall--bare .iwall__grid {
+    grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+  }
+  .iwall--bare .iwall__cell {
+    border: none;
+    background: transparent;
+    min-height: 68px;
+    padding: var(--s-5) var(--s-6);
+    overflow: visible;
+  }
+  .iwall--bare .iwall__cell:hover {
+    background: transparent;
+    transform: none;
+  }
+  .iwall__img {
+    max-height: 32px;
+    max-width: 130px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    filter: grayscale(1) brightness(0) invert(1);
+    opacity: 0.72;
+    transition:
+      filter var(--dur-base) var(--ease-out),
+      opacity var(--dur-base) var(--ease-out),
+      transform var(--dur-base) var(--ease-out);
+  }
+  .iwall__img--big {
+    max-height: 42px;
+    max-width: 150px;
+  }
+  .iwall--bare .iwall__cell:hover .iwall__img {
+    filter: none;
+    opacity: 1;
+    transform: scale(1.1);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .iwall--bare .iwall__cell:hover .iwall__img {
+      transform: none;
+    }
+  }
+  .iwall__icon {
+    flex: none;
+    width: 26px;
+    height: 26px;
+    display: block;
+  }
+  .iwall__name {
+    font-family: var(--font-mono);
+    font-size: var(--t-body-sm);
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+  }
+  .iwall__word {
+    font-family: var(--font-display);
+    font-weight: var(--w-semibold);
+    font-size: 1.0625rem;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+    text-align: center;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .iwall__cell {
+      transition: color var(--dur-base) var(--ease-out), border-color var(--dur-base) var(--ease-out);
+    }
+    .iwall__cell:hover {
+      transform: none;
+    }
+  }
+</style>

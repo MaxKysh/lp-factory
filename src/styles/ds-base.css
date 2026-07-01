@@ -196,6 +196,29 @@ p {
   }
 }
 
+/* Hanging body — aligns section content to the SectionHeader's title column
+   (same 2-col proportions), so content sits level with the heading's left edge.
+   Collapses to full width on narrow screens, matching the header. */
+.hang {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+  gap: var(--s-8);
+  align-items: start;
+}
+.hang > * {
+  grid-column: 2;
+  min-width: 0;
+}
+@media (max-width: 880px) {
+  .hang {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .hang > * {
+    grid-column: 1;
+  }
+}
+
 /* ============================================================
    LINKS
    ============================================================ */

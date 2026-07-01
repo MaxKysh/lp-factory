@@ -1,0 +1,9 @@
+---
+import Base from '../layouts/Base.astro';
+import Landing from '../components/Landing.astro';
+import { content } from '../i18n/content';
+const t = content.en;
+---
+<Base lang="en" path="en" title={t.meta.title} description={t.meta.description} keywords={t.meta.keywords} ogImage={t.meta.ogImage}>
+  <Landing lang="en" />
+</Base>

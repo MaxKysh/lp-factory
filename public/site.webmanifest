@@ -1,0 +1,14 @@
+{
+  "name": "Chipsa — LP Factory",
+  "short_name": "LP Factory",
+  "description": "A landing-page production system tuned to your brand.",
+  "start_url": "/ru",
+  "display": "standalone",
+  "background_color": "#0a1113",
+  "theme_color": "#0a1113",
+  "icons": [
+    { "src": "/favicon.svg", "type": "image/svg+xml", "sizes": "any" },
+    { "src": "/icon-192.png", "type": "image/png", "sizes": "192x192" },
+    { "src": "/icon-512.png", "type": "image/png", "sizes": "512x512" }
+  ]
+}

@@ -209,15 +209,43 @@
 
 /* ---------- ProcessStep (content/ProcessStep.jsx) ---------- */
 .cl-pstep {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
   gap: var(--s-8);
   align-items: start;
-  padding: var(--s-7) 0;
-  border-top: 1px solid var(--border-faint);
+  padding: var(--s-6) clamp(1rem, 2vw, 1.75rem);
+  margin: 0 clamp(-1rem, -2vw, -1.75rem);
+  border-radius: var(--r-3);
+  transition:
+    background var(--dur-base) var(--ease-out),
+    transform var(--dur-base) var(--ease-out);
 }
-.cl-pstep:last-child {
-  border-bottom: 1px solid var(--border-faint);
+.cl-pstep > .cl-pstep__rail,
+.cl-pstep > .cl-pstep__body {
+  position: relative;
+  z-index: 1;
+}
+.cl-pstep:hover {
+  background: color-mix(in srgb, var(--accent) 6%, var(--surface-1));
+  transform: translateY(-2px);
+}
+/* On light (invert) bands the plate hover reads as clean white. */
+.cl-tone-invert .cl-pstep:hover {
+  background: var(--paper-000);
+}
+.cl-pstep:hover .cl-pstep__index {
+  color: var(--accent-text-hover);
+}
+@media (prefers-reduced-motion: reduce) {
+  .cl-pstep {
+    transition: none !important;
+  }
+  .cl-pstep:hover {
+    transform: none;
+  }
 }
 .cl-pstep__rail {
   display: flex;
@@ -270,6 +298,55 @@
     grid-template-columns: 1fr;
     gap: var(--s-5);
   }
+}
+
+/* ---------- Odometer (Stat.jsx counter roll) ---------- */
+.odo {
+  display: inline-flex;
+  align-items: flex-start;
+  vertical-align: baseline;
+}
+.odo--grad {
+  background: var(--grad-brand);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+.odo__reel {
+  display: inline-block;
+  height: 1em;
+  line-height: 1em;
+  overflow: hidden;
+  vertical-align: top;
+}
+.odo__strip {
+  display: flex;
+  flex-direction: column;
+  transform: translateY(0);
+  will-change: transform;
+}
+.odo__digit {
+  display: block;
+  height: 1em;
+  line-height: 1em;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+.odo--grad .odo__digit {
+  background: var(--grad-brand);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+/* The "+" suffix: a touch of air before it, lifted off the baseline so it sits
+   up with the digits rather than dropping below them. */
+.stat-plus {
+  font-size: 0.58em;
+  margin-left: 0.1em;
+  vertical-align: 0.42em;
+  font-variant-numeric: normal;
 }
 
 /* ---------- SectionHeader (content/SectionHeader.jsx) ---------- */
@@ -388,13 +465,32 @@
   font-size: var(--t-h3);
   letter-spacing: var(--ls-head);
   color: var(--text-strong);
+  transition:
+    color var(--dur-base) var(--ease-out),
+    transform var(--dur-base) var(--ease-out);
+}
+.cl-faq__row > summary:hover .cl-faq__q,
+.cl-faq__row[open] > summary .cl-faq__q {
+  color: var(--accent-text);
+}
+.cl-faq__row > summary:hover .cl-faq__q {
+  transform: translateX(4px);
 }
 .cl-faq__mark {
   flex: none;
   font-size: 1.5rem;
   line-height: 1;
   color: var(--accent-text);
-  transition: transform var(--dur-base) var(--ease-out);
+  transition:
+    transform var(--dur-base) var(--ease-out),
+    color var(--dur-base) var(--ease-out);
+}
+.cl-faq__row > summary:hover .cl-faq__mark {
+  color: var(--accent-text-hover);
+  transform: scale(1.18);
+}
+.cl-faq__row[open] > summary:hover .cl-faq__mark {
+  transform: rotate(45deg) scale(1.18);
 }
 .cl-faq__row[open] .cl-faq__mark {
   transform: rotate(45deg);
@@ -465,6 +561,37 @@
 }
 .cl-nav__cta {
   justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: var(--s-5);
+}
+
+/* Language switcher — RU / EN toggle in the nav and mobile panel. */
+.cl-lang {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+}
+.cl-lang__opt {
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color var(--dur-fast) var(--ease-out);
+}
+.cl-lang__opt:hover {
+  color: var(--text-strong);
+}
+.cl-lang__opt.is-active {
+  color: var(--accent-text);
+}
+.cl-lang__sep {
+  color: var(--border-subtle);
+}
+.cl-lang--mobile {
+  font-size: 0.875rem;
+  gap: 6px;
 }
 
 .cl-mnav {

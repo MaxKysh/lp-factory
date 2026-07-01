@@ -13,7 +13,7 @@ interface Props {
   style?: string;
   [key: string]: unknown;
 }
-const { id = 'top', mediaLabel = '▦ hero video / 3D scene', scrim = true, scrollHint = 'Листайте', style, ...rest } = Astro.props;
+const { id = 'top', mediaLabel = '', scrim = true, scrollHint = 'Листайте', style, ...rest } = Astro.props;
 const hasMedia = Astro.slots.has('media');
 const sectionStyle = ['position:relative', 'min-height:100dvh', 'display:flex', 'align-items:center', 'overflow:hidden', style || ''].filter(Boolean).join(';');
 ---

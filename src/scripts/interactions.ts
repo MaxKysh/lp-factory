@@ -44,6 +44,132 @@ function initPointerGlow(): void {
   });
 }
 
+// Odometer: numbers with [data-odo] roll up like a physical counter when first
+// scrolled into view. Each digit becomes a reel of two 0-9 cycles; the strip
+// translates up by one full turn then lands on its digit, rightmost rolling
+// longest for a mechanical cascade.
+function initOdometers(): void {
+  const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.querySelectorAll<HTMLElement>('.odo[data-odo]').forEach((odo) => {
+    if (odo.dataset.odoBound) return;
+    odo.dataset.odoBound = '1';
+    const target = odo.dataset.odo || '';
+    if (!/^\d+$/.test(target)) return;
+    if (reduced) {
+      odo.textContent = target;
+      return;
+    }
+
+    const digits = target.split('');
+    odo.textContent = '';
+    const strips: HTMLElement[] = [];
+    digits.forEach(() => {
+      const reel = document.createElement('span');
+      reel.className = 'odo__reel';
+      const strip = document.createElement('span');
+      strip.className = 'odo__strip';
+      for (let cycle = 0; cycle < 2; cycle++) {
+        for (let i = 0; i <= 9; i++) {
+          const cell = document.createElement('span');
+          cell.className = 'odo__digit';
+          cell.textContent = String(i);
+          strip.appendChild(cell);
+        }
+      }
+      reel.appendChild(strip);
+      odo.appendChild(reel);
+      strips.push(strip);
+    });
+
+    let played = false;
+    const play = () => {
+      if (played) return;
+      played = true;
+      digits.forEach((d, idx) => {
+        const dist = 10 + parseInt(d, 10); // one full spin, then land on the digit
+        const strip = strips[idx];
+        const dur = 1000 + idx * 170; // rightmost reel keeps rolling the longest
+        strip.style.transition = `transform ${dur}ms var(--ease-out)`;
+        requestAnimationFrame(() => {
+          strip.style.transform = `translateY(-${dist}em)`;
+        });
+      });
+    };
+
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver(
+        (entries) => {
+          if (entries.some((e) => e.isIntersecting)) {
+            play();
+            io.disconnect();
+          }
+        },
+        { threshold: 0.4 }
+      );
+      io.observe(odo);
+    } else {
+      play();
+    }
+  });
+}
+
+// Magnetic pull: inside a .cta-split block, the photo eases toward the cursor but
+// is capped well within its own frame so it never drifts away from home. A rAF
+// lerp smooths both the pull and the spring-back on leave.
+function initMagnetic(): void {
+  const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduced) return;
+  document.querySelectorAll<HTMLElement>('.cta-split').forEach((block) => {
+    if (block.dataset.magBound) return;
+    block.dataset.magBound = '1';
+    const target = block.querySelector<HTMLElement>('.cta-photo > div');
+    if (!target) return;
+
+    const MAX = 26; // px — how far the photo may drift from its resting spot
+    const STRENGTH = 0.18;
+    let tx = 0;
+    let ty = 0;
+    let cx = 0;
+    let cy = 0;
+    let raf = 0;
+
+    const tick = () => {
+      raf = 0;
+      cx += (tx - cx) * 0.18;
+      cy += (ty - cy) * 0.18;
+      target.style.transform = `translate(${cx.toFixed(2)}px, ${cy.toFixed(2)}px)`;
+      if (Math.abs(tx - cx) > 0.1 || Math.abs(ty - cy) > 0.1) raf = requestAnimationFrame(tick);
+    };
+    const schedule = () => {
+      if (!raf) raf = requestAnimationFrame(tick);
+    };
+    const move = (e: PointerEvent) => {
+      const r = target.getBoundingClientRect();
+      const px = r.left + r.width / 2;
+      const py = r.top + r.height / 2;
+      let dx = (e.clientX - px) * STRENGTH;
+      let dy = (e.clientY - py) * STRENGTH;
+      const dist = Math.hypot(dx, dy);
+      if (dist > MAX) {
+        dx = (dx / dist) * MAX;
+        dy = (dy / dist) * MAX;
+      }
+      tx = dx;
+      ty = dy;
+      schedule();
+    };
+    const leave = () => {
+      tx = 0;
+      ty = 0;
+      schedule();
+    };
+
+    target.style.willChange = 'transform';
+    block.addEventListener('pointermove', move);
+    block.addEventListener('pointerleave', leave);
+  });
+}
+
 // Mobile nav: floating action button toggles the bottom-right panel; scrim and
 // Escape close it, body scroll locks while open.
 function initMobileNav(): void {
@@ -75,11 +201,25 @@ function initMobileNav(): void {
   });
 }
 
+// Open every link in a new tab. Only pure in-page anchors (#section) are left
+// alone — those are scroll targets and must not spawn tabs.
+function initNewTabLinks(): void {
+  document.querySelectorAll<HTMLAnchorElement>('a[href]').forEach((a) => {
+    const href = a.getAttribute('href') || '';
+    if (!href || href.startsWith('#')) return;
+    a.target = '_blank';
+    a.rel = 'noopener noreferrer';
+  });
+}
+
 export function initInteractions(): void {
   const run = () => {
     initButtons();
     initPointerGlow();
+    initOdometers();
+    initMagnetic();
     initMobileNav();
+    initNewTabLinks();
   };
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', run);
