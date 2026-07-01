@@ -24,6 +24,11 @@ const ogImageUrl = `${site}${ogImage}`;
 const ogLocale = lang === 'en' ? 'en_US' : 'ru_RU';
 const altLocale = lang === 'en' ? 'ru_RU' : 'en_US';
 
+const cookie =
+  lang === 'en'
+    ? { text: 'We use cookies and Yandex Metrica to improve the site.', more: 'Privacy Policy', accept: 'Accept', href: '/legal/privacy-policy-en.pdf' }
+    : { text: 'Мы используем cookie и Яндекс.Метрику, чтобы делать сайт лучше.', more: 'Политика конфиденциальности', accept: 'Принять', href: '/legal/privacy-policy-ru.pdf' };
+
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'ProfessionalService',
@@ -92,9 +97,26 @@ const jsonLd = {
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 
     <link rel="preload" as="font" type="font/woff2" crossorigin href={lang === 'en' ? '/fonts/unbounded-700-latin.woff2' : '/fonts/unbounded-700-cyrillic.woff2'} />
+
+    <!-- Yandex.Metrika counter -->
+    <script is:inline type="text/javascript">
+      (function (m, e, t, r, i, k, a) {
+        m[i] = m[i] || function () { (m[i].a = m[i].a || []).push(arguments); };
+        m[i].l = 1 * new Date();
+        for (var j = 0; j < document.scripts.length; j++) { if (document.scripts[j].src === r) { return; } }
+        k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode.insertBefore(k, a);
+      })(window, document, 'script', 'https://mc.yandex.ru/metrika/tag.js?id=110313193', 'ym');
+      ym(110313193, 'init', { ssr: true, webvisor: true, clickmap: true, ecommerce: 'dataLayer', accurateTrackBounce: true, trackLinks: true });
+    </script>
+    <!-- /Yandex.Metrika counter -->
   </head>
   <body>
     <slot />
+    <noscript><div><img src="https://mc.yandex.ru/watch/110313193" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+    <div id="cookie-consent" class="cookie-consent" role="dialog" aria-label={cookie.accept}>
+      <span class="cookie-consent__text">{cookie.text} <a href={cookie.href} target="_blank" rel="noopener">{cookie.more}</a></span>
+      <button type="button" class="cookie-consent__accept" data-accept>{cookie.accept}</button>
+    </div>
     <script>
       import { initReveal } from '../scripts/reveal';
       import { initInteractions } from '../scripts/interactions';

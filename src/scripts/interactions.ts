@@ -212,6 +212,49 @@ function initNewTabLinks(): void {
   });
 }
 
+// Cookie notice: shown until the visitor accepts; the choice persists in
+// localStorage so it never nags twice.
+function initCookieBanner(): void {
+  const el = document.getElementById('cookie-consent');
+  if (!el) return;
+  try {
+    if (localStorage.getItem('cookie-consent') === 'yes') {
+      el.remove();
+      return;
+    }
+  } catch {
+    /* storage blocked — just show it */
+  }
+  el.style.display = 'flex';
+  el.querySelector<HTMLButtonElement>('[data-accept]')?.addEventListener('click', () => {
+    try {
+      localStorage.setItem('cookie-consent', 'yes');
+    } catch {
+      /* ignore */
+    }
+    el.style.display = 'none';
+  });
+}
+
+// Analytics goals: fire a Yandex.Metrika reachGoal on the key outbound actions.
+function initAnalyticsGoals(): void {
+  const YM_ID = 110313193;
+  document.addEventListener(
+    'click',
+    (e) => {
+      const target = e.target as HTMLElement | null;
+      const a = target?.closest?.('a[href]') as HTMLAnchorElement | null;
+      if (!a) return;
+      const href = a.getAttribute('href') || '';
+      const ym = (window as unknown as { ym?: (...args: unknown[]) => void }).ym;
+      if (typeof ym !== 'function') return;
+      if (/t\.me\//i.test(href)) ym(YM_ID, 'reachGoal', 'telegram');
+      else if (/calendly\.com/i.test(href)) ym(YM_ID, 'reachGoal', 'book_meeting');
+    },
+    true
+  );
+}
+
 export function initInteractions(): void {
   const run = () => {
     initButtons();
@@ -220,6 +263,8 @@ export function initInteractions(): void {
     initMagnetic();
     initMobileNav();
     initNewTabLinks();
+    initCookieBanner();
+    initAnalyticsGoals();
   };
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', run);
