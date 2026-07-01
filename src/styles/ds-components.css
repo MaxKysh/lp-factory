@@ -878,12 +878,17 @@
 .price-val {
   overflow-wrap: anywhere;
 }
-@media (max-width: 680px) {
+/* Full-bleed CTA only on the narrowest phones; from 420px up it keeps side gutters. */
+@media (max-width: 419px) {
   .cta-split {
-    grid-template-columns: 1fr !important;
     margin-left: calc(-1 * var(--gutter));
     margin-right: calc(-1 * var(--gutter));
     border-radius: 0 !important;
+  }
+}
+@media (max-width: 680px) {
+  .cta-split {
+    grid-template-columns: 1fr !important;
   }
   .cta-split .cta-text {
     padding: clamp(2rem, 8vw, 3rem) !important;
