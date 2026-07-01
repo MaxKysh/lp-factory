@@ -105,13 +105,29 @@ const jsonLd = {
 
     <!-- Yandex.Metrika counter -->
     <script is:inline type="text/javascript">
-      (function (m, e, t, r, i, k, a) {
+      // Stub ym() immediately so any early reachGoal calls queue, but defer the
+      // tag.js download + webvisor init until the browser is idle after load —
+      // keeps Metrika's main-thread work out of the Total Blocking Time window.
+      (function (m, i) {
         m[i] = m[i] || function () { (m[i].a = m[i].a || []).push(arguments); };
         m[i].l = 1 * new Date();
-        for (var j = 0; j < document.scripts.length; j++) { if (document.scripts[j].src === r) { return; } }
-        k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode.insertBefore(k, a);
-      })(window, document, 'script', 'https://mc.yandex.ru/metrika/tag.js?id=110313193', 'ym');
-      ym(110313193, 'init', { ssr: true, webvisor: true, clickmap: true, ecommerce: 'dataLayer', accurateTrackBounce: true, trackLinks: true });
+        var loaded = false;
+        function load() {
+          if (loaded) return;
+          loaded = true;
+          var t = 'script', r = 'https://mc.yandex.ru/metrika/tag.js?id=110313193';
+          for (var j = 0; j < document.scripts.length; j++) { if (document.scripts[j].src === r) { break; } }
+          var k = document.createElement(t), a = document.getElementsByTagName(t)[0];
+          k.async = 1; k.src = r; a.parentNode.insertBefore(k, a);
+          m[i](110313193, 'init', { ssr: true, webvisor: true, clickmap: true, ecommerce: 'dataLayer', accurateTrackBounce: true, trackLinks: true });
+        }
+        function schedule() {
+          if ('requestIdleCallback' in m) m.requestIdleCallback(load, { timeout: 3000 });
+          else setTimeout(load, 1);
+        }
+        if (document.readyState === 'complete') schedule();
+        else m.addEventListener('load', schedule);
+      })(window, 'ym');
     </script>
     <!-- /Yandex.Metrika counter -->
   </head>
