@@ -67,11 +67,17 @@ const problemIcons = [
 <SiteNav brand="Chipsa" brandMark={t.nav.brandMark} links={t.nav.links} cta={t.nav.cta} contact={t.nav.contact} lang={lang} />
 
 <!-- 01 — HERO -->
-<Hero scrollHint={t.hero.scrollHint}>
+<Hero scrollHint={t.hero.scrollHint} scrim={false}>
   <div slot="media" aria-hidden="true" style="position:absolute;inset:0;background:#0A1113;overflow:hidden">
     <video autoplay loop muted playsinline preload="metadata" poster="/video/hero-poster.jpg" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block">
       <source src="/video/hero-stamping-loop.mp4" type="video/mp4" />
     </video>
+    <!-- Uniform legibility darkening (the background frame is low-contrast, so an
+         even wash reads cleaner than a directional scrim). -->
+    <div style="position:absolute;inset:0;background:rgba(5,8,10,0.5)"></div>
+    <!-- Halftone dot grid — desktop only, sits above the video/wash but stays
+         inside the media layer so it never overlaps the content column. -->
+    <div class="hero-dots"></div>
   </div>
   <div class="focus-in" style="--reveal-d: 120ms; margin-bottom: var(--s-5);">
     <Eyebrow>{t.hero.eyebrow}</Eyebrow>
@@ -321,6 +327,30 @@ const problemIcons = [
 <SiteFooter brand={t.footer.brand} tagline={t.footer.tagline} columns={t.footer.cols} legal={t.footer.legal} />
 
 <style>
+  /* Hero halftone — a fine dot grid laid over the background video on desktop
+     to break up 720p compression artifacts into a deliberate print texture.
+     Hidden on mobile, where the video is smaller and the effect reads as noise. */
+  .hero-dots {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    display: none;
+    background-image: radial-gradient(rgba(5, 8, 10, 0.5) 34%, transparent 37%);
+    background-size: 4px 4px;
+    mix-blend-mode: multiply;
+    opacity: 0.6;
+  }
+  @media (min-width: 768px) {
+    .hero-dots {
+      display: block;
+    }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-dots {
+      transition: opacity var(--dur-slow) var(--ease-out);
+    }
+  }
+
   /* Callout / note plate — tinted accent surface with a mono kicker. Reads on
      dark and (via tone=invert token remap) on light bands. */
   .callout {
