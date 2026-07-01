@@ -757,11 +757,16 @@
   opacity: 1;
   pointer-events: auto;
 }
+.cl-mnav__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-4);
+}
 .cl-mnav__logo {
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  align-self: flex-start;
   text-decoration: none;
 }
 .cl-mnav__rule {
@@ -876,6 +881,9 @@
 @media (max-width: 680px) {
   .cta-split {
     grid-template-columns: 1fr !important;
+    margin-left: calc(-1 * var(--gutter));
+    margin-right: calc(-1 * var(--gutter));
+    border-radius: 0 !important;
   }
   .cta-split .cta-text {
     padding: clamp(2rem, 8vw, 3rem) !important;

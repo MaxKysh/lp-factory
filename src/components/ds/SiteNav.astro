@@ -50,10 +50,20 @@ const langs = [
 <div class="cl-mnav" data-open="false">
   <div class="cl-mnav__scrim" aria-hidden="true"></div>
   <div class="cl-mnav__panel" role="dialog" aria-modal="true" aria-label={brand}>
-    <a href="#top" class="cl-mnav__logo">
-      <img src={logo} alt={brand} style="height:28px;width:auto;display:block" />
-      {brandMark && <span style="font-family:var(--font-mono);font-size:0.625rem;letter-spacing:0.12em;color:var(--accent-deep);align-self:flex-end;padding-bottom:4px">{brandMark}</span>}
-    </a>
+    <div class="cl-mnav__top">
+      <a href="#top" class="cl-mnav__logo">
+        <img src={logo} alt={brand} style="height:28px;width:auto;display:block" />
+        {brandMark && <span style="font-family:var(--font-mono);font-size:0.625rem;letter-spacing:0.12em;color:var(--accent-deep);align-self:flex-end;padding-bottom:4px">{brandMark}</span>}
+      </a>
+      <div class="cl-lang cl-lang--mobile" aria-label="Language">
+        {langs.map((l, i) => (
+          <>
+            {i > 0 && <span class="cl-lang__sep" aria-hidden="true">/</span>}
+            <a href={`/${l.code}`} class={`cl-lang__opt${l.code === lang ? ' is-active' : ''}`} aria-current={l.code === lang ? 'true' : undefined}>{l.label}</a>
+          </>
+        ))}
+      </div>
+    </div>
     <hr class="cl-mnav__rule" />
     <nav class="cl-mnav__links">
       {links.map((l) => <a href={l.href} class="cl-mnav__link">{l.label}</a>)}
@@ -65,14 +75,6 @@ const langs = [
         <a class="cl-mnav__contact-v" href={contact.href}>{contact.value} ↗</a>
       </div>
     )}
-    <div class="cl-lang cl-lang--mobile" aria-label="Language">
-      {langs.map((l, i) => (
-        <>
-          {i > 0 && <span class="cl-lang__sep" aria-hidden="true">/</span>}
-          <a href={`/${l.code}`} class={`cl-lang__opt${l.code === lang ? ' is-active' : ''}`} aria-current={l.code === lang ? 'true' : undefined}>{l.label}</a>
-        </>
-      ))}
-    </div>
   </div>
   <button class="cl-mnav__fab" aria-label="Открыть меню" aria-expanded="false">
     <span class="cl-mnav__bars" aria-hidden="true"><span></span><span></span><span></span></span>

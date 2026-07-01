@@ -11,6 +11,7 @@ interface Item {
   path?: string;
   src?: string;
   big?: boolean;
+  small?: boolean;
 }
 interface Props {
   label?: string;
@@ -29,7 +30,7 @@ const wrapStyle = ['display:flex', 'flex-direction:column', 'gap:var(--s-6)', st
     {items.map((it) => (
       <div class="iwall__cell" title={it.name}>
         {it.src ? (
-          <img class={`iwall__img${it.big ? ' iwall__img--big' : ''}`} src={it.src} alt={it.name} loading="lazy" />
+          <img class={`iwall__img${it.big ? ' iwall__img--big' : ''}${it.small ? ' iwall__img--small' : ''}`} src={it.src} alt={it.name} loading="lazy" />
         ) : it.path ? (
           <>
             <svg class="iwall__icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" set:html={`<path d="${it.path}"/>`} />
@@ -179,6 +180,12 @@ const wrapStyle = ['display:flex', 'flex-direction:column', 'gap:var(--s-6)', st
   /* Mobile: keep the client wall to two even columns with breathing room, and
      normalise every logo to one size so nothing looks tiny or flush to the edge. */
   @media (max-width: 680px) {
+    /* Tech stack goes single-column so long labels ("Claude Design") never sit
+       flush against the plate edge. */
+    .iwall--filled .iwall__grid {
+      grid-template-columns: 1fr;
+    }
+    /* Client wall: two even columns, one normalised size, with per-logo tweaks. */
     .iwall--bare .iwall__grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: var(--s-6) var(--s-4);
@@ -187,10 +194,17 @@ const wrapStyle = ['display:flex', 'flex-direction:column', 'gap:var(--s-6)', st
       min-height: 54px;
       padding: var(--s-3) var(--s-5);
     }
-    .iwall__img,
-    .iwall__img--big {
+    .iwall__img {
       max-height: 26px;
       max-width: 106px;
+    }
+    .iwall__img--big {
+      max-height: 40px;
+      max-width: 150px;
+    }
+    .iwall__img--small {
+      max-height: 18px;
+      max-width: 86px;
     }
   }
 </style>

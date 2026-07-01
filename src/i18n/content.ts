@@ -160,7 +160,7 @@ export const content = {
       clientsLabel: 'Среди клиентов',
       clients: [
         { name: 'Самокат', src: '/images/clients/samokat.svg' },
-        { name: 'Альфа-Банк', src: '/images/clients/alfabank.svg' },
+        { name: 'Альфа-Банк', src: '/images/clients/alfabank.svg', small: true },
         { name: "McDonald's", src: '/images/clients/mcdonalds.svg' },
         { name: 'РУСАЛ', src: '/images/clients/rusal.svg', big: true },
         { name: 'ТехноНИКОЛЬ', src: '/images/clients/technonikol.svg' },
