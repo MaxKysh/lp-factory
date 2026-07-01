@@ -234,6 +234,8 @@ function initCookieBanner(): void {
     } catch {
       /* ignore */
     }
+    // Consent granted — kick off the Yandex.Metrika loader deferred in Base.astro.
+    (window as unknown as { __loadMetrika?: () => void }).__loadMetrika?.();
     el.style.display = 'none';
   });
 }

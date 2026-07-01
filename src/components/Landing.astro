@@ -327,23 +327,17 @@ const problemIcons = [
 <SiteFooter brand={t.footer.brand} tagline={t.footer.tagline} columns={t.footer.cols} legal={t.footer.legal} />
 
 <style>
-  /* Hero halftone — a fine dot grid laid over the background video on desktop
-     to break up 720p compression artifacts into a deliberate print texture.
-     Hidden on mobile, where the video is smaller and the effect reads as noise. */
+  /* Hero halftone — a fine dot grid laid over the background video (all
+     viewports) to break up 720p compression artifacts into a deliberate print
+     texture. Stays inside the media stack so it never overlaps the content. */
   .hero-dots {
     position: absolute;
     inset: 0;
     pointer-events: none;
-    display: none;
     background-image: radial-gradient(rgba(5, 8, 10, 0.5) 34%, transparent 37%);
     background-size: 4px 4px;
     mix-blend-mode: multiply;
     opacity: 0.6;
-  }
-  @media (min-width: 768px) {
-    .hero-dots {
-      display: block;
-    }
   }
   @media (prefers-reduced-motion: no-preference) {
     .hero-dots {
