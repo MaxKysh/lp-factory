@@ -8,6 +8,7 @@ interface Props {
   path?: string; // 'ru' | 'en'
   ogImage?: string; // e.g. '/images/og-ru.jpg'
   keywords?: string;
+  heroPoster?: string; // preloaded as the LCP image on landing pages
 }
 const {
   title = 'Лендинг-завод — Chipsa',
@@ -16,6 +17,7 @@ const {
   path = 'ru',
   ogImage = '/images/og-ru.jpg',
   keywords = '',
+  heroPoster,
 } = Astro.props;
 
 const site = (Astro.site?.href || 'https://lpfactory.chipsa.dev/').replace(/\/$/, '');
@@ -99,6 +101,7 @@ const jsonLd = {
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 
     <link rel="preload" as="font" type="font/woff2" crossorigin href={lang === 'en' ? '/fonts/unbounded-700-latin.woff2' : '/fonts/unbounded-700-cyrillic.woff2'} />
+    {heroPoster && <link rel="preload" as="image" href={heroPoster} fetchpriority="high" />}
 
     <!-- Yandex.Metrika counter -->
     <script is:inline type="text/javascript">

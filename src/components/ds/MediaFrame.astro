@@ -29,7 +29,7 @@ const figStyle = [
   .join(';');
 ---
 <figure style={figStyle}>
-  {src && <img src={src} alt={alt} style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block" />}
+  {src && <img src={src} alt={alt} loading="lazy" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block" />}
   <slot />
   {label && (
     <span class="mf-label" style="position:absolute;top:var(--s-4);left:var(--s-4);font-family:var(--font-mono);font-size:var(--t-mono-sm);letter-spacing:var(--ls-mono);text-transform:uppercase;color:var(--fg-1);background:rgba(7,9,10,0.55);backdrop-filter:blur(6px);padding:6px 10px;border-radius:var(--r-1)">{label}</span>

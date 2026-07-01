@@ -39,7 +39,7 @@ const { members = [], overlap = 0.16, boost = 0.3, radius = 2.2, maxSize = 168, 
         style="display:block;opacity:0;position:relative;perspective:600px"
       >
         <span class="team-coin team-dock__inner" style="display:block;border-radius:50%;overflow:hidden;background:var(--surface-2);box-shadow:0 0 0 3px var(--bg-page);transform:scale(1);transform-origin:center center;transition:transform .22s var(--ease-out, cubic-bezier(.22,1,.36,1));cursor:pointer;will-change:transform">
-          <img src={m.src} alt={m.name} draggable="false" style="width:100%;height:100%;object-fit:cover;display:block;user-select:none" />
+          <img src={m.src} alt={m.name} draggable="false" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;display:block;user-select:none" />
           <span class="team-glint" aria-hidden="true"></span>
         </span>
       </span>
