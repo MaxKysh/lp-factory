@@ -566,34 +566,6 @@
   gap: var(--s-5);
 }
 
-/* Language switcher — RU / EN toggle in the nav and mobile panel. */
-.cl-lang {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  letter-spacing: 0.08em;
-}
-.cl-lang__opt {
-  color: var(--text-muted);
-  text-decoration: none;
-  transition: color var(--dur-fast) var(--ease-out);
-}
-.cl-lang__opt:hover {
-  color: var(--text-strong);
-}
-.cl-lang__opt.is-active {
-  color: var(--accent-text);
-}
-.cl-lang__sep {
-  color: var(--border-subtle);
-}
-.cl-lang--mobile {
-  font-size: 0.875rem;
-  gap: 6px;
-}
-
 /* Cookie consent notice — fixed bottom bar, revealed by JS until accepted. */
 .cookie-consent {
   position: fixed;

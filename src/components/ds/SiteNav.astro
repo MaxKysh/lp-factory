@@ -18,13 +18,8 @@ interface Props {
   links?: LinkItem[];
   cta?: { label: string; href: string };
   contact?: { label: string; value: string; href: string };
-  lang?: string;
 }
-const { logo = '/images/logo-chipsa.png', brand = 'Chipsa', brandMark = 'DEV', links = [], cta, contact, lang = 'ru' } = Astro.props;
-const langs = [
-  { code: 'ru', label: 'RU' },
-  { code: 'en', label: 'EN' },
-];
+const { logo = '/images/logo-chipsa.png', brand = 'Chipsa', brandMark = 'DEV', links = [], cta, contact } = Astro.props;
 ---
 <nav class="cl-nav" data-reveal>
   <a href="#top" style="justify-self:start;display:inline-flex;align-items:center;gap:10px;text-decoration:none">
@@ -35,14 +30,6 @@ const langs = [
     {links.map((l) => <a href={l.href} class="link" style="font-family:var(--font-sans);font-size:1.0625rem">{l.label}</a>)}
   </div>
   <div class="cl-nav__cta">
-    <div class="cl-lang" aria-label="Language">
-      {langs.map((l, i) => (
-        <>
-          {i > 0 && <span class="cl-lang__sep" aria-hidden="true">/</span>}
-          <a href={`/${l.code}`} class={`cl-lang__opt${l.code === lang ? ' is-active' : ''}`} aria-current={l.code === lang ? 'true' : undefined}>{l.label}</a>
-        </>
-      ))}
-    </div>
     {cta && <Button variant="primary" size="sm" href={cta.href} icon={true}>{cta.label}</Button>}
   </div>
 </nav>
@@ -55,14 +42,6 @@ const langs = [
         <img src={logo} alt={brand} style="height:28px;width:auto;display:block" />
         {brandMark && <span style="font-family:var(--font-mono);font-size:0.625rem;letter-spacing:0.12em;color:var(--accent-deep);align-self:flex-end;padding-bottom:4px">{brandMark}</span>}
       </a>
-      <div class="cl-lang cl-lang--mobile" aria-label="Language">
-        {langs.map((l, i) => (
-          <>
-            {i > 0 && <span class="cl-lang__sep" aria-hidden="true">/</span>}
-            <a href={`/${l.code}`} class={`cl-lang__opt${l.code === lang ? ' is-active' : ''}`} aria-current={l.code === lang ? 'true' : undefined}>{l.label}</a>
-          </>
-        ))}
-      </div>
     </div>
     <hr class="cl-mnav__rule" />
     <nav class="cl-mnav__links">

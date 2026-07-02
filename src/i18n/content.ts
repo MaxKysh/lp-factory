@@ -549,8 +549,3 @@ export const content = {
     },
   },
 } as const;
-
-export const languages: { code: Lang; label: string }[] = [
-  { code: 'ru', label: 'RU' },
-  { code: 'en', label: 'EN' },
-];
