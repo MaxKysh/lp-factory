@@ -115,10 +115,15 @@ function initOdometers(): void {
 
 // Magnetic pull: inside a .cta-split block, the photo eases toward the cursor but
 // is capped well within its own frame so it never drifts away from home. A rAF
-// lerp smooths both the pull and the spring-back on leave.
+// lerp smooths both the pull and the spring-back on leave. Desktop-only — on
+// touch devices (no real cursor) the pull just jitters the photo on tap, so we
+// gate it behind a hover-capable, fine pointer.
 function initMagnetic(): void {
-  const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!window.matchMedia) return;
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (reduced) return;
+  const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  if (!finePointer) return;
   document.querySelectorAll<HTMLElement>('.cta-split').forEach((block) => {
     if (block.dataset.magBound) return;
     block.dataset.magBound = '1';
