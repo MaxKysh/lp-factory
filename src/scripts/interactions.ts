@@ -90,9 +90,12 @@ function initOdometers(): void {
         const strip = strips[idx];
         const dur = 1000 + idx * 170; // rightmost reel keeps rolling the longest
         strip.style.transition = `transform ${dur}ms var(--ease-out)`;
-        requestAnimationFrame(() => {
-          strip.style.transform = `translateY(-${dist}em)`;
-        });
+        // Flush the layout so the browser has a painted "from" state, then set the
+        // target synchronously. Using requestAnimationFrame here was unreliable —
+        // in a backgrounded tab the callback is deferred, so the reel could stay
+        // stuck on its first digit (0) and never roll to its value.
+        void strip.offsetHeight;
+        strip.style.transform = `translateY(-${dist}em)`;
       });
     };
 

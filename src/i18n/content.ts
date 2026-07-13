@@ -45,7 +45,7 @@ export const content = {
         {
           index: 'Путь 1 / Руками',
           title: 'Человеческий фактор и время',
-          body: 'Каждый лендинг — отдельный проект. Бриф, дизайн, вёрстка, правки. На каждом шаге зависит от того, кто свободен и в каком состоянии.',
+          body: 'Каждый лендинг — отдельный проект. Каждый раз — полный цикл заново: бриф, дизайн, вёрстка, правки. На каждом шаге всё зависит от того, кто свободен и в каком состоянии.',
         },
         {
           index: 'Путь 2 / AI-генератор',
@@ -63,7 +63,7 @@ export const content = {
     },
     solution: {
       label: 'Что это',
-      title: 'Не сайт. Не конструктор. завод.',
+      title: 'Не сайт. Не конструктор. Завод.',
       lead: 'Один раз настроим под ваш бренд связку Claude Design + Claude Code + шаблоны, промпты и инструкции. Дальше ваша команда производит лендинги в едином стиле — без обращения к нам и без агентства.',
       steps: [
         { kicker: 'Вход', title: 'Ваш бренд', body: 'Айдентика, тон, аудитория, продукт.' },
@@ -81,7 +81,7 @@ export const content = {
     },
     cases: {
       label: 'Уже сделано',
-      title: 'Два кейса',
+      title: 'Два кейса.',
       thisPage: 'Эта страница',
       items: [
         {
@@ -318,7 +318,7 @@ export const content = {
         {
           index: 'Path 1 / By hand',
           title: 'Human factor and time',
-          body: "Every landing is a separate project. Brief, design, build, revisions. Each step depends on who's free and in what shape.",
+          body: "Every landing is a separate project. The full cycle, every time: brief, design, build, revisions. Each step depends on who's free and in what shape.",
         },
         {
           index: 'Path 2 / AI generator',
@@ -354,7 +354,7 @@ export const content = {
     },
     cases: {
       label: 'Already shipped',
-      title: 'Two cases',
+      title: 'Two cases.',
       thisPage: 'This page',
       items: [
         {

@@ -18,21 +18,36 @@ import Faq from './ds/Faq.astro';
 import FaqItem from './ds/FaqItem.astro';
 import SiteFooter from './ds/SiteFooter.astro';
 import { content, type Lang } from '../i18n/content';
+import { typo } from '../i18n/typo';
 
 interface Props {
   lang: Lang;
 }
 const { lang } = Astro.props;
-const t = content[lang];
+const raw = content[lang];
+
+// Russian micro-typography: glue hanging prepositions/conjunctions across every
+// display string. Technical fields (URLs, asset paths, raw counter values) are
+// left untouched. English needs no such pass, so it renders the raw copy.
+const SKIP_KEYS = new Set(['href', 'src', 'img', 'value']);
+function deepTypo(node: unknown, key = ''): any {
+  if (typeof node === 'string') return SKIP_KEYS.has(key) ? node : typo(node);
+  if (Array.isArray(node)) return node.map((v) => deepTypo(v, key));
+  if (node && typeof node === 'object') {
+    return Object.fromEntries(Object.entries(node).map(([k, v]) => [k, deepTypo(v, k)]));
+  }
+  return node;
+}
+const t = lang === 'ru' ? deepTypo(raw) : raw;
 const tgHref = 'https://t.me/maxkysh';
 const calendlyHref = 'https://calendly.com/apexy/collaboration';
 
-// FAQ rich-result structured data, built from the localized Q&A.
+// FAQ rich-result structured data, built from the raw (un-glued) localized Q&A.
 const faqLd = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
   inLanguage: lang,
-  mainEntity: t.faq.items.map((it) => ({
+  mainEntity: raw.faq.items.map((it) => ({
     '@type': 'Question',
     name: it.q,
     acceptedAnswer: { '@type': 'Answer', text: it.a },
