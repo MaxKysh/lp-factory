@@ -80,6 +80,8 @@ function initOdometers(): void {
       odo.appendChild(reel);
       strips.push(strip);
     });
+    // Mark the container now that the reels exist — see .odo--grad.odo--reels.
+    odo.classList.add('odo--reels');
 
     let played = false;
     const play = () => {

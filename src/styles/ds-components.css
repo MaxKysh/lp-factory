@@ -306,6 +306,8 @@
   align-items: flex-start;
   vertical-align: baseline;
 }
+/* Plain (reduced-motion) odometers hold their value as direct text, so the
+   container itself carries the gradient. */
 .odo--grad {
   background: var(--grad-brand);
   -webkit-background-clip: text;
@@ -313,18 +315,31 @@
   color: transparent;
   -webkit-text-fill-color: transparent;
 }
+/* Once the JS has built the reels, every .odo__digit paints its own gradient
+   inside the reel's overflow clip. The container must not paint a second,
+   text-clipped gradient: that mask is not clipped by the reel, so the strip's
+   first cell (0) ghosts on top of the digit the reel actually landed on — the
+   "06+" overlap instead of "16+". */
+.odo--grad.odo--reels {
+  background: none;
+}
 .odo__reel {
   display: inline-block;
   height: 1em;
   line-height: 1em;
   overflow: hidden;
+  /* Hard geometric clip in addition to overflow:hidden. A gradient digit uses
+     -webkit-background-clip:text, whose paint can escape a plain overflow clip
+     in some Chrome builds — the reel's off-window cells (e.g. the leading 0)
+     then ghost over the landed digit ("06+" instead of "16+"). clip-path cannot
+     be escaped that way, so it guarantees a single visible digit per reel. */
+  clip-path: inset(0);
   vertical-align: top;
 }
 .odo__strip {
   display: flex;
   flex-direction: column;
   transform: translateY(0);
-  will-change: transform;
 }
 .odo__digit {
   display: block;
